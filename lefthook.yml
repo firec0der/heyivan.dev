@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs}'
+      run: bunx eslint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,yml,yaml}'
+      run: bunx prettier --write {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    typecheck:
+      run: bun run typecheck
