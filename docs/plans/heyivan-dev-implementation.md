@@ -15,6 +15,8 @@
 - `reading-time` for article reading time
 - `zod` for frontmatter validation
 - bun for package management (no pnpm — see `feedback_package_manager` in memory)
+- ESLint + Prettier with `eslint-plugin-simple-import-sort` and `prettier-plugin-tailwindcss`
+- Lefthook for git pre-commit (eslint + prettier on staged files) and pre-push (typecheck)
 - Vitest for unit tests
 - Cloudflare Pages for hosting
 
@@ -236,6 +238,191 @@ Expected: passes with no errors (or "No ESLint warnings or errors").
 ```bash
 git add .eslintrc.json
 git commit -m "chore: add eslint config"
+```
+
+---
+
+### Task 3a: Prettier + import sorting + Tailwind class sorting
+
+**Files:**
+- Create: `.prettierrc.json`
+- Create: `.prettierignore`
+- Modify: `.eslintrc.json`
+- Modify: `package.json` (add `format` and `format:check` scripts)
+
+- [ ] **Step 1: Install dev deps**
+
+Run:
+```bash
+bun add -d prettier eslint-config-prettier eslint-plugin-simple-import-sort prettier-plugin-tailwindcss
+```
+
+`eslint-config-prettier` disables ESLint rules that conflict with Prettier formatting. `eslint-plugin-simple-import-sort` enforces a deterministic import order. `prettier-plugin-tailwindcss` sorts Tailwind class names inside `className` strings — recommended by the Tailwind team and required for stable diffs.
+
+- [ ] **Step 2: Create .prettierrc.json**
+
+```json
+{
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+```
+
+- [ ] **Step 3: Create .prettierignore**
+
+```
+node_modules/
+.next/
+out/
+dist/
+coverage/
+bun.lock
+*.lock
+public/
+content/
+```
+
+(Content is excluded so author-formatted Markdown isn't reflowed.)
+
+- [ ] **Step 4: Update .eslintrc.json**
+
+Replace the file's contents with:
+
+```json
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "prettier"
+  ],
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  }
+}
+```
+
+Order matters: `prettier` must come last in `extends` so it overrides conflicting formatting rules from `next/*`.
+
+- [ ] **Step 5: Add format scripts to package.json**
+
+Open `package.json` and add these two scripts inside the existing `"scripts"` block (keep the others as-is):
+
+```json
+"format": "prettier --write .",
+"format:check": "prettier --check ."
+```
+
+- [ ] **Step 6: Verify**
+
+Run:
+```bash
+bun run format:check
+```
+
+Expected: prettier reports the files it would change (or all files already formatted). Either is fine — Task 1 files weren't authored through prettier so a "would change" output is expected.
+
+Then run:
+```bash
+bun run format
+```
+
+Expected: prettier writes the files. Confirm `git diff` shows only whitespace/quote changes.
+
+Run:
+```bash
+bun run lint
+```
+
+Expected: passes (or surfaces only import-sort fixes — re-run with `bunx eslint . --fix` to auto-fix, then verify clean).
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add .prettierrc.json .prettierignore .eslintrc.json package.json bun.lock
+git add -u
+git commit -m "chore: prettier + import sort + tailwind class sort"
+```
+
+---
+
+### Task 3b: Lefthook precommit hook (lint + format on staged files)
+
+**Files:**
+- Create: `lefthook.yml`
+
+- [ ] **Step 1: Install lefthook**
+
+Run:
+```bash
+bun add -d lefthook
+```
+
+- [ ] **Step 2: Create lefthook.yml**
+
+```yaml
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: "*.{ts,tsx,js,jsx,mjs,cjs}"
+      run: bunx eslint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,yml,yaml}"
+      run: bunx prettier --write {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    typecheck:
+      run: bun run typecheck
+```
+
+`stage_fixed: true` re-stages any auto-fixed files so the commit captures them. Typecheck runs only on `pre-push` because it's whole-project, not per-file — keeps commits fast.
+
+- [ ] **Step 3: Install the git hooks**
+
+Run:
+```bash
+bunx lefthook install
+```
+
+Expected: lefthook writes `.git/hooks/pre-commit` and `.git/hooks/pre-push`. Output: "SYNCING".
+
+- [ ] **Step 4: Smoke-test the hook**
+
+Run:
+```bash
+echo "// touch" >> next.config.mjs
+git add next.config.mjs
+git commit -m "test: lefthook smoke"
+```
+
+Expected: lefthook runs eslint + prettier on `next.config.mjs`. If clean, commit succeeds.
+
+Then undo the smoke commit:
+```bash
+git reset --hard HEAD~1
+```
+
+(Safe — the only change was the throwaway smoke commit just made.)
+
+- [ ] **Step 5: Commit lefthook config**
+
+```bash
+git add lefthook.yml package.json bun.lock
+git commit -m "chore: lefthook precommit (eslint + prettier) and prepush typecheck"
 ```
 
 ---
