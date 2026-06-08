@@ -71,9 +71,11 @@ Run:
 ```bash
 bun add -d typescript @types/react @types/react-dom @types/node @types/js-yaml
 bun add -d tailwindcss@^4 @tailwindcss/postcss postcss
-bun add -d eslint eslint-config-next
+bun add -d eslint@^9 eslint-config-next
 bun add -d vitest @vitest/ui
 ```
+
+(Pin ESLint to v9 — see note on Task 3 for why.)
 
 - [ ] **Step 4: Create tsconfig.json**
 
@@ -184,12 +186,16 @@ git commit -m "chore: bootstrap Next.js static export project"
 - [ ] **Step 1: Create postcss.config.mjs**
 
 ```js
-export default {
+const config = {
   plugins: {
     '@tailwindcss/postcss': {}
   }
 };
+
+export default config;
 ```
+
+(Named-then-exported form silences `import/no-anonymous-default-export`.)
 
 - [ ] **Step 2: Create src/app/globals.css with Tailwind v4 import**
 
@@ -214,7 +220,7 @@ git commit -m "chore: wire Tailwind 4 + PostCSS"
 
 ### Task 3: Configure ESLint (flat config)
 
-**Note:** ESLint 9+ removed legacy `.eslintrc.*` support. We use flat config (`eslint.config.mjs`). Also: `next lint` is deprecated in Next.js 16; the `lint` script invokes `eslint` directly.
+**Note:** ESLint 9+ removed legacy `.eslintrc.*` support — we use flat config (`eslint.config.mjs`). Pin to ESLint 9 specifically: ESLint 10's rule-context API change is incompatible with the version of `eslint-plugin-react` pulled in by `eslint-config-next@16`. Also: `next lint` is deprecated in Next.js 16; the `lint` script invokes `eslint` directly.
 
 **Files:**
 - Create: `eslint.config.mjs`
