@@ -16,6 +16,7 @@ A personal website for Ivan Stetsenko — IC software engineer. Blog-first; seco
 ## 2. Goals & non-goals
 
 **Goals**
+
 - A blog-first personal site that holds up over years without redesign.
 - Readable at every viewport (mobile, tablet, desktop).
 - Light and dark themes with manual toggle + OS-default first paint.
@@ -24,6 +25,7 @@ A personal website for Ivan Stetsenko — IC software engineer. Blog-first; seco
 - One-command static export; deployable to any static host.
 
 **Non-goals (v1)**
+
 - CMS / dynamic backend.
 - Newsletter, search, comments, analytics, RSS feed.
 - Per-post OG image generation.
@@ -91,16 +93,15 @@ date: 2026-05-22
 description: One-line blurb for meta + listing fallback.
 draft: false
 ---
-
 Body in plain Markdown.
 ```
 
-| Field | Required | Notes |
-|---|---|---|
-| `title` | yes | Used in `<title>`, `<meta og:title>`, listing |
-| `date` | yes | Sort order, displayed on listing and article |
-| `description` | no | Falls back to auto-excerpt if missing |
-| `draft` | no, default `false` | If `true`, excluded from production build |
+| Field         | Required            | Notes                                         |
+| ------------- | ------------------- | --------------------------------------------- |
+| `title`       | yes                 | Used in `<title>`, `<meta og:title>`, listing |
+| `date`        | yes                 | Sort order, displayed on listing and article  |
+| `description` | no                  | Falls back to auto-excerpt if missing         |
+| `draft`       | no, default `false` | If `true`, excluded from production build     |
 
 **Slug** = filename (without `.md`). URLs are date-free: `/writing/the-monorepo-trap`. Future-dated posts are excluded from production until the date passes.
 
@@ -111,7 +112,7 @@ Body in plain Markdown.
 title: App Name
 tagline: One-line pitch — what it is and who it's for.
 date: 2024-03-15
-status: live          # live | archived | wip
+status: live # live | archived | wip
 hero: /images/projects/app-name/hero.png
 stack: [React Native, TypeScript, Postgres]
 links:
@@ -120,7 +121,6 @@ links:
   playstore: https://...
   source: https://...
 ---
-
 Long-form body with embedded images.
 ```
 
@@ -150,7 +150,7 @@ education:
 
 **Expandable role behavior:** custom disclosure (button + region) with **smooth height animation**. The top/current role is open by default; older roles are collapsed. Clicking the trigger animates the expanded section open/closed.
 
-Pattern (button + `aria-expanded` + `aria-controls`, *not* native `<details>` — native disclosure can't be smoothly animated with pure CSS because the spec hides closed content with `display: none`):
+Pattern (button + `aria-expanded` + `aria-controls`, _not_ native `<details>` — native disclosure can't be smoothly animated with pure CSS because the spec hides closed content with `display: none`):
 
 ```html
 <article class="role-card">
@@ -163,7 +163,7 @@ Pattern (button + `aria-expanded` + `aria-controls`, *not* native `<details>` �
   <div id="role-1" class="role-expanded" role="region" inert>
     <div class="role-expanded-inner">
       <p>Longer description…</p>
-      <p class="role-skills">SKILLS  Go · Python · Postgres · …</p>
+      <p class="role-skills">SKILLS Go · Python · Postgres · …</p>
     </div>
   </div>
 </article>
@@ -176,22 +176,26 @@ Pattern (button + `aria-expanded` + `aria-controls`, *not* native `<details>` �
   grid-template-rows: 0fr;
   transition: grid-template-rows var(--motion-duration-slow) var(--motion-easing-standard);
 }
-.role-trigger[aria-expanded="true"] + .role-expanded {
+.role-trigger[aria-expanded='true'] + .role-expanded {
   grid-template-rows: 1fr;
 }
-.role-expanded-inner { overflow: hidden; }
+.role-expanded-inner {
+  overflow: hidden;
+}
 
 /* Chevron rotates */
 .role-chevron {
   display: inline-block;
   transition: transform var(--motion-duration-base) var(--motion-easing-standard);
 }
-.role-trigger[aria-expanded="true"] .role-chevron { transform: rotate(90deg); }
+.role-trigger[aria-expanded='true'] .role-chevron {
+  transform: rotate(90deg);
+}
 ```
 
 ```js
 // ~12 lines of progressive enhancement
-document.querySelectorAll('.role-trigger').forEach(btn => {
+document.querySelectorAll('.role-trigger').forEach((btn) => {
   btn.addEventListener('click', () => {
     const expanded = btn.getAttribute('aria-expanded') === 'true';
     btn.setAttribute('aria-expanded', String(!expanded));
@@ -218,14 +222,14 @@ Built out as a complete system in the Figma file. Implementation reads tokens vi
 
 ### Token collections
 
-| Collection | Tokens | Modes |
-|---|---|---|
-| Primitives | 7 palette colors + 16 numeric sizes (4–999, content-/article-width) | Value |
-| Color | 7 semantic tokens (`color/bg`, `color/text`, `color/accent`, etc.) | Light, Dark |
-| Spacing | 11 tokens (`spacing/4xs`–`spacing/5xl`, aliased to size primitives) | Value |
-| Radius | 3 tokens (`radius/sm`, `radius/md`, `radius/full`) | Value |
-| Layout | 2 tokens (`layout/content-width` = 640, `layout/article-width` = 680) | Value |
-| Motion | 3 durations (100/180/300ms) + 2 easings | Value |
+| Collection | Tokens                                                                | Modes       |
+| ---------- | --------------------------------------------------------------------- | ----------- |
+| Primitives | 7 palette colors + 16 numeric sizes (4–999, content-/article-width)   | Value       |
+| Color      | 7 semantic tokens (`color/bg`, `color/text`, `color/accent`, etc.)    | Light, Dark |
+| Spacing    | 11 tokens (`spacing/4xs`–`spacing/5xl`, aliased to size primitives)   | Value       |
+| Radius     | 3 tokens (`radius/sm`, `radius/md`, `radius/full`)                    | Value       |
+| Layout     | 2 tokens (`layout/content-width` = 640, `layout/article-width` = 680) | Value       |
+| Motion     | 3 durations (100/180/300ms) + 2 easings                               | Value       |
 
 All variables have explicit scopes (no `ALL_SCOPES`) and web code syntax (`var(--token-name)`).
 
@@ -233,60 +237,60 @@ All variables have explicit scopes (no `ALL_SCOPES`) and web code syntax (`var(-
 
 16 text styles in three families:
 
-| Style | Family | Weight | Size | Line-height |
-|---|---|---|---|---|
-| display/project-title | Sans | SemiBold | 38 | 120% |
-| display/article-title | Sans | SemiBold | 34 | 125% |
-| heading/page | Sans | SemiBold | 28 | 130% |
-| heading/article-h2 | Serif | SemiBold | 22 | 140% |
-| body/large | Sans | Regular | 18 | 150% |
-| body/article | Serif | Regular | 17 | 175% |
-| body/default | Sans | Regular | 16 | 160% |
-| body/small | Sans | Regular | 14 | 160% |
-| body/caption | Sans | Regular | 13 | 160% |
-| mono/date | Mono | Regular | 13 | 150% |
-| mono/code | Mono | Regular | 14 | 165% |
-| label/section | Sans | Medium | 12 | 130% +1.2px |
-| label/footer | Sans | Regular | 12 | 150% |
-| label/pill | Sans | Medium | 10 | 130% +1.0px |
-| nav/link | Sans | Regular | 14 | 150% |
-| nav/wordmark | Sans | Medium | 16 | 150% |
+| Style                 | Family | Weight   | Size | Line-height |
+| --------------------- | ------ | -------- | ---- | ----------- |
+| display/project-title | Sans   | SemiBold | 38   | 120%        |
+| display/article-title | Sans   | SemiBold | 34   | 125%        |
+| heading/page          | Sans   | SemiBold | 28   | 130%        |
+| heading/article-h2    | Serif  | SemiBold | 22   | 140%        |
+| body/large            | Sans   | Regular  | 18   | 150%        |
+| body/article          | Serif  | Regular  | 17   | 175%        |
+| body/default          | Sans   | Regular  | 16   | 160%        |
+| body/small            | Sans   | Regular  | 14   | 160%        |
+| body/caption          | Sans   | Regular  | 13   | 160%        |
+| mono/date             | Mono   | Regular  | 13   | 150%        |
+| mono/code             | Mono   | Regular  | 14   | 165%        |
+| label/section         | Sans   | Medium   | 12   | 130% +1.2px |
+| label/footer          | Sans   | Regular  | 12   | 150%        |
+| label/pill            | Sans   | Medium   | 10   | 130% +1.0px |
+| nav/link              | Sans   | Regular  | 14   | 150%        |
+| nav/wordmark          | Sans   | Medium   | 16   | 150%        |
 
 **Family role:** Sans for UI and most body; Serif **only** on `/writing/<slug>` article body (and `body/article` + `heading/article-h2`); Mono for dates, code blocks, and structured CV metadata.
 
 ### Color (Light mode anchors)
 
-| Token | Hex | Role |
-|---|---|---|
-| `color/bg` | `#FAF7F2` | Page background |
-| `color/bg-subtle` | `#F2EDE5` | Code block background |
-| `color/border` | `#E8E2D6` | Hairlines and dividers |
-| `color/text` | `#1F1B16` | Primary text |
-| `color/text-muted` | `#6E665A` | Subtitles, captions, footer |
-| `color/text-faint` | `#9D9588` | Inactive nav, decorative dates |
-| `color/accent` | `#7A5F2E` | Links and hover state. Dark mode: `palette/amber-light` `#C9A86A` (re-aliased after Phase 4 audit revealed `#7A5F2E` failed contrast on `color/bg` Dark) |
+| Token              | Hex       | Role                                                                                                                                                     |
+| ------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `color/bg`         | `#FAF7F2` | Page background                                                                                                                                          |
+| `color/bg-subtle`  | `#F2EDE5` | Code block background                                                                                                                                    |
+| `color/border`     | `#E8E2D6` | Hairlines and dividers                                                                                                                                   |
+| `color/text`       | `#1F1B16` | Primary text                                                                                                                                             |
+| `color/text-muted` | `#6E665A` | Subtitles, captions, footer                                                                                                                              |
+| `color/text-faint` | `#9D9588` | Inactive nav, decorative dates                                                                                                                           |
+| `color/accent`     | `#7A5F2E` | Links and hover state. Dark mode: `palette/amber-light` `#C9A86A` (re-aliased after Phase 4 audit revealed `#7A5F2E` failed contrast on `color/bg` Dark) |
 
 **Dark mode** values are inverted-alias placeholders for v1. The mode is wired and switchable; values are tunable without restructuring. Specifically still placeholder: `color/bg-subtle`, `color/border`, `color/text-muted`, `color/text-faint`.
 
 ### Components (15)
 
-| # | Component | Variants | Notes |
-|---|---|---|---|
-| 1 | Status Pill | status = Live, Archived, WIP | Border-outlined pill + uppercase label |
-| 2 | Section Label | — (`label` TEXT property) | Hairline + uppercase muted label |
-| 3 | Link Arrow | direction = Forward, Back (`label` TEXT property) | `Label →` and `← Label` in accent |
-| 4 | Avatar | size = 96, 120 | Circle with image fill |
-| 5 | Page Header | — (`title`, `subtitle` TEXT properties) | H1 + muted one-liner |
-| 6 | Nav | active = About, Work, Projects, Writing, None | Includes Theme Toggle instance |
-| 7 | Footer | — | Stacked socials + © with border-top |
-| 8 | Writing List Item | — (`date`, `title` TEXT properties) | Mono date + sans title |
-| 9 | Education Row | — (`date`, `degree` TEXT properties) | Mono date range + degree |
-| 10 | Project Card | status = Live, Archived, WIP | Preview row: hero crop + name + pill + tagline + links |
-| 11 | Role Card | expanded = True, False | Chevron, role/company, optional description + skills |
-| 12 | Theme Toggle | mode = Light, Dark | ☽ swaps to ☼ at 22px |
-| 13 | Mobile Nav | — | Wordmark + toggle + hamburger |
-| 14 | Mobile Footer | — | Same as desktop, narrower width |
-| 15 | Mobile Menu Overlay | — | Full-drawer with × close, big nav links, theme row |
+| #   | Component           | Variants                                          | Notes                                                  |
+| --- | ------------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| 1   | Status Pill         | status = Live, Archived, WIP                      | Border-outlined pill + uppercase label                 |
+| 2   | Section Label       | — (`label` TEXT property)                         | Hairline + uppercase muted label                       |
+| 3   | Link Arrow          | direction = Forward, Back (`label` TEXT property) | `Label →` and `← Label` in accent                      |
+| 4   | Avatar              | size = 96, 120                                    | Circle with image fill                                 |
+| 5   | Page Header         | — (`title`, `subtitle` TEXT properties)           | H1 + muted one-liner                                   |
+| 6   | Nav                 | active = About, Work, Projects, Writing, None     | Includes Theme Toggle instance                         |
+| 7   | Footer              | —                                                 | Stacked socials + © with border-top                    |
+| 8   | Writing List Item   | — (`date`, `title` TEXT properties)               | Mono date + sans title                                 |
+| 9   | Education Row       | — (`date`, `degree` TEXT properties)              | Mono date range + degree                               |
+| 10  | Project Card        | status = Live, Archived, WIP                      | Preview row: hero crop + name + pill + tagline + links |
+| 11  | Role Card           | expanded = True, False                            | Chevron, role/company, optional description + skills   |
+| 12  | Theme Toggle        | mode = Light, Dark                                | ☽ swaps to ☼ at 22px                                   |
+| 13  | Mobile Nav          | —                                                 | Wordmark + toggle + hamburger                          |
+| 14  | Mobile Footer       | —                                                 | Same as desktop, narrower width                        |
+| 15  | Mobile Menu Overlay | —                                                 | Full-drawer with × close, big nav links, theme row     |
 
 Every component binds fills/strokes to `color/*`, padding/gap to `spacing/*`, corners to `radius/*`. Text uses `textStyleId`. No hardcoded values inside components.
 
@@ -411,12 +415,12 @@ Footer
 
 Tailwind defaults — no customization.
 
-| Prefix | Min-width | Layout |
-|---|---|---|
-| `0–767px` | — | Mobile |
-| `md:` | **768px** | Desktop layout switches on here |
-| `lg:` | 1024px | (no specific behavior change) |
-| `xl:` | 1280px | (no specific behavior change) |
+| Prefix    | Min-width | Layout                          |
+| --------- | --------- | ------------------------------- |
+| `0–767px` | —         | Mobile                          |
+| `md:`     | **768px** | Desktop layout switches on here |
+| `lg:`     | 1024px    | (no specific behavior change)   |
+| `xl:`     | 1280px    | (no specific behavior change)   |
 
 ### Mobile (0–767px)
 
@@ -468,17 +472,17 @@ Full spec on the Figma "Accessibility" page. Highlights:
 
 ### ARIA & semantic HTML
 
-| Surface | Element | Notes |
-|---|---|---|
-| Header | `<header>` | |
-| Nav | `<nav aria-label="Primary">` | Active page: `aria-current="page"` |
-| Theme Toggle | `<button>` | `aria-label="Switch to dark mode"` (swaps to "Switch to light mode") |
-| Main content | `<main id="main">` | Skip link target |
-| Section labels | `<h2 class="label">` | Styled as small uppercase; semantically h2 |
-| Writing entry | `<article>` | `<time datetime="YYYY-MM-DD">` for date |
-| Status Pill | `<span aria-label="Status: Live">` | |
-| Role Card | `<button aria-expanded>` + `<div role="region" aria-labelledby="…" inert>` | Custom disclosure for smooth animation. `inert` removed when expanded. |
-| Footer | `<footer>` | |
+| Surface        | Element                                                                    | Notes                                                                  |
+| -------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Header         | `<header>`                                                                 |                                                                        |
+| Nav            | `<nav aria-label="Primary">`                                               | Active page: `aria-current="page"`                                     |
+| Theme Toggle   | `<button>`                                                                 | `aria-label="Switch to dark mode"` (swaps to "Switch to light mode")   |
+| Main content   | `<main id="main">`                                                         | Skip link target                                                       |
+| Section labels | `<h2 class="label">`                                                       | Styled as small uppercase; semantically h2                             |
+| Writing entry  | `<article>`                                                                | `<time datetime="YYYY-MM-DD">` for date                                |
+| Status Pill    | `<span aria-label="Status: Live">`                                         |                                                                        |
+| Role Card      | `<button aria-expanded>` + `<div role="region" aria-labelledby="…" inert>` | Custom disclosure for smooth animation. `inert` removed when expanded. |
+| Footer         | `<footer>`                                                                 |                                                                        |
 
 ### Focus ring
 
@@ -487,18 +491,20 @@ Full spec on the Figma "Accessibility" page. Highlights:
 
 ### Contrast (verified)
 
-| Pair | Light | Dark | Verdict |
-|---|---|---|---|
-| text on bg | 16.0:1 | 16.0:1 | AAA |
-| text-muted on bg | 5.3:1 | 5.8:1 | AA |
-| accent on bg | 5.6:1 | 7.6:1 | AA (Dark uses amber-light) |
-| text-faint on bg | 2.8:1 | 3.0:1 | **Intentionally low** — use ONLY for inactive nav and decorative dates, never body text |
+| Pair             | Light  | Dark   | Verdict                                                                                 |
+| ---------------- | ------ | ------ | --------------------------------------------------------------------------------------- |
+| text on bg       | 16.0:1 | 16.0:1 | AAA                                                                                     |
+| text-muted on bg | 5.3:1  | 5.8:1  | AA                                                                                      |
+| accent on bg     | 5.6:1  | 7.6:1  | AA (Dark uses amber-light)                                                              |
+| text-faint on bg | 2.8:1  | 3.0:1  | **Intentionally low** — use ONLY for inactive nav and decorative dates, never body text |
 
 ### Reduced motion
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
@@ -538,6 +544,7 @@ pnpm build        # produces out/
 ### CI (GitHub Actions, optional)
 
 On PR + push to `main`:
+
 - `pnpm install --frozen-lockfile`
 - `pnpm typecheck` (`tsc --noEmit`)
 - `pnpm lint` (eslint)

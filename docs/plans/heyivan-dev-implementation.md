@@ -7,6 +7,7 @@
 **Architecture:** Next.js (App Router) with `output: 'export'` produces a static `out/` directory deployed to Cloudflare Pages. Tailwind generates utility classes backed by CSS custom properties so `data-theme="dark"` on `<html>` flips every token without re-rendering. Markdown content lives under `content/`, parsed at build time through a remark/rehype pipeline (gfm, smartypants, slug, autolink-headings, pretty-code with Shiki). Three small client islands handle interactivity: theme toggle, mobile menu overlay, and per-role disclosure (grid-template-rows trick + `inert`). Everything else is server-rendered with zero JS.
 
 **Tech Stack:**
+
 - Next.js 15 (App Router) + React 19 + TypeScript 5
 - Tailwind CSS 4 with CSS-variable token layer
 - `next/font/google` for IBM Plex Sans / Serif / Mono (self-hosted at build)
@@ -27,6 +28,7 @@
 ### Task 1: Initialize repository and Next.js project
 
 **Files:**
+
 - Create: `.gitignore`
 - Create: `package.json`
 - Create: `tsconfig.json`
@@ -59,6 +61,7 @@
 - [ ] **Step 2: Install runtime deps**
 
 Run:
+
 ```bash
 bun add next@^15 react@^19 react-dom@^19
 bun add gray-matter js-yaml reading-time zod
@@ -68,6 +71,7 @@ bun add unified remark-parse remark-gfm remark-smartypants remark-rehype rehype-
 - [ ] **Step 3: Install dev deps**
 
 Run:
+
 ```bash
 bun add -d typescript @types/react @types/react-dom @types/node @types/js-yaml
 bun add -d tailwindcss@^4 @tailwindcss/postcss postcss
@@ -153,22 +157,27 @@ Personal site for Ivan Stetsenko. Built with Next.js (static export) and deploye
 - Implementation plan: [`docs/plans/heyivan-dev-implementation.md`](docs/plans/heyivan-dev-implementation.md)
 
 ## Dev
-
 ```
+
 bun install
 bun dev
+
 ```
 
 ## Build
 
 ```
-bun run build   # → out/
+
+bun run build # → out/
+
 ```
+
 ```
 
 - [ ] **Step 8: Init git and first commit**
 
 Run:
+
 ```bash
 git init
 git add .gitignore package.json bun.lock tsconfig.json next.config.mjs README.md
@@ -180,6 +189,7 @@ git commit -m "chore: bootstrap Next.js static export project"
 ### Task 2: Configure Tailwind 4 with PostCSS
 
 **Files:**
+
 - Create: `postcss.config.mjs`
 - Create: `src/app/globals.css` (skeleton — tokens added later)
 
@@ -200,7 +210,7 @@ export default config;
 - [ ] **Step 2: Create src/app/globals.css with Tailwind v4 import**
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
@@ -223,14 +233,15 @@ git commit -m "chore: wire Tailwind 4 + PostCSS"
 **Note:** ESLint 9+ removed legacy `.eslintrc.*` support — we use flat config (`eslint.config.mjs`). Pin to ESLint 9 specifically: ESLint 10's rule-context API change is incompatible with the version of `eslint-plugin-react` pulled in by `eslint-config-next@16`. Also: `next lint` is deprecated in Next.js 16; the `lint` script invokes `eslint` directly.
 
 **Files:**
+
 - Create: `eslint.config.mjs`
 - Modify: `package.json` — change `"lint"` script to `"eslint ."`
 
 - [ ] **Step 1: Create eslint.config.mjs**
 
 ```js
-import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
-import nextTypescript from "eslint-config-next/typescript";
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
 
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
@@ -238,7 +249,7 @@ const config = [
   ...nextTypescript,
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }]
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
     }
   }
 ];
@@ -249,10 +260,13 @@ export default config;
 - [ ] **Step 2: Update the lint script in package.json**
 
 Change:
+
 ```json
 "lint": "next lint",
 ```
+
 to:
+
 ```json
 "lint": "eslint .",
 ```
@@ -274,6 +288,7 @@ git commit -m "chore: add eslint flat config"
 ### Task 3a: Prettier + import sorting + Tailwind class sorting
 
 **Files:**
+
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
 - Modify: `eslint.config.mjs`
@@ -282,6 +297,7 @@ git commit -m "chore: add eslint flat config"
 - [ ] **Step 1: Install dev deps**
 
 Run:
+
 ```bash
 bun add -d prettier eslint-config-prettier eslint-plugin-simple-import-sort prettier-plugin-tailwindcss
 ```
@@ -326,10 +342,10 @@ content/
 Replace the file's contents with:
 
 ```js
-import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
-import nextTypescript from "eslint-config-next/typescript";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import prettierConfig from "eslint-config-prettier";
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import prettierConfig from 'eslint-config-prettier';
 
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
@@ -337,12 +353,12 @@ const config = [
   ...nextTypescript,
   {
     plugins: {
-      "simple-import-sort": simpleImportSort
+      'simple-import-sort': simpleImportSort
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error"
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error'
     }
   },
   prettierConfig
@@ -365,6 +381,7 @@ Open `package.json` and add these two scripts inside the existing `"scripts"` bl
 - [ ] **Step 6: Verify**
 
 Run:
+
 ```bash
 bun run format:check
 ```
@@ -372,6 +389,7 @@ bun run format:check
 Expected: prettier reports the files it would change (or all files already formatted). Either is fine — Task 1 files weren't authored through prettier so a "would change" output is expected.
 
 Then run:
+
 ```bash
 bun run format
 ```
@@ -379,6 +397,7 @@ bun run format
 Expected: prettier writes the files. Confirm `git diff` shows only whitespace/quote changes.
 
 Run:
+
 ```bash
 bun run lint
 ```
@@ -398,11 +417,13 @@ git commit -m "chore: prettier + import sort + tailwind class sort"
 ### Task 3b: Lefthook precommit hook (lint + format on staged files)
 
 **Files:**
+
 - Create: `lefthook.yml`
 
 - [ ] **Step 1: Install lefthook**
 
 Run:
+
 ```bash
 bun add -d lefthook
 ```
@@ -414,11 +435,11 @@ pre-commit:
   parallel: true
   commands:
     eslint:
-      glob: "*.{ts,tsx,js,jsx,mjs,cjs}"
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs}'
       run: bunx eslint --fix {staged_files}
       stage_fixed: true
     prettier:
-      glob: "*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,yml,yaml}"
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,yml,yaml}'
       run: bunx prettier --write {staged_files}
       stage_fixed: true
 
@@ -433,6 +454,7 @@ pre-push:
 - [ ] **Step 3: Install the git hooks**
 
 Run:
+
 ```bash
 bunx lefthook install
 ```
@@ -442,6 +464,7 @@ Expected: lefthook writes `.git/hooks/pre-commit` and `.git/hooks/pre-push`. Out
 - [ ] **Step 4: Smoke-test the hook**
 
 Run:
+
 ```bash
 echo "// touch" >> next.config.mjs
 git add next.config.mjs
@@ -451,6 +474,7 @@ git commit -m "test: lefthook smoke"
 Expected: lefthook runs eslint + prettier on `next.config.mjs`. If clean, commit succeeds.
 
 Then undo the smoke commit:
+
 ```bash
 git reset --hard HEAD~1
 ```
@@ -469,6 +493,7 @@ git commit -m "chore: lefthook precommit (eslint + prettier) and prepush typeche
 ### Task 4: Configure Vitest
 
 **Files:**
+
 - Create: `vitest.config.ts`
 
 - [ ] **Step 1: Create vitest.config.ts**
@@ -510,12 +535,13 @@ git commit -m "chore: add vitest config"
 ### Task 5: CSS variables — light + dark token layer
 
 **Files:**
+
 - Modify: `src/app/globals.css`
 
 - [ ] **Step 1: Replace globals.css with the full token layer**
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
@@ -558,26 +584,27 @@ git commit -m "chore: add vitest config"
 }
 
 :root {
-  --bg: #FAF7F2;
-  --bg-subtle: #F2EDE5;
-  --border: #E8E2D6;
-  --text: #1F1B16;
-  --text-muted: #6E665A;
-  --text-faint: #9D9588;
-  --accent: #7A5F2E;
+  --bg: #faf7f2;
+  --bg-subtle: #f2ede5;
+  --border: #e8e2d6;
+  --text: #1f1b16;
+  --text-muted: #6e665a;
+  --text-faint: #9d9588;
+  --accent: #7a5f2e;
 }
 
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   --bg: #161310;
-  --bg-subtle: #1F1B17;
-  --border: #2D2820;
-  --text: #F2EDE5;
-  --text-muted: #A89F8E;
-  --text-faint: #6E665A;
-  --accent: #C9A86A;
+  --bg-subtle: #1f1b17;
+  --border: #2d2820;
+  --text: #f2ede5;
+  --text-muted: #a89f8e;
+  --text-faint: #6e665a;
+  --accent: #c9a86a;
 }
 
-html, body {
+html,
+body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -598,7 +625,9 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
@@ -619,6 +648,7 @@ git commit -m "feat(tokens): css variable token layer with light/dark modes"
 ### Task 6: Load IBM Plex fonts via next/font
 
 **Files:**
+
 - Create: `src/app/fonts.ts`
 
 - [ ] **Step 1: Create fonts module**
@@ -662,6 +692,7 @@ git commit -m "feat(fonts): load IBM Plex Sans/Serif/Mono via next/font"
 ### Task 7: Content directory + sample data
 
 **Files:**
+
 - Create: `content/data/site.yaml`
 - Create: `content/data/work.yaml`
 - Create: `content/pages/about.md`
@@ -838,6 +869,7 @@ git commit -m "feat(content): scaffold sample content and site data"
 ### Task 8: Content types
 
 **Files:**
+
 - Create: `src/lib/content/types.ts`
 
 - [ ] **Step 1: Create types**
@@ -926,6 +958,7 @@ git commit -m "feat(content): content type definitions"
 ### Task 9: Frontmatter validation schemas
 
 **Files:**
+
 - Create: `src/lib/content/schemas.ts`
 
 - [ ] **Step 1: Create zod schemas**
@@ -936,7 +969,10 @@ import { z } from 'zod';
 export const articleFrontmatter = z.object({
   title: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  description: z.string().nullish().transform((v) => v ?? null),
+  description: z
+    .string()
+    .nullish()
+    .transform((v) => v ?? null),
   draft: z.boolean().default(false)
 });
 
@@ -945,7 +981,10 @@ export const projectFrontmatter = z.object({
   tagline: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   status: z.enum(['live', 'archived', 'wip']),
-  hero: z.string().nullish().transform((v) => v ?? null),
+  hero: z
+    .string()
+    .nullish()
+    .transform((v) => v ?? null),
   stack: z.array(z.string()).default([]),
   links: z
     .object({
@@ -1011,12 +1050,13 @@ git commit -m "feat(content): zod schemas for frontmatter validation"
 ### Task 10: Markdown rendering pipeline
 
 **Files:**
+
 - Create: `src/lib/content/markdown.ts`
 - Create: `src/lib/content/markdown.test.ts`
 
 - [ ] **Step 1: Write failing test**
 
-```ts
+````ts
 import { describe, it, expect } from 'vitest';
 import { renderMarkdown } from './markdown';
 
@@ -1042,7 +1082,7 @@ describe('renderMarkdown', () => {
     expect(html).toContain('data-language="js"');
   });
 });
-```
+````
 
 - [ ] **Step 2: Run test, expect fail**
 
@@ -1101,6 +1141,7 @@ git commit -m "feat(content): markdown pipeline with smartypants, slugs, shiki"
 ### Task 11: Article loader
 
 **Files:**
+
 - Create: `src/lib/content/articles.ts`
 - Create: `src/lib/content/articles.test.ts`
 
@@ -1217,6 +1258,7 @@ git commit -m "feat(content): article loader with draft + future-date filtering"
 ### Task 12: Project loader
 
 **Files:**
+
 - Create: `src/lib/content/projects.ts`
 
 - [ ] **Step 1: Implement loader**
@@ -1283,6 +1325,7 @@ git commit -m "feat(content): project loader"
 ### Task 13: Work, site, about loaders
 
 **Files:**
+
 - Create: `src/lib/content/work.ts`
 - Create: `src/lib/content/site.ts`
 - Create: `src/lib/content/about.ts`
@@ -1358,6 +1401,7 @@ git commit -m "feat(content): site/work/about YAML and markdown loaders"
 ### Task 14: Date formatters
 
 **Files:**
+
 - Create: `src/lib/format.ts`
 - Create: `src/lib/format.test.ts`
 
@@ -1430,6 +1474,7 @@ git commit -m "feat(format): date and year-range helpers"
 ### Task 15: No-flash theme initializer script
 
 **Files:**
+
 - Create: `src/lib/theme/init-script.ts`
 
 - [ ] **Step 1: Create the inline script string**
@@ -1459,6 +1504,7 @@ git commit -m "feat(theme): inline first-paint theme initializer"
 ### Task 16: useTheme hook
 
 **Files:**
+
 - Create: `src/lib/theme/use-theme.ts`
 
 - [ ] **Step 1: Implement hook**
@@ -1522,6 +1568,7 @@ git commit -m "feat(theme): useTheme hook"
 ### Task 17: StatusPill
 
 **Files:**
+
 - Create: `src/components/StatusPill.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1539,7 +1586,7 @@ export function StatusPill({ status }: { status: Status }) {
   return (
     <span
       aria-label={`Status: ${LABEL[status]}`}
-      className="inline-flex items-center rounded-full border border-[color:var(--color-border)] px-2 py-0.5 text-[10px] font-medium uppercase tracking-[1px] text-[color:var(--color-text-muted)]"
+      className="inline-flex items-center rounded-full border border-[color:var(--color-border)] px-2 py-0.5 text-[10px] font-medium tracking-[1px] text-[color:var(--color-text-muted)] uppercase"
     >
       {LABEL[status]}
     </span>
@@ -1559,6 +1606,7 @@ git commit -m "feat(ui): StatusPill atom"
 ### Task 18: SectionLabel
 
 **Files:**
+
 - Create: `src/components/SectionLabel.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1574,7 +1622,7 @@ export function SectionLabel({
   return (
     <div className="flex items-center gap-3 pt-10 pb-4">
       <span className="h-px flex-1 bg-[color:var(--color-border)]" aria-hidden="true" />
-      <As className="text-[12px] font-medium uppercase tracking-[1.2px] text-[color:var(--color-text-muted)]">
+      <As className="text-[12px] font-medium tracking-[1.2px] text-[color:var(--color-text-muted)] uppercase">
         {children}
       </As>
       <span className="h-px flex-1 bg-[color:var(--color-border)]" aria-hidden="true" />
@@ -1595,6 +1643,7 @@ git commit -m "feat(ui): SectionLabel atom"
 ### Task 19: LinkArrow
 
 **Files:**
+
 - Create: `src/components/LinkArrow.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1628,7 +1677,8 @@ export function LinkArrow({
     </>
   );
 
-  const classes = `inline-flex items-center gap-1 text-[color:var(--color-accent)] hover:underline underline-offset-2 ${className ?? ''}`.trim();
+  const classes =
+    `inline-flex items-center gap-1 text-[color:var(--color-accent)] hover:underline underline-offset-2 ${className ?? ''}`.trim();
 
   if (external) {
     return (
@@ -1657,6 +1707,7 @@ git commit -m "feat(ui): LinkArrow with forward/back direction"
 ### Task 20: Avatar
 
 **Files:**
+
 - Create: `src/components/Avatar.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1694,21 +1745,16 @@ git commit -m "feat(ui): Avatar atom"
 ### Task 21: PageHeader
 
 **Files:**
+
 - Create: `src/components/PageHeader.tsx`
 
 - [ ] **Step 1: Create component**
 
 ```tsx
-export function PageHeader({
-  title,
-  subtitle
-}: {
-  title: string;
-  subtitle?: string;
-}) {
+export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <header className="pt-2 pb-8">
-      <h1 className="text-[28px] font-semibold leading-[130%] tracking-tight md:text-[28px]">
+      <h1 className="text-[28px] leading-[130%] font-semibold tracking-tight md:text-[28px]">
         {title}
       </h1>
       {subtitle ? (
@@ -1735,6 +1781,7 @@ git commit -m "feat(ui): PageHeader atom"
 ### Task 22: SkipLink
 
 **Files:**
+
 - Create: `src/components/SkipLink.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1744,7 +1791,7 @@ export function SkipLink() {
   return (
     <a
       href="#main"
-      className="absolute left-2 top-2 z-50 -translate-y-[200%] rounded bg-[color:var(--color-bg)] px-3 py-2 text-sm text-[color:var(--color-accent)] underline focus-visible:translate-y-0"
+      className="absolute top-2 left-2 z-50 -translate-y-[200%] rounded bg-[color:var(--color-bg)] px-3 py-2 text-sm text-[color:var(--color-accent)] underline focus-visible:translate-y-0"
     >
       Skip to content
     </a>
@@ -1764,6 +1811,7 @@ git commit -m "feat(a11y): SkipLink — first focusable, jumps to <main>"
 ### Task 23: ThemeToggle
 
 **Files:**
+
 - Create: `src/components/ThemeToggle.tsx`
 
 - [ ] **Step 1: Create component**
@@ -1801,6 +1849,7 @@ git commit -m "feat(theme): ThemeToggle button with sun/moon glyph"
 ### Task 24: Nav (desktop + mobile combined)
 
 **Files:**
+
 - Create: `src/components/Nav.tsx`
 - Create: `src/components/MobileMenuOverlay.tsx`
 
@@ -1870,9 +1919,7 @@ export function MobileMenuOverlay({ open, onClose, activePath }: Props) {
               onClick={onClose}
               aria-current={active ? 'page' : undefined}
               className={`text-[28px] font-medium ${
-                active
-                  ? 'text-[color:var(--color-text)]'
-                  : 'text-[color:var(--color-text-muted)]'
+                active ? 'text-[color:var(--color-text)]' : 'text-[color:var(--color-text-muted)]'
               }`}
             >
               {label}
@@ -1914,10 +1961,7 @@ export function Nav() {
   return (
     <header className="border-b border-[color:var(--color-border)]">
       <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 py-5 md:px-16">
-        <Link
-          href="/"
-          className="text-[16px] font-medium text-[color:var(--color-text)]"
-        >
+        <Link href="/" className="text-[16px] font-medium text-[color:var(--color-text)]">
           ivan.
         </Link>
 
@@ -1956,11 +2000,7 @@ export function Nav() {
         </div>
       </div>
 
-      <MobileMenuOverlay
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        activePath={pathname}
-      />
+      <MobileMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} activePath={pathname} />
     </header>
   );
 }
@@ -1978,6 +2018,7 @@ git commit -m "feat(chrome): Nav with mobile menu overlay"
 ### Task 25: Footer
 
 **Files:**
+
 - Create: `src/components/Footer.tsx`
 
 - [ ] **Step 1: Create component**
@@ -2006,10 +2047,7 @@ export function Footer({ site }: { site: SiteData }) {
             linkedin
           </a>
           <span aria-hidden="true">·</span>
-          <a
-            href={`mailto:${site.social.email}`}
-            className="hover:text-[color:var(--color-text)]"
-          >
+          <a href={`mailto:${site.social.email}`} className="hover:text-[color:var(--color-text)]">
             email
           </a>
         </div>
@@ -2032,6 +2070,7 @@ git commit -m "feat(chrome): Footer with social links and copyright"
 ### Task 26: Root layout
 
 **Files:**
+
 - Create: `src/app/layout.tsx`
 - Create: `src/components/Container.tsx`
 
@@ -2047,9 +2086,7 @@ type Props = {
 export function Container({ children, width = 'content', className }: Props) {
   const max = width === 'article' ? 'max-w-[680px]' : 'max-w-[640px]';
   return (
-    <div className={`mx-auto w-full ${max} px-6 md:px-0 ${className ?? ''}`.trim()}>
-      {children}
-    </div>
+    <div className={`mx-auto w-full ${max} px-6 md:px-0 ${className ?? ''}`.trim()}>{children}</div>
   );
 }
 ```
@@ -2081,11 +2118,7 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' }
 };
 
-export default async function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const site = await getSiteData();
   return (
     <html
@@ -2094,11 +2127,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="flex min-h-screen flex-col">
         <SkipLink />
         <Nav />
         <main id="main" className="flex-1 pt-10 md:pt-16">
@@ -2130,6 +2161,7 @@ git commit -m "feat(layout): root layout, container, no-flash theme bootstrap"
 ### Task 27: WritingListItem
 
 **Files:**
+
 - Create: `src/components/WritingListItem.tsx`
 
 - [ ] **Step 1: Create component**
@@ -2183,6 +2215,7 @@ git commit -m "feat(ui): WritingListItem — mono date + title, wraps on overflo
 ### Task 28: EducationRow
 
 **Files:**
+
 - Create: `src/components/EducationRow.tsx`
 
 - [ ] **Step 1: Create component**
@@ -2226,6 +2259,7 @@ git commit -m "feat(ui): EducationRow"
 ### Task 29: ProjectCard
 
 **Files:**
+
 - Create: `src/components/ProjectCard.tsx`
 
 - [ ] **Step 1: Create component**
@@ -2285,6 +2319,7 @@ git commit -m "feat(ui): ProjectCard preview row"
 ### Task 30: RoleCard with disclosure animation
 
 **Files:**
+
 - Create: `src/components/RoleCard.tsx`
 - Create: `src/components/RoleCard.css`
 
@@ -2320,7 +2355,7 @@ git commit -m "feat(ui): ProjectCard preview row"
   transition: transform var(--motion-duration-base) var(--motion-easing-standard);
 }
 
-.role-trigger[aria-expanded="true"] .role-chevron {
+.role-trigger[aria-expanded='true'] .role-chevron {
   transform: rotate(90deg);
 }
 
@@ -2343,7 +2378,7 @@ git commit -m "feat(ui): ProjectCard preview row"
   transition: grid-template-rows var(--motion-duration-slow) var(--motion-easing-standard);
 }
 
-.role-trigger[aria-expanded="true"] + .role-expanded {
+.role-trigger[aria-expanded='true'] + .role-expanded {
   grid-template-rows: 1fr;
 }
 
@@ -2455,6 +2490,7 @@ git commit -m "feat(ui): RoleCard with grid-template-rows disclosure + inert"
 ### Task 31: Homepage
 
 **Files:**
+
 - Create: `src/app/page.tsx`
 
 - [ ] **Step 1: Create homepage**
@@ -2477,9 +2513,7 @@ export default async function HomePage() {
       <section className="flex flex-col items-start gap-4 pt-6 pb-12">
         <Avatar src="/images/avatar.jpg" alt="" size={96} />
         <div>
-          <h1 className="text-[28px] font-semibold leading-[130%]">
-            {site.hero_greeting}
-          </h1>
+          <h1 className="text-[28px] leading-[130%] font-semibold">{site.hero_greeting}</h1>
           <p className="text-[18px] leading-[150%] text-[color:var(--color-text-muted)]">
             {site.role}
           </p>
@@ -2489,12 +2523,7 @@ export default async function HomePage() {
       <SectionLabel>Latest writing</SectionLabel>
       <ul className="list-none p-0">
         {latest.map((a) => (
-          <WritingListItem
-            key={a.slug}
-            slug={a.slug}
-            title={a.title}
-            date={a.date}
-          />
+          <WritingListItem key={a.slug} slug={a.slug} title={a.title} date={a.date} />
         ))}
       </ul>
 
@@ -2535,6 +2564,7 @@ git commit -m "feat(home): homepage with hero and latest 5 articles"
 ### Task 32: About page
 
 **Files:**
+
 - Create: `src/app/about/page.tsx`
 
 - [ ] **Step 1: Create about page**
@@ -2551,14 +2581,11 @@ export default async function AboutPage() {
   const about = await getAboutPage();
   return (
     <Container>
-      <h1 className="text-[28px] font-semibold leading-[130%]">{about.title}</h1>
+      <h1 className="text-[28px] leading-[130%] font-semibold">{about.title}</h1>
       <div className="mt-6">
         <Avatar src="/images/avatar.jpg" alt="" size={120} />
       </div>
-      <div
-        className="prose-content mt-8"
-        dangerouslySetInnerHTML={{ __html: about.bodyHtml }}
-      />
+      <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: about.bodyHtml }} />
     </Container>
   );
 }
@@ -2576,6 +2603,7 @@ git commit -m "feat(about): about page"
 ### Task 33: Work page
 
 **Files:**
+
 - Create: `src/app/work/page.tsx`
 
 - [ ] **Step 1: Create work page**
@@ -2596,10 +2624,7 @@ export default async function WorkPage() {
   const work = await getWorkData();
   return (
     <Container>
-      <PageHeader
-        title="Work"
-        subtitle="A decade of engineering work, most recent first."
-      />
+      <PageHeader title="Work" subtitle="A decade of engineering work, most recent first." />
       <div className="pb-2">
         <LinkArrow href={work.cv_pdf} external>
           Download CV (PDF)
@@ -2635,6 +2660,7 @@ git commit -m "feat(work): work page with expandable roles and education"
 ### Task 34: Projects index page
 
 **Files:**
+
 - Create: `src/app/projects/page.tsx`
 
 - [ ] **Step 1: Create projects index**
@@ -2652,10 +2678,7 @@ export default async function ProjectsIndexPage() {
   const projects = await getAllProjects();
   return (
     <Container>
-      <PageHeader
-        title="Projects"
-        subtitle="Side projects and the occasional product."
-      />
+      <PageHeader title="Projects" subtitle="Side projects and the occasional product." />
       <ul className="list-none p-0">
         {projects.map((p) => (
           <ProjectCard key={p.slug} project={p} />
@@ -2678,6 +2701,7 @@ git commit -m "feat(projects): projects index"
 ### Task 35: Project detail page
 
 **Files:**
+
 - Create: `src/app/projects/[slug]/page.tsx`
 
 - [ ] **Step 1: Create project detail page**
@@ -2723,35 +2747,30 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       <header className="pb-8">
-        <h1 className="text-[38px] font-semibold leading-[120%]">{project.title}</h1>
-        <p className="mt-2 text-[18px] text-[color:var(--color-text-muted)]">
-          {project.tagline}
-        </p>
+        <h1 className="text-[38px] leading-[120%] font-semibold">{project.title}</h1>
+        <p className="mt-2 text-[18px] text-[color:var(--color-text-muted)]">{project.tagline}</p>
         <div className="mt-4 flex items-center gap-3">
           <StatusPill status={project.status} />
-          <span className="text-[13px] text-[color:var(--color-text-faint)]" style={{ fontFamily: 'var(--font-mono)' }}>
+          <span
+            className="text-[13px] text-[color:var(--color-text-faint)]"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
             {project.date}
           </span>
         </div>
       </header>
 
-      {project.hero ? (
-        <img
-          src={project.hero}
-          alt=""
-          className="mb-10 w-full rounded"
-        />
-      ) : null}
+      {project.hero ? <img src={project.hero} alt="" className="mb-10 w-full rounded" /> : null}
 
-      <div
-        className="prose-content"
-        dangerouslySetInnerHTML={{ __html: project.bodyHtml }}
-      />
+      <div className="prose-content" dangerouslySetInnerHTML={{ __html: project.bodyHtml }} />
 
       {project.stack.length > 0 ? (
         <>
           <SectionLabel>Stack</SectionLabel>
-          <p className="text-[16px] text-[color:var(--color-text-muted)]" style={{ fontFamily: 'var(--font-mono)' }}>
+          <p
+            className="text-[16px] text-[color:var(--color-text-muted)]"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
             {project.stack.join(' · ')}
           </p>
         </>
@@ -2760,18 +2779,34 @@ export default async function ProjectDetailPage({ params }: Props) {
       {Object.keys(project.links).length > 0 ? (
         <>
           <SectionLabel>Links</SectionLabel>
-          <ul className="flex flex-col gap-2 list-none p-0">
+          <ul className="flex list-none flex-col gap-2 p-0">
             {project.links.live ? (
-              <li><LinkArrow href={project.links.live} external>Live</LinkArrow></li>
+              <li>
+                <LinkArrow href={project.links.live} external>
+                  Live
+                </LinkArrow>
+              </li>
             ) : null}
             {project.links.appstore ? (
-              <li><LinkArrow href={project.links.appstore} external>App Store</LinkArrow></li>
+              <li>
+                <LinkArrow href={project.links.appstore} external>
+                  App Store
+                </LinkArrow>
+              </li>
             ) : null}
             {project.links.playstore ? (
-              <li><LinkArrow href={project.links.playstore} external>Play Store</LinkArrow></li>
+              <li>
+                <LinkArrow href={project.links.playstore} external>
+                  Play Store
+                </LinkArrow>
+              </li>
             ) : null}
             {project.links.source ? (
-              <li><LinkArrow href={project.links.source} external>Source</LinkArrow></li>
+              <li>
+                <LinkArrow href={project.links.source} external>
+                  Source
+                </LinkArrow>
+              </li>
             ) : null}
           </ul>
         </>
@@ -2795,6 +2830,7 @@ git commit -m "feat(projects): project detail page with static params"
 ### Task 36: Writing index page
 
 **Files:**
+
 - Create: `src/app/writing/page.tsx`
 
 - [ ] **Step 1: Create writing index**
@@ -2817,22 +2853,14 @@ export default async function WritingIndexPage() {
 
   return (
     <Container>
-      <PageHeader
-        title="Writing"
-        subtitle="Essays, notes, and post-mortems."
-      />
+      <PageHeader title="Writing" subtitle="Essays, notes, and post-mortems." />
 
       {years.map((year) => (
         <section key={year}>
           <SectionLabel>{year}</SectionLabel>
           <ul className="list-none p-0">
             {byYear.get(year)!.map((a) => (
-              <WritingListItem
-                key={a.slug}
-                slug={a.slug}
-                title={a.title}
-                date={a.date}
-              />
+              <WritingListItem key={a.slug} slug={a.slug} title={a.title} date={a.date} />
             ))}
           </ul>
         </section>
@@ -2854,6 +2882,7 @@ git commit -m "feat(writing): year-grouped writing index"
 ### Task 37: Article page
 
 **Files:**
+
 - Create: `src/app/writing/[slug]/page.tsx`
 
 - [ ] **Step 1: Create article page**
@@ -2863,10 +2892,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { LinkArrow } from '@/components/LinkArrow';
-import {
-  getArticleBySlug,
-  getArticleSlugs
-} from '@/lib/content/articles';
+import { getArticleBySlug, getArticleSlugs } from '@/lib/content/articles';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -2905,7 +2931,7 @@ export default async function ArticlePage({ params }: Props) {
       </div>
 
       <header className="pb-8">
-        <h1 className="text-[34px] font-semibold leading-[125%]">{a.title}</h1>
+        <h1 className="text-[34px] leading-[125%] font-semibold">{a.title}</h1>
         <p
           className="mt-3 text-[13px] text-[color:var(--color-text-faint)]"
           style={{ fontFamily: 'var(--font-mono)' }}
@@ -2916,10 +2942,7 @@ export default async function ArticlePage({ params }: Props) {
         </p>
       </header>
 
-      <div
-        className="prose-article"
-        dangerouslySetInnerHTML={{ __html: a.bodyHtml }}
-      />
+      <div className="prose-article" dangerouslySetInnerHTML={{ __html: a.bodyHtml }} />
     </Container>
   );
 }
@@ -2941,6 +2964,7 @@ git commit -m "feat(writing): single article page"
 ### Task 38: Article markdown styles
 
 **Files:**
+
 - Modify: `src/app/globals.css`
 
 - [ ] **Step 1: Append article body styles to globals.css**
@@ -3092,6 +3116,7 @@ git commit -m "feat(prose): article (serif) + content (sans) markdown styles"
 ### Task 39: Mobile type scale tweaks
 
 **Files:**
+
 - Modify: `src/app/globals.css`
 
 - [ ] **Step 1: Append mobile overrides at the end of globals.css**
@@ -3120,6 +3145,7 @@ git commit -m "feat(responsive): mobile article type adjustments"
 ### Task 40: 404 page
 
 **Files:**
+
 - Create: `src/app/not-found.tsx`
 
 - [ ] **Step 1: Create not-found page**
@@ -3132,7 +3158,7 @@ export default function NotFound() {
   return (
     <Container>
       <div className="py-16">
-        <h1 className="text-[34px] font-semibold leading-[125%]">Not found.</h1>
+        <h1 className="text-[34px] leading-[125%] font-semibold">Not found.</h1>
         <p className="mt-3 text-[16px] text-[color:var(--color-text-muted)]">
           The page you’re looking for doesn’t exist (or has moved).
         </p>
@@ -3157,6 +3183,7 @@ git commit -m "feat(404): not-found page"
 ### Task 41: Sitemap
 
 **Files:**
+
 - Create: `src/app/sitemap.ts`
 
 - [ ] **Step 1: Create sitemap generator**
@@ -3169,10 +3196,7 @@ import { getAllProjects } from '@/lib/content/projects';
 const BASE = 'https://heyivan.dev';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [articles, projects] = await Promise.all([
-    getAllArticles(),
-    getAllProjects()
-  ]);
+  const [articles, projects] = await Promise.all([getAllArticles(), getAllProjects()]);
   const staticRoutes: MetadataRoute.Sitemap = ['', '/about', '/work', '/projects', '/writing'].map(
     (path) => ({
       url: `${BASE}${path}`,
@@ -3203,6 +3227,7 @@ git commit -m "feat(seo): sitemap covering static and dynamic routes"
 ### Task 42: robots.txt
 
 **Files:**
+
 - Create: `src/app/robots.ts`
 
 - [ ] **Step 1: Create robots.ts**
@@ -3230,11 +3255,13 @@ git commit -m "feat(seo): robots.txt allow-all + sitemap pointer"
 ### Task 43: Default OG image placeholder
 
 **Files:**
+
 - Create: `public/images/og-default.png` (placeholder)
 
 - [ ] **Step 1: Add a placeholder OG image**
 
 Run:
+
 ```bash
 mkdir -p public/images
 printf '\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\rIDATx\x9cc\xf8\xff\xff?\x03\x00\x06\xfd\x02\xfd\xa3\x9aN\xdd\x00\x00\x00\x00IEND\xaeB`\x82' > public/images/og-default.png
@@ -3284,6 +3311,7 @@ Expected: contains `index.html`, `about.html`, `work.html`, `projects/`, `writin
 
 Run: `bunx serve out` (or `python3 -m http.server -d out 4000`)
 Manually verify in a browser:
+
 - Home renders with avatar, hero, and latest 5 writing entries
 - /about renders bio + Now + Elsewhere
 - /work renders with first role expanded, others collapsed; clicking a collapsed role smoothly expands it
@@ -3304,6 +3332,7 @@ If anything failed, fix it before continuing.
 ### Task 45: GitHub Actions CI
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 1: Create CI workflow**
@@ -3346,6 +3375,7 @@ git commit -m "ci: typecheck, lint, test, build on push/PR"
 ### Task 46: Cloudflare Pages setup notes
 
 **Files:**
+
 - Create: `docs/deploy/cloudflare-pages.md`
 
 - [ ] **Step 1: Create deploy notes**
@@ -3395,6 +3425,7 @@ git commit -m "docs(deploy): cloudflare pages setup notes"
 - [ ] **Step 1: Push to GitHub**
 
 Run:
+
 ```bash
 git remote add origin git@github.com:firec0der/heyivan.dev.git
 git branch -M main
@@ -3410,6 +3441,7 @@ In the Pages dashboard, watch the first deploy. Expected: success in <2 minutes.
 - [ ] **Step 3: Verify production**
 
 Visit `https://heyivan.dev` once the custom domain is attached. Verify:
+
 - All pages load
 - Theme toggle persists across navigation
 - Dark mode renders the dark token set (no flash on reload)
