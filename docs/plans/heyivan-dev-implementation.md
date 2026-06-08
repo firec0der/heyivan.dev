@@ -212,32 +212,55 @@ git commit -m "chore: wire Tailwind 4 + PostCSS"
 
 ---
 
-### Task 3: Configure ESLint
+### Task 3: Configure ESLint (flat config)
+
+**Note:** ESLint 9+ removed legacy `.eslintrc.*` support. We use flat config (`eslint.config.mjs`). Also: `next lint` is deprecated in Next.js 16; the `lint` script invokes `eslint` directly.
 
 **Files:**
-- Create: `.eslintrc.json`
+- Create: `eslint.config.mjs`
+- Modify: `package.json` — change `"lint"` script to `"eslint ."`
 
-- [ ] **Step 1: Create eslintrc**
+- [ ] **Step 1: Create eslint.config.mjs**
 
-```json
-{
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+```js
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
+
+/** @type {import("eslint").Linter.Config[]} */
+const config = [
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }]
+    }
   }
-}
+];
+
+export default config;
 ```
 
-- [ ] **Step 2: Verify lint runs**
+- [ ] **Step 2: Update the lint script in package.json**
+
+Change:
+```json
+"lint": "next lint",
+```
+to:
+```json
+"lint": "eslint .",
+```
+
+- [ ] **Step 3: Verify lint runs**
 
 Run: `bun run lint`
-Expected: passes with no errors (or "No ESLint warnings or errors").
+Expected: "No ESLint warnings or errors" (or no output / exit 0).
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add .eslintrc.json
-git commit -m "chore: add eslint config"
+git add eslint.config.mjs package.json
+git commit -m "chore: add eslint flat config"
 ```
 
 ---
@@ -247,7 +270,7 @@ git commit -m "chore: add eslint config"
 **Files:**
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
-- Modify: `.eslintrc.json`
+- Modify: `eslint.config.mjs`
 - Modify: `package.json` (add `format` and `format:check` scripts)
 
 - [ ] **Step 1: Install dev deps**
@@ -292,27 +315,37 @@ content/
 
 (Content is excluded so author-formatted Markdown isn't reflowed.)
 
-- [ ] **Step 4: Update .eslintrc.json**
+- [ ] **Step 4: Update eslint.config.mjs**
 
 Replace the file's contents with:
 
-```json
-{
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript",
-    "prettier"
-  ],
-  "plugins": ["simple-import-sort"],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
-  }
-}
+```js
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import prettierConfig from "eslint-config-prettier";
+
+/** @type {import("eslint").Linter.Config[]} */
+const config = [
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error"
+    }
+  },
+  prettierConfig
+];
+
+export default config;
 ```
 
-Order matters: `prettier` must come last in `extends` so it overrides conflicting formatting rules from `next/*`.
+Order matters: `prettierConfig` must come last so it overrides conflicting formatting rules from `next/*`.
 
 - [ ] **Step 5: Add format scripts to package.json**
 
@@ -349,7 +382,7 @@ Expected: passes (or surfaces only import-sort fixes — re-run with `bunx eslin
 - [ ] **Step 7: Commit**
 
 ```bash
-git add .prettierrc.json .prettierignore .eslintrc.json package.json bun.lock
+git add .prettierrc.json .prettierignore eslint.config.mjs package.json bun.lock
 git add -u
 git commit -m "chore: prettier + import sort + tailwind class sort"
 ```
