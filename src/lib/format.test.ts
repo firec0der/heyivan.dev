@@ -21,13 +21,20 @@ describe('formatYearRange', () => {
     expect(formatYearRange(2024, 'present')).toBe('2024 — Present');
   });
 
-  it('accepts case variations of "present"', () => {
-    expect(formatYearRange(2024, 'Present')).toBe('2024 — Present');
-    expect(formatYearRange(2024, 'PRESENT')).toBe('2024 — Present');
+  // Runtime guard — catches callers that bypass the type system (`as any`,
+  // dynamic untyped data, etc). Schema validates at the data boundary; this
+  // is belt-and-suspenders for in-process drift.
+
+  it('throws when start is not an integer', () => {
+    expect(() => formatYearRange(2020.5 as unknown as number, 2024)).toThrow(TypeError);
+    expect(() => formatYearRange('2020' as unknown as number, 2024)).toThrow(TypeError);
+    expect(() => formatYearRange(NaN as unknown as number, 2024)).toThrow(TypeError);
   });
 
-  it('renders string start year', () => {
-    expect(formatYearRange('2020', 2024)).toBe('2020 — 2024');
+  it('throws when end is not an integer or "present"', () => {
+    expect(() => formatYearRange(2020, 'tomorrow' as unknown as 'present')).toThrow(TypeError);
+    expect(() => formatYearRange(2020, 'Present' as unknown as 'present')).toThrow(TypeError);
+    expect(() => formatYearRange(2020, null as unknown as 'present')).toThrow(TypeError);
   });
 });
 

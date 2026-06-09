@@ -29,8 +29,8 @@ export type Project = {
 export type Role = {
   company: string;
   role: string;
-  start: number | string;
-  end: number | string;
+  start: number;
+  end: number | 'present';
   blurb: string;
   description: string;
   skills: string[];
