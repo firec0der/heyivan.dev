@@ -1,0 +1,38 @@
+name: heyivan-dev
+
+services:
+  web:
+    build:
+      context: .
+    image: heyivan-dev:latest
+    command: bun run dev
+    ports:
+      - '3344:3000'
+    environment:
+      # Docker on macOS doesn't propagate inotify events across volume mounts.
+      WATCHPACK_POLLING: 'true'
+      CHOKIDAR_USEPOLLING: 'true'
+      NEXT_TELEMETRY_DISABLED: '1'
+    volumes:
+      - ./:/app:cached
+      # Anonymous volume masks the host's node_modules with the image's install.
+      # Per-service (not shared) to avoid a race when both services first init.
+      - /app/node_modules
+      - next_cache:/app/.next
+
+  storybook:
+    image: heyivan-dev:latest
+    command: bun run storybook --ci --no-open
+    ports:
+      - '3345:6006'
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+      STORYBOOK_DISABLE_TELEMETRY: '1'
+    volumes:
+      - ./:/app:cached
+      - /app/node_modules
+      - storybook_cache:/app/node_modules/.cache
+
+volumes:
+  next_cache:
+  storybook_cache:

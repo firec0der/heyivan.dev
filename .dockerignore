@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+dist
+storybook-static
+coverage
+.vitest-cache
+.cache
+.git
+.github
+.idea
+.vscode
+.claude
+*.log
+.DS_Store
+*.tsbuildinfo
