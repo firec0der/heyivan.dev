@@ -21,6 +21,8 @@ services:
       - next_cache:/app/.next
 
   storybook:
+    build:
+      context: .
     image: heyivan-dev:latest
     command: bun run storybook --ci --no-open
     ports:
