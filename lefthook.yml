@@ -6,7 +6,7 @@ pre-commit:
       run: bunx eslint --fix {staged_files}
       stage_fixed: true
     prettier:
-      glob: '*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,yml,yaml}'
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs,css,json,md,mdx,yml,yaml}'
       run: bunx prettier --write {staged_files}
       stage_fixed: true
 

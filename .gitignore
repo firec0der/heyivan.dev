@@ -11,6 +11,6 @@ dist/
 .vscode/
 coverage/
 .vitest-cache/
+storybook-static/
 .claude/
-next-env.d.ts
 *.tsbuildinfo
