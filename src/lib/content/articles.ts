@@ -1,33 +1,27 @@
-import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
-import { renderMarkdown } from './markdown';
+import { listMarkdownFiles, loadMarkdownFile, sortByDateDesc } from './loader';
 import { articleFrontmatter } from './schemas';
 import type { Article } from './types';
 
 const ARTICLES_DIR = path.join(process.cwd(), 'content', 'writing');
 
-async function loadArticleFile(filename: string): Promise<Article> {
-  const slug = filename.replace(/\.md$/, '');
-  const raw = await fs.readFile(path.join(ARTICLES_DIR, filename), 'utf-8');
-  const { data, content } = matter(raw);
-  // gray-matter parses YAML dates as Date objects; coerce to ISO string for Zod
-  if (data.date instanceof Date) {
-    data.date = data.date.toISOString().slice(0, 10);
-  }
-  const frontmatter = articleFrontmatter.parse(data);
-  const bodyHtml = await renderMarkdown(content);
-  const stats = readingTime(content);
+async function loadArticle(filename: string): Promise<Article> {
+  const { slug, frontmatter, body, bodyHtml } = await loadMarkdownFile(
+    ARTICLES_DIR,
+    filename,
+    articleFrontmatter
+  );
+  const stats = readingTime(body);
   return {
     slug,
     title: frontmatter.title,
     date: frontmatter.date,
     description: frontmatter.description,
     draft: frontmatter.draft,
-    body: content,
+    body,
     bodyHtml,
     readingTimeMinutes: Math.max(1, Math.ceil(stats.minutes))
   };
@@ -40,18 +34,15 @@ function isPublishable(article: Article, now: Date): boolean {
 }
 
 export async function getAllArticles(): Promise<Article[]> {
-  const entries = await fs.readdir(ARTICLES_DIR);
-  const files = entries.filter((f) => f.endsWith('.md'));
-  const all = await Promise.all(files.map(loadArticleFile));
+  const files = await listMarkdownFiles(ARTICLES_DIR);
+  const all = await Promise.all(files.map(loadArticle));
   const now = new Date();
-  return all
-    .filter((a) => isPublishable(a, now))
-    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  return sortByDateDesc(all.filter((a) => isPublishable(a, now)));
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {
-    return await loadArticleFile(`${slug}.md`);
+    return await loadArticle(`${slug}.md`);
   } catch {
     return null;
   }
