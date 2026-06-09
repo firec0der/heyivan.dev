@@ -27,7 +27,7 @@ async function loadArticle(filename: string): Promise<Article> {
   };
 }
 
-function isPublishable(article: Article, now: Date): boolean {
+export function isPublishable(article: Article, now: Date): boolean {
   if (article.draft) return false;
   const today = now.toISOString().slice(0, 10);
   return article.date <= today;

@@ -1,6 +1,21 @@
 import { describe, expect, it } from 'vitest';
 
-import { getAllArticles, getArticleBySlug, getArticleSlugs } from './articles';
+import { getAllArticles, getArticleBySlug, getArticleSlugs, isPublishable } from './articles';
+import type { Article } from './types';
+
+function fakeArticle(overrides: Partial<Article> = {}): Article {
+  return {
+    slug: 'fake',
+    title: 'Fake',
+    date: '2026-01-01',
+    description: null,
+    draft: false,
+    body: '',
+    bodyHtml: '',
+    readingTimeMinutes: 1,
+    ...overrides
+  };
+}
 
 describe('articles', () => {
   it('lists articles sorted by date desc', async () => {
@@ -29,5 +44,25 @@ describe('articles', () => {
     const articles = await getAllArticles();
     const slugs = await getArticleSlugs();
     expect(slugs).toEqual(articles.map((a) => a.slug));
+  });
+});
+
+describe('isPublishable', () => {
+  const now = new Date('2026-06-15T12:00:00Z');
+
+  it('rejects drafts regardless of date', () => {
+    expect(isPublishable(fakeArticle({ draft: true, date: '2020-01-01' }), now)).toBe(false);
+  });
+
+  it('rejects future-dated articles', () => {
+    expect(isPublishable(fakeArticle({ date: '2099-01-01' }), now)).toBe(false);
+  });
+
+  it('accepts past-dated articles', () => {
+    expect(isPublishable(fakeArticle({ date: '2024-03-22' }), now)).toBe(true);
+  });
+
+  it("accepts articles dated today", () => {
+    expect(isPublishable(fakeArticle({ date: '2026-06-15' }), now)).toBe(true);
   });
 });
