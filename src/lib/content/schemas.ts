@@ -3,25 +3,26 @@ import { z } from 'zod';
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2200;
 
-// Accepts a number or a numeric string; rejects out-of-range and non-numeric input.
-export const year = z.preprocess((val) => {
+// Coerce numeric strings to numbers; leave anything else for the schema to reject.
+const stringToNumber = (val: unknown): unknown => {
   if (typeof val === 'string') {
     const n = Number(val);
-    return Number.isInteger(n) ? n : val;
+    if (!Number.isNaN(n)) return n;
   }
   return val;
-}, z.number().int().min(YEAR_MIN).max(YEAR_MAX));
+};
+
+// Accepts a number or a numeric string; rejects out-of-range, fractional, or non-numeric input.
+export const year = z.preprocess(stringToNumber, z.number().int().min(YEAR_MIN).max(YEAR_MAX));
 
 // Accepts a year or the literal string 'present' (case-insensitive); normalizes to lowercase.
-export const yearOrPresent = z.preprocess((val) => {
-  if (typeof val === 'string') {
-    const lower = val.toLowerCase();
-    if (lower === 'present') return 'present';
-    const n = Number(val);
-    if (Number.isInteger(n)) return n;
-  }
-  return val;
-}, z.union([z.number().int().min(YEAR_MIN).max(YEAR_MAX), z.literal('present')]));
+export const yearOrPresent = z.preprocess(
+  (val) => {
+    if (typeof val === 'string' && val.toLowerCase() === 'present') return 'present';
+    return stringToNumber(val);
+  },
+  z.union([z.number().int().min(YEAR_MIN).max(YEAR_MAX), z.literal('present')])
+);
 
 export const articleFrontmatter = z.object({
   title: z.string().min(1),
