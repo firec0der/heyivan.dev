@@ -38,3 +38,7 @@ jobs:
       - name: Build
         if: hashFiles('src/app/page.tsx', 'src/app/page.ts') != ''
         run: bun run build
+
+      - name: Build Storybook
+        if: hashFiles('.storybook/main.ts') != ''
+        run: bun run build-storybook --quiet
