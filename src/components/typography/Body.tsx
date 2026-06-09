@@ -6,7 +6,7 @@ type Tone = 'default' | 'muted';
 
 const TONE_CLASS: Record<Tone, string | undefined> = {
   default: undefined,
-  muted: 'text-[color:var(--color-text-muted)]'
+  muted: 'text-muted'
 };
 
 export const Body = ({
