@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        if: hashFiles('src/**/*.ts', 'src/**/*.tsx', 'vitest.config.ts') != ''
+        run: bun run typecheck
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Format check
+        run: bun run format:check
+
+      - name: Test
+        if: hashFiles('vitest.config.ts') != ''
+        run: bun run test
+
+      - name: Build
+        if: hashFiles('src/app/page.tsx', 'src/app/page.ts') != ''
+        run: bun run build
