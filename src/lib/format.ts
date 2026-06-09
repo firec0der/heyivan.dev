@@ -1,5 +1,24 @@
-export function formatArticleDate(isoDate: string): string {
-  return isoDate;
+type DateInput = string | Date;
+
+const ISO_DATE_PREFIX = /^\d{4}-\d{2}-\d{2}/;
+
+// Normalizes a Date | ISO-YYYY-MM-DD string to a YYYY-MM-DD string.
+// Throws TypeError on Invalid Date or unrecognized string format.
+function normalizeDate(value: DateInput, fnName: string): string {
+  if (value instanceof Date) {
+    if (Number.isNaN(value.getTime())) {
+      throw new TypeError(`${fnName}: invalid Date object`);
+    }
+    return value.toISOString().slice(0, 10);
+  }
+  if (typeof value !== 'string' || !ISO_DATE_PREFIX.test(value)) {
+    throw new TypeError(`${fnName}: invalid date "${String(value)}", expected YYYY-MM-DD`);
+  }
+  return value.slice(0, 10);
+}
+
+export function formatArticleDate(date: DateInput): string {
+  return normalizeDate(date, 'formatArticleDate');
 }
 
 export type YearOrPresent = number | 'present';
@@ -22,25 +41,10 @@ export function formatYearRange(start: number, end: YearOrPresent): string {
   return `${start} — ${end === 'present' ? 'Present' : end}`;
 }
 
-const ISO_DATE_PREFIX = /^\d{4}-\d{2}-\d{2}/;
-
-function extractYear(date: string | Date): string {
-  if (date instanceof Date) {
-    if (Number.isNaN(date.getTime())) {
-      throw new TypeError(`groupByYear: invalid Date object`);
-    }
-    return String(date.getUTCFullYear());
-  }
-  if (typeof date !== 'string' || !ISO_DATE_PREFIX.test(date)) {
-    throw new TypeError(`groupByYear: invalid date "${String(date)}", expected YYYY-MM-DD`);
-  }
-  return date.slice(0, 4);
-}
-
-export function groupByYear<T extends { date: string | Date }>(items: T[]): Map<string, T[]> {
+export function groupByYear<T extends { date: DateInput }>(items: T[]): Map<string, T[]> {
   const map = new Map<string, T[]>();
   for (const item of items) {
-    const year = extractYear(item.date);
+    const year = normalizeDate(item.date, 'groupByYear').slice(0, 4);
     const list = map.get(year) ?? [];
     list.push(item);
     map.set(year, list);

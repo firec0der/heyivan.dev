@@ -3,12 +3,25 @@ import { describe, expect, it } from 'vitest';
 import { formatArticleDate, formatYearRange, groupByYear } from './format';
 
 describe('formatArticleDate', () => {
-  it('returns the ISO date as-is', () => {
+  it('returns an ISO YYYY-MM-DD string as-is', () => {
     expect(formatArticleDate('2026-03-22')).toBe('2026-03-22');
   });
 
-  it('exposes the year in the leading slice', () => {
-    expect(formatArticleDate('2026-03-22').slice(0, 4)).toBe('2026');
+  it('trims any time suffix on ISO datetime strings', () => {
+    expect(formatArticleDate('2026-03-22T12:30:00Z')).toBe('2026-03-22');
+  });
+
+  it('normalizes a Date object to YYYY-MM-DD (UTC)', () => {
+    expect(formatArticleDate(new Date(Date.UTC(2026, 2, 22)))).toBe('2026-03-22');
+  });
+
+  it('throws on a malformed string', () => {
+    expect(() => formatArticleDate('tomorrow')).toThrow(TypeError);
+    expect(() => formatArticleDate('26-3-22')).toThrow(TypeError);
+  });
+
+  it('throws on Invalid Date', () => {
+    expect(() => formatArticleDate(new Date('not-a-date'))).toThrow(TypeError);
   });
 });
 
