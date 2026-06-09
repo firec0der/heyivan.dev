@@ -5,12 +5,25 @@
   --font-serif: var(--font-ibm-plex-serif), Georgia, serif;
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
 
-  --color-canvas: var(--bg);
-  --color-surface: var(--bg-subtle);
+  /* Page background; the dominant surface used by html/body and full-bleed areas. */
+  --color-canvas: var(--canvas);
+
+  /* Elevated/secondary surface for cards, panels, and anything that sits visually above the canvas. */
+  --color-surface: var(--surface);
+
+  /* Dividers, input borders, card outlines; separates without dominating. */
   --color-border: var(--border);
-  --color-fg: var(--text);
-  --color-muted: var(--text-muted);
-  --color-faint: var(--text-faint);
+
+  /* Primary text color — body copy, headings, anything with full emphasis. */
+  --color-fg: var(--fg);
+
+  /* Secondary text — subheads, labels, descriptions; reduced emphasis. */
+  --color-muted: var(--muted);
+
+  /* Tertiary text — metadata, timestamps, captions; lowest emphasis. */
+  --color-faint: var(--faint);
+
+  /* Brand color — links, focus rings, selections, primary interactive states. */
   --color-accent: var(--accent);
 
   --spacing-4xs: 2px;
@@ -41,29 +54,29 @@
 }
 
 :root {
-  --bg: #faf7f2;
-  --bg-subtle: #f2ede5;
+  --canvas: #faf7f2;
+  --surface: #f2ede5;
   --border: #e8e2d6;
-  --text: #1f1b16;
-  --text-muted: #6e665a;
-  --text-faint: #9d9588;
+  --fg: #1f1b16;
+  --muted: #6e665a;
+  --faint: #9d9588;
   --accent: #7a5f2e;
 }
 
 html[data-theme='dark'] {
-  --bg: #161310;
-  --bg-subtle: #1f1b17;
+  --canvas: #161310;
+  --surface: #1f1b17;
   --border: #2d2820;
-  --text: #f2ede5;
-  --text-muted: #a89f8e;
-  --text-faint: #6e665a;
+  --fg: #f2ede5;
+  --muted: #a89f8e;
+  --faint: #6e665a;
   --accent: #c9a86a;
 }
 
 html,
 body {
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: var(--canvas);
+  color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -78,7 +91,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--canvas);
 }
 
 @media (prefers-reduced-motion: reduce) {
