@@ -5,12 +5,12 @@
   --font-serif: var(--font-ibm-plex-serif), Georgia, serif;
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
 
-  --color-bg: var(--bg);
-  --color-bg-subtle: var(--bg-subtle);
+  --color-canvas: var(--bg);
+  --color-surface: var(--bg-subtle);
   --color-border: var(--border);
-  --color-text: var(--text);
-  --color-text-muted: var(--text-muted);
-  --color-text-faint: var(--text-faint);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
   --color-accent: var(--accent);
 
   --spacing-4xs: 2px;

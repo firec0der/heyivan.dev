@@ -11,7 +11,7 @@ const LABEL_TEXT: Record<Status, string> = {
 export const StatusPill = ({ status }: { status: Status }) => (
   <Label
     aria-label={`Status: ${LABEL_TEXT[status]}`}
-    className="inline-flex items-center rounded-full border border-[color:var(--color-border)] px-2 py-0.5"
+    className="border-border inline-flex items-center rounded-full border px-2 py-0.5"
   >
     {LABEL_TEXT[status]}
   </Label>
