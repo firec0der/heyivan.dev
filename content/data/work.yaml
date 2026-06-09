@@ -1,0 +1,33 @@
+roles:
+  - company: Example Co.
+    role: Senior Software Engineer
+    start: 2024
+    end: present
+    blurb: Building scaled web platform infrastructure.
+    description: |
+      Lead engineer on the core platform team. Design and ship the services that
+      back the product surface area used by every other team in the company.
+    skills: [Go, Python, Postgres, Kubernetes, AWS, gRPC]
+  - company: Previous Co.
+    role: Software Engineer
+    start: 2020
+    end: 2024
+    blurb: Full-stack feature work across the product surface.
+    description: |
+      Worked across the stack on the core product. Owned several user-facing
+      features end-to-end from design to release.
+    skills: [TypeScript, React, Node, Postgres, AWS]
+skills:
+  Backend: Go, Python, Postgres
+  Frontend: TypeScript, React
+  Infra: Docker, Kubernetes, AWS
+education:
+  - degree: MSc Computer Science
+    institution: University Name
+    start: 2018
+    end: 2020
+  - degree: BSc Computer Science
+    institution: University Name
+    start: 2014
+    end: 2018
+cv_pdf: /cv.pdf
