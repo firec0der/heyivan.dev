@@ -3398,6 +3398,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Typecheck
+        if: hashFiles('src/**/*.ts', 'src/**/*.tsx', 'vitest.config.ts') != ''
         run: bun run typecheck
 
       - name: Lint
