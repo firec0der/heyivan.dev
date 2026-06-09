@@ -1,0 +1,133 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Seven semantic tokens. Use these in components — never the raw palette. Each token resolves to a Tailwind utility (`bg-canvas`, `text-muted`, …) and a CSS variable (`var(--color-canvas)`, `var(--color-muted)`, …). Light and dark themes swap automatically via `data-theme="dark"` on `<html>` — toggle the theme from the Storybook toolbar to preview.
+
+## Surfaces
+
+<div className="border-border overflow-hidden rounded-md border">
+  <table className="w-full border-collapse text-left text-[14px]">
+    <thead className="bg-surface">
+      <tr>
+        <th className="px-4 py-2 font-medium">Token</th>
+        <th className="px-4 py-2 font-medium">Swatch</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Tailwind</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">CSS var</th>
+        <th className="px-4 py-2 font-medium">Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">canvas</td>
+        <td className="px-4 py-3">
+          <div className="bg-canvas border-border h-6 w-16 rounded border" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">bg-canvas</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-canvas</td>
+        <td className="px-4 py-3">
+          Page background; the dominant surface used by `html`/`body` and full-bleed areas.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">surface</td>
+        <td className="px-4 py-3">
+          <div className="bg-surface border-border h-6 w-16 rounded border" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">bg-surface</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-surface</td>
+        <td className="px-4 py-3">
+          Elevated / secondary surface for cards, panels, and anything that sits visually above the
+          canvas.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Text
+
+<div className="border-border mt-4 overflow-hidden rounded-md border">
+  <table className="w-full border-collapse text-left text-[14px]">
+    <thead className="bg-surface">
+      <tr>
+        <th className="px-4 py-2 font-medium">Token</th>
+        <th className="px-4 py-2 font-medium">Sample</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Tailwind</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">CSS var</th>
+        <th className="px-4 py-2 font-medium">Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">fg</td>
+        <td className="text-fg px-4 py-3 text-[18px] font-medium">Aa</td>
+        <td className="px-4 py-3 font-mono text-[12px]">text-fg</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-fg</td>
+        <td className="px-4 py-3">
+          Primary text — body copy, headings, anything with full emphasis.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">muted</td>
+        <td className="text-muted px-4 py-3 text-[18px] font-medium">Aa</td>
+        <td className="px-4 py-3 font-mono text-[12px]">text-muted</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-muted</td>
+        <td className="px-4 py-3">
+          Secondary text — subheads, labels, descriptions; reduced emphasis.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">faint</td>
+        <td className="text-faint px-4 py-3 text-[18px] font-medium">Aa</td>
+        <td className="px-4 py-3 font-mono text-[12px]">text-faint</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-faint</td>
+        <td className="px-4 py-3">
+          Tertiary text — metadata, timestamps, captions; lowest emphasis.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Border & Accent
+
+<div className="border-border mt-4 overflow-hidden rounded-md border">
+  <table className="w-full border-collapse text-left text-[14px]">
+    <thead className="bg-surface">
+      <tr>
+        <th className="px-4 py-2 font-medium">Token</th>
+        <th className="px-4 py-2 font-medium">Swatch</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Tailwind</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">CSS var</th>
+        <th className="px-4 py-2 font-medium">Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">border</td>
+        <td className="px-4 py-3">
+          <div className="bg-canvas border-border h-6 w-16 rounded border-2" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">border-border</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-border</td>
+        <td className="px-4 py-3">
+          Dividers, input borders, card outlines; separates without dominating.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">accent</td>
+        <td className="px-4 py-3">
+          <div className="bg-accent h-6 w-16 rounded" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">bg-accent / text-accent</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--color-accent</td>
+        <td className="px-4 py-3">
+          Brand color — links, focus rings, selections, primary interactive states.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
