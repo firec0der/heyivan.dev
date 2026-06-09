@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from 'react';
 
-import { cn } from '@/lib/cn';
+import { type ClassName, cn } from '@/lib/cn';
 
-export const Meta = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
+export const Meta = ({ children, className }: PropsWithChildren & ClassName) => (
   <span className={cn('font-mono text-[13px] text-[color:var(--color-text-faint)]', className)}>
     {children}
   </span>

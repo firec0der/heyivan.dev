@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import { cn } from '@/lib/cn';
+import { type ClassName, cn } from '@/lib/cn';
 
 type Tone = 'default' | 'muted';
 
@@ -13,6 +13,6 @@ export const Body = ({
   children,
   className,
   tone = 'default'
-}: PropsWithChildren<{ className?: string; tone?: Tone }>) => (
+}: PropsWithChildren<{ tone?: Tone }> & ClassName) => (
   <p className={cn('text-[16px] leading-[160%]', TONE_CLASS[tone], className)}>{children}</p>
 );
