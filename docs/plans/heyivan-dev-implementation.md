@@ -494,18 +494,50 @@ git commit -m "chore: lefthook precommit (eslint + prettier) and prepush typeche
 
 **Files:**
 
+- Create: `.nvmrc` (pin Node 24)
 - Create: `vitest.config.ts`
+- Modify: `package.json` — bump `engines.node` to `>=24.0.0`
 
-- [ ] **Step 1: Create vitest.config.ts**
+**Note:** Vitest 4.x's `rolldown` dep uses `node:util.styleText`, available in Node 22+. We pin Node 24 (current LTS) via `.nvmrc`.
+
+- [ ] **Step 1: Create `.nvmrc`**
+
+```
+24
+```
+
+- [ ] **Step 2: Switch to Node 24**
+
+```bash
+nvm install 24 && nvm use
+node -v   # → v24.x
+```
+
+- [ ] **Step 3: Bump engines.node**
+
+In `package.json` change:
+
+```json
+"engines": { "node": ">=20.0.0" }
+```
+
+to:
+
+```json
+"engines": { "node": ">=24.0.0" }
+```
+
+- [ ] **Step 4: Create vitest.config.ts**
 
 ```ts
-import { defineConfig } from 'vitest/config';
 import path from 'node:path';
+
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(import.meta.dirname, './src')
     }
   },
   test: {
@@ -516,16 +548,18 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 2: Verify vitest discovers no tests yet**
+(`import.meta.dirname` is ESM-safe; `__dirname` doesn't exist with `"type": "module"`.)
+
+- [ ] **Step 5: Verify vitest discovers no tests yet**
 
 Run: `bun run test`
 Expected: "No test files found" (exit 0 or 1 — fine either way for now).
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add vitest.config.ts
-git commit -m "chore: add vitest config"
+git add .nvmrc vitest.config.ts package.json
+git commit -m "chore: add vitest config and pin Node 24"
 ```
 
 ---
@@ -3355,7 +3389,7 @@ jobs:
           bun-version: latest
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
       - run: bun install --frozen-lockfile
       - run: bun run typecheck
       - run: bun run lint
@@ -3395,7 +3429,7 @@ git commit -m "ci: typecheck, lint, test, build on push/PR"
    - Build output directory: `out`
    - Root directory: `/`
    - Environment variables:
-     - `NODE_VERSION` = `20`
+     - `NODE_VERSION` = `24`
      - `BUN_VERSION` = `1`
 5. Save and Deploy. First deploy produces a `*.pages.dev` URL.
 
