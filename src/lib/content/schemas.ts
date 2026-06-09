@@ -1,5 +1,29 @@
 import { z } from 'zod';
 
+const YEAR_MIN = 1900;
+const YEAR_MAX = 2200;
+
+// Coerce numeric strings to numbers; leave anything else for the schema to reject.
+const stringToNumber = (val: unknown): unknown => {
+  if (typeof val === 'string') {
+    const n = Number(val);
+    if (!Number.isNaN(n)) return n;
+  }
+  return val;
+};
+
+// Accepts a number or a numeric string; rejects out-of-range, fractional, or non-numeric input.
+export const year = z.preprocess(stringToNumber, z.number().int().min(YEAR_MIN).max(YEAR_MAX));
+
+// Accepts a year or the literal string 'present' (case-insensitive); normalizes to lowercase.
+export const yearOrPresent = z.preprocess(
+  (val) => {
+    if (typeof val === 'string' && val.toLowerCase() === 'present') return 'present';
+    return stringToNumber(val);
+  },
+  z.union([z.number().int().min(YEAR_MIN).max(YEAR_MAX), z.literal('present')])
+);
+
 export const articleFrontmatter = z.object({
   title: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -35,8 +59,8 @@ export const workSchema = z.object({
     z.object({
       company: z.string(),
       role: z.string(),
-      start: z.union([z.number(), z.string()]),
-      end: z.union([z.number(), z.string()]),
+      start: year,
+      end: yearOrPresent,
       blurb: z.string(),
       description: z.string(),
       skills: z.array(z.string())
@@ -47,8 +71,8 @@ export const workSchema = z.object({
     z.object({
       degree: z.string(),
       institution: z.string(),
-      start: z.number(),
-      end: z.number()
+      start: year,
+      end: year
     })
   ),
   cv_pdf: z.string()
