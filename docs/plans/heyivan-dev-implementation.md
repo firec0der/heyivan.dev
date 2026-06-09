@@ -145,7 +145,7 @@ Native `<details>` can't animate height smoothly because the spec hides closed c
 
 **Tests:** TDD for the markdown pipeline, loaders, and date helpers (anything with logic). UI components are not unit-tested; they're verified by reading the rendered page in dev.
 
-**Don't:** mock the file system in content-loader tests — read real fixtures from `content/`. The whole point of those tests is to catch frontmatter drift.
+**Loader tests:** behavior tests use temp directories with inline fixtures (see `src/lib/content/test-utils.ts` — `setupFixtureDir` / `cleanupFixtureDir`). Each loader exposes a `makeXLoaders(dir)` factory bound to that temp dir; the production no-arg exports stay untouched. One smoke describe per loader runs against real `content/` so frontmatter drift in production fixtures still trips CI. Don't `vi.mock` the file system — write real markdown to a real temp dir.
 
 ## 10. Phase outline → issue map
 

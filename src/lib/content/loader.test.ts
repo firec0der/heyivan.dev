@@ -1,46 +1,59 @@
-import path from 'node:path';
-
-import { describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 import { listMarkdownFiles, loadMarkdownFile, sortByDateDesc } from './loader';
+import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 
-const WRITING_DIR = path.join(process.cwd(), 'content', 'writing');
-
-const articleSchema = z.object({
+const baseSchema = z.object({
   title: z.string(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
 });
 
 describe('loader', () => {
+  let dir: string;
+
+  beforeAll(async () => {
+    dir = await setupFixtureDir({
+      'sample.md': `---
+title: Sample
+date: 2026-02-14
+---
+
+Sample body. Has a paragraph.
+`,
+      'README.txt': 'Should be ignored by listMarkdownFiles.\n'
+    });
+  });
+
+  afterAll(() => cleanupFixtureDir(dir));
+
   describe('loadMarkdownFile', () => {
     it('returns the slug derived from the filename', async () => {
-      const file = await loadMarkdownFile(WRITING_DIR, 'hello-world.md', articleSchema);
-      expect(file.slug).toBe('hello-world');
+      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
+      expect(file.slug).toBe('sample');
     });
 
     it('coerces YAML Date objects to ISO strings before schema validation', async () => {
-      const file = await loadMarkdownFile(WRITING_DIR, 'hello-world.md', articleSchema);
-      expect(file.frontmatter.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
+      expect(file.frontmatter.date).toBe('2026-02-14');
     });
 
     it('renders the body to HTML and exposes the raw body', async () => {
-      const file = await loadMarkdownFile(WRITING_DIR, 'hello-world.md', articleSchema);
+      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
       expect(file.bodyHtml).toContain('<p>');
-      expect(file.body.length).toBeGreaterThan(0);
+      expect(file.body.trim().length).toBeGreaterThan(0);
     });
 
     it('throws when the schema rejects the frontmatter', async () => {
-      const strict = articleSchema.extend({ never_present: z.string() });
-      await expect(loadMarkdownFile(WRITING_DIR, 'hello-world.md', strict)).rejects.toThrow();
+      const strict = baseSchema.extend({ never_present: z.string() });
+      await expect(loadMarkdownFile(dir, 'sample.md', strict)).rejects.toThrow();
     });
   });
 
   describe('listMarkdownFiles', () => {
     it('returns only .md files', async () => {
-      const files = await listMarkdownFiles(WRITING_DIR);
-      expect(files.length).toBeGreaterThan(0);
-      for (const f of files) expect(f.endsWith('.md')).toBe(true);
+      const files = await listMarkdownFiles(dir);
+      expect(files).toEqual(['sample.md']);
     });
   });
 

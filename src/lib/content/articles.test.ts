@@ -1,6 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { getAllArticles, getArticleBySlug, getArticleSlugs, isPublishable } from './articles';
+import {
+  getAllArticles,
+  getArticleSlugs,
+  isPublishable,
+  makeArticleLoaders
+} from './articles';
+import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 import type { Article } from './types';
 
 function fakeArticle(overrides: Partial<Article> = {}): Article {
@@ -17,48 +23,94 @@ function fakeArticle(overrides: Partial<Article> = {}): Article {
   };
 }
 
-describe('articles', () => {
+describe('articles (hermetic)', () => {
+  let dir: string;
+  let loaders: ReturnType<typeof makeArticleLoaders>;
+
+  beforeAll(async () => {
+    dir = await setupFixtureDir({
+      'hello.md': `---
+title: Hello, world.
+date: 2026-01-04
+description: First post.
+draft: false
+---
+
+Welcome to the site. This is the first post.
+`,
+      'older.md': `---
+title: Older post
+date: 2025-12-01
+description: An older entry.
+draft: false
+---
+
+Body of the older post.
+`,
+      'draft.md': `---
+title: Draft entry
+date: 2026-01-15
+description: Should be filtered.
+draft: true
+---
+
+Should never appear.
+`,
+      'future.md': `---
+title: Future entry
+date: 2099-01-01
+description: Long way off.
+draft: false
+---
+
+Should never appear before 2099.
+`
+    });
+    loaders = makeArticleLoaders(dir);
+  });
+
+  afterAll(() => cleanupFixtureDir(dir));
+
   it('lists articles sorted by date desc', async () => {
-    const articles = await getAllArticles();
-    expect(articles.length).toBeGreaterThan(0);
-    for (let i = 1; i < articles.length; i++) {
-      expect(articles[i - 1]!.date >= articles[i]!.date).toBe(true);
-    }
+    const articles = await loaders.getAllArticles();
+    expect(articles.length).toBe(2);
+    expect(articles[0]!.slug).toBe('hello');
+    expect(articles[1]!.slug).toBe('older');
   });
 
   it('loads an article by slug', async () => {
-    const a = await getArticleBySlug('hello-world');
-    expect(a?.slug).toBe('hello-world');
+    const a = await loaders.getArticleBySlug('hello');
+    expect(a?.slug).toBe('hello');
     expect(a?.title).toBe('Hello, world.');
-    expect(a?.description?.length).toBeGreaterThan(0);
+    expect(a?.description).toBe('First post.');
     expect(a?.draft).toBe(false);
     expect(a?.readingTimeMinutes).toBeGreaterThanOrEqual(1);
     expect(a?.bodyHtml).toContain('<p>');
   });
 
   it('returns null for unknown slug', async () => {
-    expect(await getArticleBySlug('does-not-exist')).toBeNull();
+    expect(await loaders.getArticleBySlug('does-not-exist')).toBeNull();
   });
 
   it('lists slugs matching getAllArticles', async () => {
-    const articles = await getAllArticles();
-    const slugs = await getArticleSlugs();
+    const articles = await loaders.getAllArticles();
+    const slugs = await loaders.getArticleSlugs();
     expect(slugs).toEqual(articles.map((a) => a.slug));
   });
 
   it('excludes draft posts', async () => {
-    const slugs = await getArticleSlugs();
-    expect(slugs).not.toContain('draft-example');
+    const slugs = await loaders.getArticleSlugs();
+    expect(slugs).not.toContain('draft');
   });
 
   it('excludes future-dated posts', async () => {
-    const slugs = await getArticleSlugs();
-    expect(slugs).not.toContain('future-post');
+    const slugs = await loaders.getArticleSlugs();
+    expect(slugs).not.toContain('future');
   });
 
   it('still loads draft and future posts when requested by exact slug', async () => {
-    expect((await getArticleBySlug('draft-example'))?.draft).toBe(true);
-    expect((await getArticleBySlug('future-post'))?.date).toBe('2099-01-01');
+    expect((await loaders.getArticleBySlug('draft'))?.draft).toBe(true);
+    expect((await loaders.getArticleBySlug('future'))?.date).toBe('2099-01-01');
   });
 });
 
@@ -77,7 +129,19 @@ describe('isPublishable', () => {
     expect(isPublishable(fakeArticle({ date: '2024-03-22' }), now)).toBe(true);
   });
 
-  it("accepts articles dated today", () => {
+  it('accepts articles dated today', () => {
     expect(isPublishable(fakeArticle({ date: '2026-06-15' }), now)).toBe(true);
+  });
+});
+
+describe('articles (smoke — production content)', () => {
+  it('production content loads and parses', async () => {
+    const articles = await getAllArticles();
+    expect(Array.isArray(articles)).toBe(true);
+  });
+
+  it('production content has no slug collisions', async () => {
+    const slugs = await getArticleSlugs();
+    expect(new Set(slugs).size).toBe(slugs.length);
   });
 });
