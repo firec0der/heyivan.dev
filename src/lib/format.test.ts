@@ -64,4 +64,31 @@ describe('groupByYear', () => {
     const grouped = groupByYear([]);
     expect(grouped.size).toBe(0);
   });
+
+  it('accepts Date objects via UTC year', () => {
+    const items = [
+      { date: new Date(Date.UTC(2026, 2, 22)), id: 'a' },
+      { date: new Date(Date.UTC(2025, 11, 1)), id: 'b' }
+    ];
+    const grouped = groupByYear(items);
+    expect([...grouped.keys()]).toEqual(['2026', '2025']);
+  });
+
+  it('groups across mixed string + Date inputs', () => {
+    const items = [
+      { date: '2026-03-22', id: 'a' },
+      { date: new Date(Date.UTC(2026, 0, 4)), id: 'b' }
+    ];
+    const grouped = groupByYear(items);
+    expect(grouped.get('2026')!.map((i) => i.id)).toEqual(['a', 'b']);
+  });
+
+  it('throws on malformed date strings', () => {
+    expect(() => groupByYear([{ date: 'tomorrow' }])).toThrow(TypeError);
+    expect(() => groupByYear([{ date: '26-3-22' }])).toThrow(TypeError);
+  });
+
+  it('throws on Invalid Date objects', () => {
+    expect(() => groupByYear([{ date: new Date('not-a-date') }])).toThrow(TypeError);
+  });
 });

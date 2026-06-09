@@ -22,10 +22,25 @@ export function formatYearRange(start: number, end: YearOrPresent): string {
   return `${start} — ${end === 'present' ? 'Present' : end}`;
 }
 
-export function groupByYear<T extends { date: string }>(items: T[]): Map<string, T[]> {
+const ISO_DATE_PREFIX = /^\d{4}-\d{2}-\d{2}/;
+
+function extractYear(date: string | Date): string {
+  if (date instanceof Date) {
+    if (Number.isNaN(date.getTime())) {
+      throw new TypeError(`groupByYear: invalid Date object`);
+    }
+    return String(date.getUTCFullYear());
+  }
+  if (typeof date !== 'string' || !ISO_DATE_PREFIX.test(date)) {
+    throw new TypeError(`groupByYear: invalid date "${String(date)}", expected YYYY-MM-DD`);
+  }
+  return date.slice(0, 4);
+}
+
+export function groupByYear<T extends { date: string | Date }>(items: T[]): Map<string, T[]> {
   const map = new Map<string, T[]>();
   for (const item of items) {
-    const year = item.date.slice(0, 4);
+    const year = extractYear(item.date);
     const list = map.get(year) ?? [];
     list.push(item);
     map.set(year, list);
