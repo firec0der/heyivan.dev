@@ -45,6 +45,21 @@ describe('articles', () => {
     const slugs = await getArticleSlugs();
     expect(slugs).toEqual(articles.map((a) => a.slug));
   });
+
+  it('excludes draft posts', async () => {
+    const slugs = await getArticleSlugs();
+    expect(slugs).not.toContain('draft-example');
+  });
+
+  it('excludes future-dated posts', async () => {
+    const slugs = await getArticleSlugs();
+    expect(slugs).not.toContain('future-post');
+  });
+
+  it('still loads draft and future posts when requested by exact slug', async () => {
+    expect((await getArticleBySlug('draft-example'))?.draft).toBe(true);
+    expect((await getArticleBySlug('future-post'))?.date).toBe('2099-01-01');
+  });
 });
 
 describe('isPublishable', () => {
