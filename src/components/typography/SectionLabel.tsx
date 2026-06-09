@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/cn';
 
-export function SectionLabel({ children, className }: { children: ReactNode; className?: string }) {
+export function SectionLabel({ children, className }: PropsWithChildren<{ className?: string }>) {
   return (
     <p
       className={cn(

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/cn';
 
@@ -13,11 +13,7 @@ export function Body({
   children,
   className,
   tone = 'default'
-}: {
-  children: ReactNode;
-  className?: string;
-  tone?: Tone;
-}) {
+}: PropsWithChildren<{ className?: string; tone?: Tone }>) {
   return (
     <p className={cn('text-[16px] leading-[160%]', TONE_CLASS[tone], className)}>{children}</p>
   );

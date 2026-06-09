@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/cn';
 
-export function Label({ children, className }: { children: ReactNode; className?: string }) {
+export function Label({ children, className }: PropsWithChildren<{ className?: string }>) {
   return (
     <span
       className={cn(
