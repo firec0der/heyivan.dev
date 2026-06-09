@@ -1,16 +1,18 @@
+import { Label } from './typography';
+
 type Status = 'live' | 'archived' | 'wip';
 
-const LABEL: Record<Status, string> = {
+const LABEL_TEXT: Record<Status, string> = {
   live: 'Live',
   archived: 'Archived',
   wip: 'WIP'
 };
 
 export const StatusPill = ({ status }: { status: Status }) => (
-  <span
-    aria-label={`Status: ${LABEL[status]}`}
-    className="inline-flex items-center rounded-full border border-[color:var(--color-border)] px-2 py-0.5 text-[10px] font-medium tracking-[1px] text-[color:var(--color-text-muted)] uppercase"
+  <Label
+    aria-label={`Status: ${LABEL_TEXT[status]}`}
+    className="inline-flex items-center rounded-full border border-[color:var(--color-border)] px-2 py-0.5"
   >
-    {LABEL[status]}
-  </span>
+    {LABEL_TEXT[status]}
+  </Label>
 );
