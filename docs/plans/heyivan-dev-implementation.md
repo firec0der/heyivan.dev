@@ -543,12 +543,13 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
-    globals: true
+    globals: true,
+    passWithNoTests: true
   }
 });
 ```
 
-(`import.meta.dirname` is ESM-safe; `__dirname` doesn't exist with `"type": "module"`.)
+(`import.meta.dirname` is ESM-safe; `__dirname` doesn't exist with `"type": "module"`. `passWithNoTests: true` lets CI green-light the empty-tests state before Task 10 lands.)
 
 - [ ] **Step 5: Verify vitest discovers no tests yet**
 
