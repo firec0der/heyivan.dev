@@ -1,0 +1,27 @@
+---
+title: Example App
+tagline: A native mobile app for tracking long-running side projects.
+date: 2024-03-15
+status: live
+hero: /images/projects/example-app/hero.png
+stack: [React Native, TypeScript, Postgres, Supabase]
+links:
+  live: https://example-app.com
+  appstore: https://apps.apple.com/app/example-app/id000
+  source: https://github.com/firec0der/example-app
+---
+
+A small native app for keeping track of side projects that never seem to
+finish. Built over a few weekends as an exercise in shipping something
+small and complete.
+
+The interesting part of building this was the sync engine — I needed
+offline-first behaviour with real-time updates when online. I ended up
+using a CRDT-based approach.
+
+## What I learned
+
+Shipping a real native app, even a small one, exposes you to a lot of
+operational concerns you don't deal with in web work: app review,
+provisioning, crash reporting, ratings prompts. None of it was hard,
+but all of it was new.
