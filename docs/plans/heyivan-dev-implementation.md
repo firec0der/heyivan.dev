@@ -3365,6 +3365,8 @@ If anything failed, fix it before continuing.
 
 ### Task 45: GitHub Actions CI
 
+**Note:** Brought forward from Phase 11 so PRs land with automated checks from the start. The workflow uses `hashFiles()` guards so test/build steps run only once the relevant files exist.
+
 **Files:**
 
 - Create: `.github/workflows/ci.yml`
@@ -3376,32 +3378,48 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+
       - run: bun install --frozen-lockfile
-      - run: bun run typecheck
-      - run: bun run lint
-      - run: bun run test
-      - run: bun run build
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Format check
+        run: bun run format:check
+
+      - name: Test
+        if: hashFiles('vitest.config.ts') != ''
+        run: bun run test
+
+      - name: Build
+        if: hashFiles('src/app/page.tsx', 'src/app/page.ts') != ''
+        run: bun run build
 ```
 
 - [ ] **Step 2: Commit**
 
 ```bash
 git add .github/workflows/ci.yml
-git commit -m "ci: typecheck, lint, test, build on push/PR"
+git commit -m "ci: typecheck, lint, format, test, build on push/PR"
 ```
 
 ---
