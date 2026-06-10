@@ -48,7 +48,7 @@ Lefthook runs `typecheck` on pre-push. Don't bypass with `--no-verify`.
 
 - One PR per logical change. Issues track work; PRs close issues.
 - Branch naming: `task/<short-slug>`.
-- The author merges every PR via the GitHub UI. Agents never run `gh pr merge`.
+- The author reviews and merges every PR via the GitHub UI. Agents never run `gh pr review` / `gh pr merge` / `gh pr approve`.
 - Never push directly to `master`.
 - Never force-push or rewrite shared history without explicit go-ahead. Local-only branches before the first push are fair game.
 - Never skip hooks (`--no-verify`) or bypass signing.
