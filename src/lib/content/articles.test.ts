@@ -1,11 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import {
-  getAllArticles,
-  getArticleSlugs,
-  isPublishable,
-  makeArticleLoaders
-} from './articles';
+import { getAllArticles, getArticleSlugs, isPublishable, makeArticleLoaders } from './articles';
 import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 import type { Article } from './types';
 
@@ -17,7 +12,6 @@ function fakeArticle(overrides: Partial<Article> = {}): Article {
     description: null,
     draft: false,
     body: '',
-    bodyHtml: '',
     readingTimeMinutes: 1,
     ...overrides
   };
@@ -29,7 +23,7 @@ describe('articles (hermetic)', () => {
 
   beforeAll(async () => {
     dir = await setupFixtureDir({
-      'hello.md': `---
+      'hello.mdx': `---
 title: Hello, world.
 date: 2026-01-04
 description: First post.
@@ -38,7 +32,7 @@ draft: false
 
 Welcome to the site. This is the first post.
 `,
-      'older.md': `---
+      'older.mdx': `---
 title: Older post
 date: 2025-12-01
 description: An older entry.
@@ -47,7 +41,7 @@ draft: false
 
 Body of the older post.
 `,
-      'draft.md': `---
+      'draft.mdx': `---
 title: Draft entry
 date: 2026-01-15
 description: Should be filtered.
@@ -56,7 +50,7 @@ draft: true
 
 Should never appear.
 `,
-      'future.md': `---
+      'future.mdx': `---
 title: Future entry
 date: 2099-01-01
 description: Long way off.
@@ -85,7 +79,7 @@ Should never appear before 2099.
     expect(a?.description).toBe('First post.');
     expect(a?.draft).toBe(false);
     expect(a?.readingTimeMinutes).toBeGreaterThanOrEqual(1);
-    expect(a?.bodyHtml).toContain('<p>');
+    expect(a?.body).toContain('Welcome to the site.');
   });
 
   it('returns null for unknown slug', async () => {

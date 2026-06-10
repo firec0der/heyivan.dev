@@ -89,7 +89,3 @@ export const siteSchema = z.object({
     email: z.string().email()
   })
 });
-
-export const aboutFrontmatter = z.object({
-  title: z.string()
-});
