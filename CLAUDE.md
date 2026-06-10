@@ -164,6 +164,42 @@ Don't include:
 - `## Why this PR` — context speaks for itself.
 - `## Verification` — say `## Verified locally`.
 
+### Authoring issue / PR bodies via `gh`
+
+Single-quoted heredocs skip backslash processing, so backslash-escaped backticks end up literal in the rendered markdown:
+
+```bash
+# ❌ Renders as literal \`code\` on GitHub
+gh pr create --body "$(cat <<'EOF'
+- **\`src/foo.ts\`** — broken inline code.
+EOF
+)"
+```
+
+Two safe forms:
+
+```bash
+# ✅ Raw backticks inside single-quoted heredoc
+gh pr create --body "$(cat <<'EOF'
+- **`src/foo.ts`** — proper inline code.
+EOF
+)"
+
+# ✅ Preferred — write the body to a file, point gh at it
+gh pr create --body-file /tmp/pr-body.md
+gh pr edit  N --body-file /tmp/pr-body.md
+gh issue create --body-file /tmp/issue-body.md
+gh issue edit  N --body-file /tmp/issue-body.md
+```
+
+`--body-file` is the default — heredocs are easy to get wrong (backslash-backticks, multi-line strings, accidental shell expansion). Verify after pushing:
+
+```bash
+gh pr view N --json body --jq .body | grep -c '\\`'   # must return 0
+```
+
+Anything other than `0` means escapes leaked through. Fix with `sed -i '' 's/\\\`/\`/g' file.md`and re-push via`--body-file`.
+
 ## Voice in written artifacts
 
 PR descriptions, commit bodies, issue bodies, plan files, design docs — anything that lands in the repo or GitHub — avoid first-person pronouns (`I`, `we`, `my`, `our`, `let's`). Use imperative, passive, or subject-as-thing instead.
