@@ -7,7 +7,10 @@ type LabelProps = PropsWithChildren & ClassName & HTMLPassThrough<HTMLSpanElemen
 export const Label = ({ children, className, ...rest }: LabelProps) => (
   <span
     {...rest}
-    className={cn('text-muted text-[10px] font-medium tracking-[1px] uppercase', className)}
+    className={cn(
+      'text-muted text-label-pill leading-label-pill tracking-label-pill font-medium uppercase',
+      className
+    )}
   >
     {children}
   </span>
