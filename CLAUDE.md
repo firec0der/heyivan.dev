@@ -200,6 +200,26 @@ gh pr view N --json body --jq .body | grep -c '\\`'   # must return 0
 
 Anything other than `0` means escapes leaked through. Fix with `sed -i '' 's/\\\`/\`/g' file.md`and re-push via`--body-file`.
 
+#### Newlines: write one logical line per paragraph
+
+GitHub Issues, PR comments, and PR descriptions render single newlines inside a paragraph as `<br>` (the GFM "Newlines" extension), unlike standard Markdown which treats them as spaces. Hard-wrapping source at 70 / 80 columns produces visible mid-sentence breaks that ignore the browser's container width.
+
+```markdown
+❌ Hard-wrapped source renders with visible breaks:
+
+Move the Figma file (`l4Zcba47fC7l6JSa7JSUMg`) from role-named text
+styles to a no-text-styles model where each component definition sets
+type properties directly on its text nodes.
+
+✅ One line per paragraph flows to container width:
+
+Move the Figma file (`l4Zcba47fC7l6JSa7JSUMg`) from role-named text styles to a no-text-styles model where each component definition sets type properties directly on its text nodes.
+```
+
+Same rule applies inside bullet continuation lines — write the whole bullet on one source line.
+
+Code blocks (fenced or indented) are exempt; their newlines are preserved verbatim.
+
 ## Voice in written artifacts
 
 PR descriptions, commit bodies, issue bodies, plan files, design docs — anything that lands in the repo or GitHub — avoid first-person pronouns (`I`, `we`, `my`, `our`, `let's`). Use imperative, passive, or subject-as-thing instead.
