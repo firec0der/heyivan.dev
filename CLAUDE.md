@@ -53,6 +53,17 @@ Lefthook runs `typecheck` on pre-push. Don't bypass with `--no-verify`.
 - Never force-push or rewrite shared history without explicit go-ahead. Local-only branches before the first push are fair game.
 - Never skip hooks (`--no-verify`) or bypass signing.
 
+### Commit approval workflow
+
+Every commit goes through review before it lands:
+
+1. Stage the files (`git add …`).
+2. Propose: list the staged files and the exact commit message.
+3. **Wait for explicit approval from the author** ("ok", "yes", "approved", "go", etc.).
+4. Only then run `git commit`.
+
+If the author asks for changes, revise the message or unstage / restage files and propose again. Never amend or commit on your own initiative — even for tiny fixes, formatting passes, or "obvious" follow-ups.
+
 ## Commit messages
 
 Conventional-commits prefix on every commit. Reference: <https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716>
