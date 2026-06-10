@@ -240,9 +240,11 @@ All variables have explicit scopes (no `ALL_SCOPES`) and web code syntax (`var(-
 | Style                 | Family | Weight   | Size | Line-height |
 | --------------------- | ------ | -------- | ---- | ----------- |
 | display/project-title | Sans   | SemiBold | 38   | 120%        |
-| display/article-title | Sans   | SemiBold | 34   | 125%        |
+| display/article-title | Serif  | SemiBold | 34   | 125%        |
 | heading/page          | Sans   | SemiBold | 28   | 130%        |
 | heading/article-h2    | Serif  | SemiBold | 22   | 140%        |
+| heading/article-h3    | Serif  | SemiBold | 18   | 140%        |
+| heading/article-h4    | Serif  | SemiBold | 16   | 140%        |
 | body/large            | Sans   | Regular  | 18   | 150%        |
 | body/article          | Serif  | Regular  | 17   | 175%        |
 | body/default          | Sans   | Regular  | 16   | 160%        |
@@ -256,7 +258,7 @@ All variables have explicit scopes (no `ALL_SCOPES`) and web code syntax (`var(-
 | nav/link              | Sans   | Regular  | 14   | 150%        |
 | nav/wordmark          | Sans   | Medium   | 16   | 150%        |
 
-**Family role:** Sans for UI and most body; Serif **only** on `/writing/<slug>` article body (and `body/article` + `heading/article-h2`); Mono for dates, code blocks, and structured CV metadata.
+**Family role:** Sans for UI chrome and short-form copy; Serif on MDX prose body (`/writing` AND `/projects`), the article title, and the article heading hierarchy; Mono for dates, code blocks, and structured CV metadata.
 
 ### Color (Light mode anchors)
 
@@ -399,7 +401,7 @@ Year headers double as section labels (hairline + uppercase mono year).
 ```
 Nav
 ← All writing         (top)
-Title (display/article-title, serif optional — currently sans)
+Title (display/article-title — serif)
 Date · N min read     (mono metadata)
 Body paragraphs (body/article — serif)
 Subheading (heading/article-h2 — serif)
