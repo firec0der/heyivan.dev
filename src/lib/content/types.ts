@@ -5,7 +5,6 @@ export type Article = {
   description: string | null;
   draft: boolean;
   body: string;
-  bodyHtml: string;
   readingTimeMinutes: number;
 };
 
@@ -23,7 +22,7 @@ export type Project = {
     playstore?: string;
     source?: string;
   };
-  bodyHtml: string;
+  body: string;
 };
 
 export type Role = {
@@ -60,9 +59,4 @@ export type SiteData = {
     linkedin: string;
     email: string;
   };
-};
-
-export type AboutPage = {
-  title: string;
-  bodyHtml: string;
 };

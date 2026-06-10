@@ -9,7 +9,7 @@ describe('projects (hermetic)', () => {
 
   beforeAll(async () => {
     dir = await setupFixtureDir({
-      'alpha.md': `---
+      'alpha.mdx': `---
 title: Alpha
 tagline: First project.
 date: 2025-09-01
@@ -23,7 +23,7 @@ links:
 
 Alpha project body.
 `,
-      'beta.md': `---
+      'beta.mdx': `---
 title: Beta
 tagline: Second project.
 date: 2024-02-10
@@ -56,7 +56,7 @@ Beta project body.
     expect(p?.status).toBe('live');
     expect(p?.stack).toEqual(['TypeScript', 'React']);
     expect(p?.links.live).toBe('https://alpha.example.com');
-    expect(p?.bodyHtml).toContain('<p>');
+    expect(p?.body).toContain('Alpha project body.');
   });
 
   it('returns null for unknown slug', async () => {

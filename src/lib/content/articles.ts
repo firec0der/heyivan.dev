@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import readingTime from 'reading-time';
 
-import { listMarkdownFiles, loadMarkdownFile, sortByDateDesc } from './loader';
+import { listContentFiles, loadContentFile, sortByDateDesc } from './loader';
 import { articleFrontmatter } from './schemas';
 import type { Article } from './types';
 
@@ -16,11 +16,7 @@ export function isPublishable(article: Article, now: Date): boolean {
 
 export function makeArticleLoaders(dir: string = ARTICLES_DIR) {
   async function loadArticle(filename: string): Promise<Article> {
-    const { slug, frontmatter, body, bodyHtml } = await loadMarkdownFile(
-      dir,
-      filename,
-      articleFrontmatter
-    );
+    const { slug, frontmatter, body } = await loadContentFile(dir, filename, articleFrontmatter);
     const stats = readingTime(body);
     return {
       slug,
@@ -29,13 +25,12 @@ export function makeArticleLoaders(dir: string = ARTICLES_DIR) {
       description: frontmatter.description,
       draft: frontmatter.draft,
       body,
-      bodyHtml,
       readingTimeMinutes: Math.max(1, Math.ceil(stats.minutes))
     };
   }
 
   async function getAllArticles(): Promise<Article[]> {
-    const files = await listMarkdownFiles(dir);
+    const files = await listContentFiles(dir);
     const all = await Promise.all(files.map(loadArticle));
     const now = new Date();
     return sortByDateDesc(all.filter((a) => isPublishable(a, now)));
@@ -43,7 +38,7 @@ export function makeArticleLoaders(dir: string = ARTICLES_DIR) {
 
   async function getArticleBySlug(slug: string): Promise<Article | null> {
     try {
-      return await loadArticle(`${slug}.md`);
+      return await loadArticle(`${slug}.mdx`);
     } catch {
       return null;
     }

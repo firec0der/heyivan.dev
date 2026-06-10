@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { listMarkdownFiles, loadMarkdownFile, sortByDateDesc } from './loader';
+import { listContentFiles, loadContentFile, sortByDateDesc } from './loader';
 import { projectFrontmatter } from './schemas';
 import type { Project } from './types';
 
@@ -8,11 +8,7 @@ const PROJECTS_DIR = path.join(process.cwd(), 'content', 'projects');
 
 export function makeProjectLoaders(dir: string = PROJECTS_DIR) {
   async function loadProject(filename: string): Promise<Project> {
-    const { slug, frontmatter, bodyHtml } = await loadMarkdownFile(
-      dir,
-      filename,
-      projectFrontmatter
-    );
+    const { slug, frontmatter, body } = await loadContentFile(dir, filename, projectFrontmatter);
     return {
       slug,
       title: frontmatter.title,
@@ -22,19 +18,19 @@ export function makeProjectLoaders(dir: string = PROJECTS_DIR) {
       hero: frontmatter.hero,
       stack: frontmatter.stack,
       links: frontmatter.links,
-      bodyHtml
+      body
     };
   }
 
   async function getAllProjects(): Promise<Project[]> {
-    const files = await listMarkdownFiles(dir);
+    const files = await listContentFiles(dir);
     const all = await Promise.all(files.map(loadProject));
     return sortByDateDesc(all);
   }
 
   async function getProjectBySlug(slug: string): Promise<Project | null> {
     try {
-      return await loadProject(`${slug}.md`);
+      return await loadProject(`${slug}.mdx`);
     } catch {
       return null;
     }

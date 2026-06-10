@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { listMarkdownFiles, loadMarkdownFile, sortByDateDesc } from './loader';
+import { listContentFiles, loadContentFile, sortByDateDesc } from './loader';
 import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 
 const baseSchema = z.object({
@@ -14,46 +14,45 @@ describe('loader', () => {
 
   beforeAll(async () => {
     dir = await setupFixtureDir({
-      'sample.md': `---
+      'sample.mdx': `---
 title: Sample
 date: 2026-02-14
 ---
 
 Sample body. Has a paragraph.
 `,
-      'README.txt': 'Should be ignored by listMarkdownFiles.\n'
+      'README.txt': 'Should be ignored by listContentFiles.\n'
     });
   });
 
   afterAll(() => cleanupFixtureDir(dir));
 
-  describe('loadMarkdownFile', () => {
+  describe('loadContentFile', () => {
     it('returns the slug derived from the filename', async () => {
-      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
+      const file = await loadContentFile(dir, 'sample.mdx', baseSchema);
       expect(file.slug).toBe('sample');
     });
 
     it('coerces YAML Date objects to ISO strings before schema validation', async () => {
-      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
+      const file = await loadContentFile(dir, 'sample.mdx', baseSchema);
       expect(file.frontmatter.date).toBe('2026-02-14');
     });
 
-    it('renders the body to HTML and exposes the raw body', async () => {
-      const file = await loadMarkdownFile(dir, 'sample.md', baseSchema);
-      expect(file.bodyHtml).toContain('<p>');
-      expect(file.body.trim().length).toBeGreaterThan(0);
+    it('exposes the raw body without rendering', async () => {
+      const file = await loadContentFile(dir, 'sample.mdx', baseSchema);
+      expect(file.body.trim()).toBe('Sample body. Has a paragraph.');
     });
 
     it('throws when the schema rejects the frontmatter', async () => {
       const strict = baseSchema.extend({ never_present: z.string() });
-      await expect(loadMarkdownFile(dir, 'sample.md', strict)).rejects.toThrow();
+      await expect(loadContentFile(dir, 'sample.mdx', strict)).rejects.toThrow();
     });
   });
 
-  describe('listMarkdownFiles', () => {
-    it('returns only .md files', async () => {
-      const files = await listMarkdownFiles(dir);
-      expect(files).toEqual(['sample.md']);
+  describe('listContentFiles', () => {
+    it('returns only .mdx files', async () => {
+      const files = await listContentFiles(dir);
+      expect(files).toEqual(['sample.mdx']);
     });
   });
 
