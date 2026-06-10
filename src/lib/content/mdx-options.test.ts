@@ -45,7 +45,6 @@ describe('mdxOptions', () => {
 
     const html = await renderMdx('Greeting: <Hello name="world" />', { Hello });
 
-    expect(html).toContain('data-testid="hello"');
-    expect(html).toContain('Hello, world!');
+    expect(html).toBe('<p>Greeting: <span data-testid="hello">Hello, world!</span></p>');
   });
 });
