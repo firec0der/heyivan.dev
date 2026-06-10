@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
+import { P } from '../P';
 import { A } from './A';
 import { Code } from './Code';
 import { Del } from './Del';
 import { Em } from './Em';
 import { Kbd } from './Kbd';
-import { P } from './P';
 import { Strong } from './Strong';
 
 const meta = {
