@@ -8,3 +8,4 @@ export { Li, Ol, Ul } from './Lists';
 export { Figcaption, Figure, Img } from './Media';
 export { P } from './P';
 export { Pre } from './Pre';
+export { Table, Td, Th, Thead, Tr } from './Table';
