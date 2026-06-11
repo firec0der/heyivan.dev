@@ -1,0 +1,1 @@
+export { EducationRow } from './EducationRow';
