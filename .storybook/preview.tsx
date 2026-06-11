@@ -6,20 +6,25 @@ import React, { useEffect } from 'react';
 
 import { mono, sans, serif } from '../src/app/fonts';
 
-const FONT_CLASSES = `${sans.variable} ${serif.variable} ${mono.variable} font-sans`;
+const FONT_VARIABLE_CLASSES = [sans.variable, serif.variable, mono.variable];
 
 type Theme = 'light' | 'dark';
 
 function ThemeWrapper({ theme, children }: { theme: Theme; children: ReactNode }) {
   useEffect(() => {
+    const html = document.documentElement;
+    html.classList.add(...FONT_VARIABLE_CLASSES);
     if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      html.setAttribute('data-theme', 'dark');
     } else {
-      document.documentElement.removeAttribute('data-theme');
+      html.removeAttribute('data-theme');
     }
+    return () => {
+      html.classList.remove(...FONT_VARIABLE_CLASSES);
+    };
   }, [theme]);
 
-  return <div className={FONT_CLASSES}>{children}</div>;
+  return <>{children}</>;
 }
 
 const withTheme: Decorator = (Story, context) => (
