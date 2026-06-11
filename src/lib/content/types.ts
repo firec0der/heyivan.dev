@@ -14,7 +14,7 @@ export type Project = {
   tagline: string;
   date: string;
   status: 'live' | 'archived' | 'wip';
-  hero: string | null;
+  coverImage: string | null;
   stack: string[];
   links: {
     live?: string;
@@ -59,6 +59,6 @@ export type SiteData = {
   name: string;
   wordmark: string;
   role: string;
-  hero_greeting: string;
+  greeting: string;
   social: SocialLinks;
 };

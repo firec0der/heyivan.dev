@@ -14,7 +14,7 @@ title: Alpha
 tagline: First project.
 date: 2025-09-01
 status: live
-hero: /images/projects/alpha/hero.png
+coverImage: /images/projects/alpha/cover.png
 stack: [TypeScript, React]
 links:
   live: https://alpha.example.com

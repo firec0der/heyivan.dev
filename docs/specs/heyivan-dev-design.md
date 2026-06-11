@@ -39,7 +39,7 @@ A personal website for Ivan Stetsenko — IC software engineer. Blog-first; seco
 /                       Homepage
 /about                  Bio + Now
 /work                   Resume (expandable roles + skills + education)
-/projects               Projects index (preview rows with hero crop)
+/projects               Projects index (preview rows with cover-image crop)
 /projects/<slug>        Project detail (rich body with visuals)
 /writing                Writing index (year-grouped)
 /writing/<slug>         Article
@@ -70,7 +70,7 @@ content/
   pages/
     about.md                   # /about page body (bio + Now)
   data/
-    site.yaml                  # name, social links, hero copy
+    site.yaml                  # name, social links, greeting copy
     work.yaml                  # roles, skills, education
   projects/
     <slug>.md                  # one per project
@@ -80,7 +80,7 @@ public/
   images/
     avatar.jpg
     og-default.png
-    projects/<slug>/*.png      # per-project media (hero + screenshots)
+    projects/<slug>/*.png      # per-project media (cover image + screenshots)
     writing/<slug>/*.png       # per-article media
 ```
 
@@ -113,7 +113,7 @@ title: App Name
 tagline: One-line pitch — what it is and who it's for.
 date: 2024-03-15
 status: live # live | archived | wip
-hero: /images/projects/app-name/hero.png
+coverImage: /images/projects/app-name/cover.png
 stack: [React Native, TypeScript, Postgres]
 links:
   live: https://...
@@ -281,23 +281,23 @@ heading hierarchy; Mono for dates, code blocks, and structured CV metadata.
 
 ### Components (15)
 
-| #   | Component           | Variants                                          | Notes                                                  |
-| --- | ------------------- | ------------------------------------------------- | ------------------------------------------------------ |
-| 1   | Status Pill         | status = Live, Archived, WIP                      | Border-outlined pill + uppercase label                 |
-| 2   | Section Label       | — (`label` TEXT property)                         | Hairline + uppercase muted label                       |
-| 3   | Link Arrow          | direction = Forward, Back (`label` TEXT property) | `Label →` and `← Label` in accent                      |
-| 4   | Avatar              | size = 96, 120                                    | Circle with image fill                                 |
-| 5   | Page Header         | — (`title`, `subtitle` TEXT properties)           | H1 + muted one-liner                                   |
-| 6   | Nav                 | active = About, Work, Projects, Writing, None     | Includes Theme Toggle instance                         |
-| 7   | Footer              | —                                                 | Stacked socials + © with border-top                    |
-| 8   | Writing List Item   | — (`date`, `title` TEXT properties)               | Mono date + sans title                                 |
-| 9   | Education Row       | — (`date`, `degree` TEXT properties)              | Mono date range + degree                               |
-| 10  | Project Card        | status = Live, Archived, WIP                      | Preview row: hero crop + name + pill + tagline + links |
-| 11  | Role Card           | expanded = True, False                            | Chevron, role/company, optional description + skills   |
-| 12  | Theme Toggle        | mode = Light, Dark                                | ☽ swaps to ☼ at 22px                                   |
-| 13  | Mobile Nav          | —                                                 | Wordmark + toggle + hamburger                          |
-| 14  | Mobile Footer       | —                                                 | Same as desktop, narrower width                        |
-| 15  | Mobile Menu Overlay | —                                                 | Full-drawer with × close, big nav links, theme row     |
+| #   | Component           | Variants                                          | Notes                                                         |
+| --- | ------------------- | ------------------------------------------------- | ------------------------------------------------------------- |
+| 1   | Status Pill         | status = Live, Archived, WIP                      | Border-outlined pill + uppercase label                        |
+| 2   | Section Label       | — (`label` TEXT property)                         | Hairline + uppercase muted label                              |
+| 3   | Link Arrow          | direction = Forward, Back (`label` TEXT property) | `Label →` and `← Label` in accent                             |
+| 4   | Avatar              | size = 96, 120                                    | Circle with image fill                                        |
+| 5   | Page Header         | — (`title`, `subtitle` TEXT properties)           | H1 + muted one-liner                                          |
+| 6   | Nav                 | active = About, Work, Projects, Writing, None     | Includes Theme Toggle instance                                |
+| 7   | Footer              | —                                                 | Stacked socials + © with border-top                           |
+| 8   | Writing List Item   | — (`date`, `title` TEXT properties)               | Mono date + sans title                                        |
+| 9   | Education Row       | — (`date`, `degree` TEXT properties)              | Mono date range + degree                                      |
+| 10  | Project Card        | status = Live, Archived, WIP                      | Preview row: cover-image crop + name + pill + tagline + links |
+| 11  | Role Card           | expanded = True, False                            | Chevron, role/company, optional description + skills          |
+| 12  | Theme Toggle        | mode = Light, Dark                                | ☽ swaps to ☼ at 22px                                          |
+| 13  | Mobile Nav          | —                                                 | Wordmark + toggle + hamburger                                 |
+| 14  | Mobile Footer       | —                                                 | Same as desktop, narrower width                               |
+| 15  | Mobile Menu Overlay | —                                                 | Full-drawer with × close, big nav links, theme row            |
 
 Every component binds fills/strokes to `color/*`, padding/gap to `spacing/*`, corners to `radius/*`. Text uses `textStyleId`. No hardcoded values inside components.
 
@@ -309,7 +309,7 @@ All page bodies use a single centered content column. Width: 640px for index/con
 
 ```
 Nav
-Hero
+Intro
   Avatar (96px)
   Hi, I'm Ivan.
   Software engineer.
@@ -360,7 +360,7 @@ Footer
 Nav
 Page header (Projects + one-line subtitle)
 ── Project card (preview row)
-  [Hero 160×120 left] [Name + status pill, tagline, action links]
+  [Cover 160×120 left] [Name + status pill, tagline, action links]
 ── Project card
 ── Project card
 Footer
@@ -374,7 +374,7 @@ Nav
 Title
 Tagline
 Status pill · Released March 2024
-Hero image (680 × 380)
+Cover image (680 × 380)
 Body paragraphs
 Inline screenshot + caption
 More body
@@ -438,7 +438,7 @@ Tailwind defaults — no customization.
 - Footer: stacks vertically (`github · linkedin · email` line 1, `© 2026` line 2).
 - Display type sizes shrink: project-title 38→30, article-title 34→28, heading/page 28→24, article body 17→16.
 - Writing list rows stack vertically (date on top, title below) instead of horizontally.
-- Project Cards stack the hero image above the text instead of side-by-side.
+- Project Cards stack the cover image above the text instead of side-by-side.
 
 ### Tablet (768–1023px) — "md:"
 

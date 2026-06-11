@@ -56,7 +56,7 @@
   /* Generous section break — distinct visual chapters within a page. */
   --spacing-3xl: 48px;
 
-  /* Page-level section divider — hero-to-content, content-to-footer separation. */
+  /* Page-level section divider — separates intro, content, and footer regions. */
   --spacing-4xl: 64px;
 
   /* Page top/bottom anchor — outer padding for full-bleed layouts and landing surfaces. */
