@@ -71,8 +71,8 @@
   /* Fully rounded — pills, avatars, circular icon buttons. */
   --radius-full: 9999px;
 
-  --width-content: 640px;
-  --width-article: 680px;
+  --container-content: 640px;
+  --container-article: 680px;
 
   /* Instant feedback for direct interactions — hover, focus, button press. */
   --motion-duration-fast: 100ms;
