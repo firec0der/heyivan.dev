@@ -26,30 +26,67 @@
   /* Brand color — links, focus rings, selections, primary interactive states. */
   --color-accent: var(--accent);
 
+  /* Hairline nudge for sub-pixel alignment — icon optical centering, 1–2px shifts. */
   --spacing-4xs: 2px;
+
+  /* Tightest meaningful gap — between an icon and its label, or inside dense chips. */
   --spacing-3xs: 4px;
+
+  /* Tight pair rhythm — heading-to-body, figure-to-caption, list-item gaps. */
   --spacing-2xs: 8px;
+
+  /* Compact UI gaps inside small components like pills, badges, and inline chips. */
   --spacing-xs: 12px;
+
+  /* Standard small padding — table cells, dense controls, single-line content. */
   --spacing-sm: 16px;
+
+  /* Medium inline gap — blockquote indent, comfortable padding inside narrow components. */
   --spacing-md: 20px;
+
+  /* Default block rhythm — paragraph bottom margin, list indent, code block padding. */
   --spacing-lg: 24px;
+
+  /* Sub-section gap — vertical breathing room between blocks inside a card or panel. */
   --spacing-xl: 32px;
+
+  /* Section rhythm in long-form content — H2 top margin, footnote rule offset. */
   --spacing-2xl: 40px;
+
+  /* Generous section break — distinct visual chapters within a page. */
   --spacing-3xl: 48px;
+
+  /* Page-level section divider — hero-to-content, content-to-footer separation. */
   --spacing-4xl: 64px;
+
+  /* Page top/bottom anchor — outer padding for full-bleed layouts and landing surfaces. */
   --spacing-5xl: 96px;
 
+  /* Small soft corners — inline code, badges, status chips. */
   --radius-sm: 4px;
+
+  /* Standard rounded corners — cards, panels, images, code blocks. */
   --radius-md: 8px;
+
+  /* Fully rounded — pills, avatars, circular icon buttons. */
   --radius-full: 9999px;
 
   --width-content: 640px;
   --width-article: 680px;
 
+  /* Instant feedback for direct interactions — hover, focus, button press. */
   --motion-duration-fast: 100ms;
+
+  /* Default duration for most UI state changes — color swaps, toggles, expansions. */
   --motion-duration-base: 180ms;
+
+  /* Larger or full-surface transitions — modals, drawers, theme switches. */
   --motion-duration-slow: 300ms;
+
+  /* Default ease-out curve — natural, restrained motion for most transitions. */
   --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Slight overshoot for moments that should feel lively — entrances, attention pulls. */
   --motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
 }
 
