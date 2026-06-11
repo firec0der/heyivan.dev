@@ -16,22 +16,22 @@ const renderMdx = async (source: string): Promise<string> => {
 };
 
 describe('mdxComponents — block elements', () => {
-  it('p → Prose.P with text-prose', async () => {
+  it('p → Prose.P with text-[17px]', async () => {
     const html = await renderMdx('Hello world.');
     expect(html).toMatch(/<p[^>]*class="[^"]*text-\[17px\][^"]*"[^>]*>Hello world\.<\/p>/);
   });
 
-  it('h2 → Prose.H2 with text-prose-h2', async () => {
+  it('h2 → Prose.H2 with text-[22px]', async () => {
     const html = await renderMdx('## A heading');
     expect(html).toMatch(/<h2[^>]*class="[^"]*text-\[22px\][^"]*"/);
   });
 
-  it('h3 → Prose.H3 with text-prose-h3', async () => {
+  it('h3 → Prose.H3 with text-[18px]', async () => {
     const html = await renderMdx('### A subheading');
     expect(html).toMatch(/<h3[^>]*class="[^"]*text-\[18px\][^"]*"/);
   });
 
-  it('h4 → Prose.H4 with text-prose-h4', async () => {
+  it('h4 → Prose.H4 with text-[16px]', async () => {
     const html = await renderMdx('#### A smaller heading');
     expect(html).toMatch(/<h4[^>]*class="[^"]*text-\[16px\][^"]*"/);
   });
