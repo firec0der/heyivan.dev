@@ -49,14 +49,16 @@ export type WorkData = {
   cv_pdf: string;
 };
 
+export type SocialLinks = {
+  github: string;
+  linkedin: string;
+  email: string;
+};
+
 export type SiteData = {
   name: string;
   wordmark: string;
   role: string;
   hero_greeting: string;
-  social: {
-    github: string;
-    linkedin: string;
-    email: string;
-  };
+  social: SocialLinks;
 };
