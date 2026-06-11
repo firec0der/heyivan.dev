@@ -37,10 +37,12 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body>
+      <body className="flex min-h-dvh flex-col">
         <SkipLink />
         <Nav wordmark={site.wordmark} />
-        <main id="main">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
         <Footer socialLinks={site.social} />
       </body>
     </html>
