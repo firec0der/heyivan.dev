@@ -4,7 +4,7 @@ import { P } from '../P';
 import { Hr } from './Hr';
 
 const meta = {
-  title: 'Atoms/Prose/Hr'
+  title: 'Prose/Hr'
 } satisfies Meta;
 
 export default meta;

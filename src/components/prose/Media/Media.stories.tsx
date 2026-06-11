@@ -5,7 +5,7 @@ import { Figure } from './Figure';
 import { Img } from './Img';
 
 const meta = {
-  title: 'Atoms/Prose/Media'
+  title: 'Prose/Media'
 } satisfies Meta;
 
 export default meta;

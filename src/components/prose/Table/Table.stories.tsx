@@ -7,7 +7,7 @@ import { Thead } from './Thead';
 import { Tr } from './Tr';
 
 const meta = {
-  title: 'Atoms/Prose/Table',
+  title: 'Prose/Table',
   component: Table
 } satisfies Meta<typeof Table>;
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Text } from './Text';
 
 const meta = {
-  title: 'Atoms/Text',
+  title: 'Text',
   component: Text,
   argTypes: {
     tone: {

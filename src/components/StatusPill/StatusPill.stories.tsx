@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { StatusPill } from './StatusPill';
 
 const meta = {
-  title: 'Atoms/StatusPill',
+  title: 'StatusPill',
   component: StatusPill,
   argTypes: {
     status: {

@@ -5,7 +5,7 @@ import { Ol } from './Ol';
 import { Ul } from './Ul';
 
 const meta = {
-  title: 'Atoms/Prose/Lists'
+  title: 'Prose/Lists'
 } satisfies Meta;
 
 export default meta;

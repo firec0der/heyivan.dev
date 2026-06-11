@@ -3,7 +3,7 @@ import type { Meta as StoryMeta, StoryObj } from '@storybook/nextjs-vite';
 import { MonoText } from './MonoText';
 
 const meta = {
-  title: 'Atoms/MonoText',
+  title: 'MonoText',
   component: MonoText
 } satisfies StoryMeta<typeof MonoText>;
 

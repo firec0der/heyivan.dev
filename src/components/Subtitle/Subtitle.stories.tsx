@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Subtitle } from './Subtitle';
 
 const meta = {
-  title: 'Atoms/Subtitle',
+  title: 'Subtitle',
   component: Subtitle
 } satisfies Meta<typeof Subtitle>;
 
