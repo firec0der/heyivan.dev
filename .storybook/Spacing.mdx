@@ -1,0 +1,168 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Spacing" />
+
+# Spacing
+
+Twelve tokens form the rhythm scale used across components and long-form prose. Reach for the named tokens (`p-sm`, `gap-2xs`, `mb-lg`) instead of arbitrary pixel values — they keep type rhythm consistent across the site. Each token resolves to a Tailwind utility family (`p-*`, `m-*`, `gap-*`, `px-*`, `py-*`, …) and a CSS variable (`var(--spacing-sm)`, …).
+
+<div className="sb-unstyled border-border overflow-hidden rounded-md border">
+  <table className="w-full border-collapse text-left text-[14px]">
+    <thead className="bg-surface">
+      <tr>
+        <th className="px-4 py-2 font-medium">Token</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Value</th>
+        <th className="px-4 py-2 font-medium">Sample</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Tailwind</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">CSS var</th>
+        <th className="px-4 py-2 font-medium">Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">4xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">2px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '2px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-4xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-4xs</td>
+        <td className="px-4 py-3">
+          Hairline nudge for sub-pixel alignment — icon optical centering, 1–2px shifts.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">3xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">4px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '4px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-3xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-3xs</td>
+        <td className="px-4 py-3">
+          Tightest meaningful gap — between an icon and its label, or inside dense chips.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">2xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">8px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '8px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-2xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-2xs</td>
+        <td className="px-4 py-3">
+          Tight pair rhythm — heading-to-body, figure-to-caption, list-item gaps.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">12px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '12px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-xs</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-xs</td>
+        <td className="px-4 py-3">
+          Compact UI gaps inside small components like pills, badges, and inline chips.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">sm</td>
+        <td className="px-4 py-3 font-mono text-[12px]">16px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '16px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-sm</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-sm</td>
+        <td className="px-4 py-3">
+          Standard small padding — table cells, dense controls, single-line content.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">md</td>
+        <td className="px-4 py-3 font-mono text-[12px]">20px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '20px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-md</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-md</td>
+        <td className="px-4 py-3">
+          Medium inline gap — blockquote indent, comfortable padding inside narrow components.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">lg</td>
+        <td className="px-4 py-3 font-mono text-[12px]">24px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '24px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-lg</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-lg</td>
+        <td className="px-4 py-3">
+          Default block rhythm — paragraph bottom margin, list indent, code block padding.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">32px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '32px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-xl</td>
+        <td className="px-4 py-3">
+          Sub-section gap — vertical breathing room between blocks inside a card or panel.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">2xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">40px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '40px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-2xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-2xl</td>
+        <td className="px-4 py-3">
+          Section rhythm in long-form content — H2 top margin, footnote rule offset.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">3xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">48px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '48px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-3xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-3xl</td>
+        <td className="px-4 py-3">
+          Generous section break — distinct visual chapters within a page.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">4xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">64px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '64px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-4xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-4xl</td>
+        <td className="px-4 py-3">
+          Page-level section divider — hero-to-content, content-to-footer separation.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">5xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">96px</td>
+        <td className="px-4 py-3">
+          <div className="bg-fg h-4" style={{ width: '96px' }} />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">p-5xl</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--spacing-5xl</td>
+        <td className="px-4 py-3">
+          Page top/bottom anchor — outer padding for full-bleed layouts and landing surfaces.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

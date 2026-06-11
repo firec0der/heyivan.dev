@@ -1,0 +1,56 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Radius" />
+
+# Radius
+
+Three corner-radius tokens cover every rounded surface on the site. Each token maps to a Tailwind utility (`rounded-sm`, `rounded-md`, `rounded-full`) and a CSS variable (`var(--radius-sm)`, …).
+
+<div className="sb-unstyled border-border overflow-hidden rounded-md border">
+  <table className="w-full border-collapse text-left text-[14px]">
+    <thead className="bg-surface">
+      <tr>
+        <th className="px-4 py-2 font-medium">Token</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Value</th>
+        <th className="px-4 py-2 font-medium">Sample</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">Tailwind</th>
+        <th className="px-4 py-2 font-mono text-[12px] font-medium">CSS var</th>
+        <th className="px-4 py-2 font-medium">Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">sm</td>
+        <td className="px-4 py-3 font-mono text-[12px]">4px</td>
+        <td className="px-4 py-3">
+          <div className="bg-surface border-border h-10 w-16 rounded-sm border" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">rounded-sm</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--radius-sm</td>
+        <td className="px-4 py-3">Small soft corners — inline code, badges, status chips.</td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">md</td>
+        <td className="px-4 py-3 font-mono text-[12px]">8px</td>
+        <td className="px-4 py-3">
+          <div className="bg-surface border-border h-10 w-16 rounded-md border" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">rounded-md</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--radius-md</td>
+        <td className="px-4 py-3">
+          Standard rounded corners — cards, panels, images, code blocks.
+        </td>
+      </tr>
+      <tr className="border-border border-t">
+        <td className="px-4 py-3 font-medium">full</td>
+        <td className="px-4 py-3 font-mono text-[12px]">9999px</td>
+        <td className="px-4 py-3">
+          <div className="bg-surface border-border h-10 w-16 rounded-full border" />
+        </td>
+        <td className="px-4 py-3 font-mono text-[12px]">rounded-full</td>
+        <td className="px-4 py-3 font-mono text-[12px]">--radius-full</td>
+        <td className="px-4 py-3">Fully rounded — pills, avatars, circular icon buttons.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
