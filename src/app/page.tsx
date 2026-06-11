@@ -17,7 +17,7 @@ const HomePage = async () => {
       <section className="gap-sm pt-lg pb-3xl flex flex-col items-start">
         <Avatar src="/images/avatar.png" alt="" size={96} />
         <div>
-          <PageTitle>{site.hero_greeting}</PageTitle>
+          <PageTitle>{site.greeting}</PageTitle>
           <Subtitle className="mt-3xs">{site.role}</Subtitle>
         </div>
       </section>

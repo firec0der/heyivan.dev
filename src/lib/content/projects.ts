@@ -15,7 +15,7 @@ export function makeProjectLoaders(dir: string = PROJECTS_DIR) {
       tagline: frontmatter.tagline,
       date: frontmatter.date,
       status: frontmatter.status,
-      hero: frontmatter.hero,
+      coverImage: frontmatter.coverImage,
       stack: frontmatter.stack,
       links: frontmatter.links,
       body

@@ -42,7 +42,7 @@ Static personal site at `heyivan.dev`, deployed to Cloudflare Pages, built from 
 ```
 content/
   data/
-    site.yaml             # name, socials, wordmark, hero copy (no copyright_year — computed)
+    site.yaml             # name, socials, wordmark, greeting copy (no copyright_year — computed)
     work.yaml             # roles, skills, education, cv_pdf
   pages/
     about.md              # /about body

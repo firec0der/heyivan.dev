@@ -13,7 +13,7 @@ describe('site (hermetic)', () => {
       'site.yaml': `name: Test User
 wordmark: test.
 role: Test role.
-hero_greeting: "Hello."
+greeting: "Hello."
 social:
   github: https://github.com/test
   linkedin: https://www.linkedin.com/in/test/
