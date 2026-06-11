@@ -9,7 +9,7 @@ const TONE_CLASS: Record<Tone, string | undefined> = {
   muted: 'text-muted'
 };
 
-export const Body = ({
+export const Text = ({
   children,
   className,
   tone = 'default'

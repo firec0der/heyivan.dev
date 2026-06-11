@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { PageTitle } from './PageTitle';
 
 const meta = {
-  title: 'Atoms/Typography/PageTitle',
+  title: 'Atoms/PageTitle',
   component: PageTitle
 } satisfies Meta<typeof PageTitle>;
 

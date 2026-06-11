@@ -1,11 +1,11 @@
 import type { Meta as StoryMeta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Meta } from './Meta';
+import { MonoText } from './MonoText';
 
 const meta = {
-  title: 'Atoms/Typography/Meta',
-  component: Meta
-} satisfies StoryMeta<typeof Meta>;
+  title: 'Atoms/MonoText',
+  component: MonoText
+} satisfies StoryMeta<typeof MonoText>;
 
 export default meta;
 
