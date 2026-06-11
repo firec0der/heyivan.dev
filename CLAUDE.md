@@ -137,6 +137,7 @@ Don't include:
 - `## What lands` — say `## What`.
 - `## Why this PR` — context speaks for itself.
 - `## Verification` — say `## Verified locally`.
+- "What does not change" / "What stays" / non-changes inventory — the reader is reviewing a diff. If at-risk, prove it in `## Verified locally`; if intentional, fold into `## Notes` as a one-line statement.
 
 ### Authoring issue / PR bodies via `gh`
 
