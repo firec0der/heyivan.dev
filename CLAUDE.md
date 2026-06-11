@@ -44,32 +44,6 @@ bun run build-storybook
 
 Lefthook runs `typecheck` on pre-push. Don't bypass with `--no-verify`.
 
-## Docker
-
-A `docker-compose.yml` ships the dev server and Storybook with identical Node 24 + bun runtimes so anyone cloning the repo gets the same environment without installing bun locally.
-
-```bash
-docker compose up             # both services
-docker compose up web         # just the dev server
-docker compose up storybook   # just Storybook
-docker compose up --build     # after package.json / bun.lock changes
-```
-
-| Service     | Host URL                | Container port | Command                            |
-| ----------- | ----------------------- | -------------- | ---------------------------------- |
-| `web`       | <http://localhost:3344> | 3000           | `bun run dev`                      |
-| `storybook` | <http://localhost:3345> | 6006           | `bun run storybook --ci --no-open` |
-
-**Image** — `Dockerfile` uses `node:24-bookworm-slim` (matches `.nvmrc`) and installs bun at the version pinned by `BUN_VERSION` (currently 1.3.14 — bump in lockstep with the local bun). `bun install --frozen-lockfile` is baked into the image so cold start doesn't reinstall deps. Source code is bind-mounted at runtime, not copied at build time.
-
-**Volumes** — each service has an anonymous `/app/node_modules` volume that masks the host's install with the image's. Per-service (not shared) to avoid a race when both services first init together. Named volumes cache `/app/.next` (web) and `/app/node_modules/.cache` (storybook) across restarts.
-
-**Hot reload on macOS** — Docker on macOS doesn't propagate inotify events across volume mounts, so the env vars `WATCHPACK_POLLING=true` (Next) and `CHOKIDAR_USEPOLLING=true` (Storybook / Vite) enable polling. Slightly higher CPU but reliable file-change detection.
-
-**Host ports** — `3344` / `3345` instead of the upstream defaults `3000` / `6006` so the services coexist with other projects running on the standard ports.
-
-Native (host) commands stay the same — lint, typecheck, test, build all run faster on the host than through Docker. Use Docker for long-running servers (web / storybook) and the host for everything else.
-
 ## Git workflow
 
 - One PR per logical change. Issues track work; PRs close issues.
@@ -163,6 +137,7 @@ Don't include:
 - `## What lands` — say `## What`.
 - `## Why this PR` — context speaks for itself.
 - `## Verification` — say `## Verified locally`.
+- "What does not change" / "What stays" / non-changes inventory — the reader is reviewing a diff. If at-risk, prove it in `## Verified locally`; if intentional, fold into `## Notes` as a one-line statement.
 
 ### Authoring issue / PR bodies via `gh`
 
