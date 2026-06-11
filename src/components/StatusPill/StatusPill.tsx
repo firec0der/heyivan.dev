@@ -19,7 +19,7 @@ export const StatusPill = ({
     {...rest}
     aria-label={`Status: ${LABEL_TEXT[status]}`}
     className={cn(
-      'text-muted text-label-pill leading-label-pill tracking-label-pill font-medium uppercase',
+      'text-muted text-[10px] leading-[1.3] font-medium tracking-[1px] uppercase',
       'border-border inline-flex items-center rounded-full border px-2 py-0.5',
       className
     )}

@@ -14,5 +14,5 @@ export const Text = ({
   className,
   tone = 'default'
 }: PropsWithChildren<{ tone?: Tone }> & ClassName) => (
-  <p className={cn('text-body leading-body', TONE_CLASS[tone], className)}>{children}</p>
+  <p className={cn('text-[16px] leading-[1.6]', TONE_CLASS[tone], className)}>{children}</p>
 );
