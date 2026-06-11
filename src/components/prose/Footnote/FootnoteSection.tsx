@@ -8,7 +8,7 @@ export const FootnoteSection = ({ children, className, ...rest }: Props) => (
   <section
     {...rest}
     className={cn(
-      'text-muted text-body-small leading-body-small mt-2xl pt-lg border-border border-t',
+      'text-muted mt-2xl pt-lg border-border border-t text-[14px] leading-[1.6]',
       className
     )}
   >

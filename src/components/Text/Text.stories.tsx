@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Body } from './Body';
+import { Text } from './Text';
 
 const meta = {
-  title: 'Atoms/Typography/Body',
-  component: Body,
+  title: 'Text',
+  component: Text,
   argTypes: {
     tone: {
       control: 'inline-radio',
       options: ['default', 'muted']
     }
   }
-} satisfies Meta<typeof Body>;
+} satisfies Meta<typeof Text>;
 
 export default meta;
 

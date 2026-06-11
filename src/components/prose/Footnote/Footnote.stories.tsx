@@ -5,7 +5,7 @@ import { FootnoteRef } from './FootnoteRef';
 import { FootnoteSection } from './FootnoteSection';
 
 const meta = {
-  title: 'Atoms/Prose/Footnote'
+  title: 'Prose/Footnote'
 } satisfies Meta;
 
 export default meta;

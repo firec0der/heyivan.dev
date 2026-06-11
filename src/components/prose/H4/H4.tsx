@@ -8,7 +8,7 @@ export const H4 = ({ children, className, ...rest }: Props) => (
   <h4
     {...rest}
     className={cn(
-      'text-fg text-prose-h4 leading-prose-h4 mt-lg mb-2xs font-serif font-semibold',
+      'text-fg mt-lg mb-2xs font-serif text-[16px] leading-[1.4] font-semibold',
       className
     )}
   >

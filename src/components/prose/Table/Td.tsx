@@ -5,7 +5,7 @@ import { type ClassName, cn, type HTMLPassThrough } from '@/lib/cn';
 type Props = PropsWithChildren & ClassName & HTMLPassThrough<HTMLTableCellElement>;
 
 export const Td = ({ children, className, ...rest }: Props) => (
-  <td {...rest} className={cn('text-fg text-prose leading-prose p-sm font-serif', className)}>
+  <td {...rest} className={cn('text-fg p-sm font-serif text-[17px] leading-[1.75]', className)}>
     {children}
   </td>
 );

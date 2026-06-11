@@ -235,30 +235,35 @@ All variables have explicit scopes (no `ALL_SCOPES`) and web code syntax (`var(-
 
 ### Typography
 
-16 text styles in three families:
+The type system has no named primitives. Each component sets its own
+`font-family`, `font-size`, `line-height`, and `letter-spacing` inline.
+The legal scale is a convention — encoded here and enforced by review:
 
-| Style                 | Family | Weight   | Size | Line-height |
-| --------------------- | ------ | -------- | ---- | ----------- |
-| display/project-title | Sans   | SemiBold | 38   | 120%        |
-| display/article-title | Serif  | SemiBold | 34   | 125%        |
-| heading/page          | Sans   | SemiBold | 28   | 130%        |
-| heading/article-h2    | Serif  | SemiBold | 22   | 140%        |
-| heading/article-h3    | Serif  | SemiBold | 18   | 140%        |
-| heading/article-h4    | Serif  | SemiBold | 16   | 140%        |
-| body/large            | Sans   | Regular  | 18   | 150%        |
-| body/article          | Serif  | Regular  | 17   | 175%        |
-| body/default          | Sans   | Regular  | 16   | 160%        |
-| body/small            | Sans   | Regular  | 14   | 160%        |
-| body/caption          | Sans   | Regular  | 13   | 160%        |
-| mono/date             | Mono   | Regular  | 13   | 150%        |
-| mono/code             | Mono   | Regular  | 14   | 165%        |
-| label/section         | Sans   | Medium   | 12   | 130% +1.2px |
-| label/footer          | Sans   | Regular  | 12   | 150%        |
-| label/pill            | Sans   | Medium   | 10   | 130% +1.0px |
-| nav/link              | Sans   | Regular  | 14   | 150%        |
-| nav/wordmark          | Sans   | Medium   | 16   | 150%        |
+**Sizes** — 10, 12, 13, 14, 16, 17, 18, 22, 28, 34, 38.
+**Leadings** — 1.2, 1.25, 1.3, 1.4, 1.5, 1.6, 1.65, 1.75.
+**Trackings** — 0, 1.0 px, 1.2 px.
+**Families** — IBM Plex Sans (`--font-sans`), IBM Plex Serif (`--font-serif`),
+IBM Plex Mono (`--font-mono`).
+**Weights** — Regular (400), Medium (500), SemiBold (600).
 
-**Family role:** Sans for UI chrome and short-form copy; Serif on MDX prose body (`/writing` AND `/projects`), the article title, and the article heading hierarchy; Mono for dates, code blocks, and structured CV metadata.
+Roles live in component names, not in token names. Examples:
+
+| Component          | Composition                                                                  |
+| ------------------ | ---------------------------------------------------------------------------- |
+| `PageTitle`        | `font-sans font-semibold text-[28px] leading-[1.3]`                          |
+| `CardTitle`        | `font-sans font-semibold text-[18px]`                                        |
+| `Subtitle`         | `font-sans text-[18px] leading-[1.5] text-muted`                             |
+| `Text`             | `font-sans text-[16px] leading-[1.6]`                                        |
+| `MonoText`         | `font-mono text-[13px] leading-[1.5] text-faint`                             |
+| `SectionLabel`     | `font-sans font-medium text-[12px] leading-[1.3] tracking-[1.2px] uppercase` |
+| `Prose.P`          | `font-serif text-[17px] leading-[1.75]`                                      |
+| `Prose.H2`         | `font-serif font-semibold text-[22px] leading-[1.4]`                         |
+| `Prose.Pre`        | `font-mono text-[14px] leading-[1.65]`                                       |
+| `Prose.Figcaption` | `font-serif text-[13px] leading-[1.6] text-muted`                            |
+
+**Family role:** Sans for UI chrome and short-form copy; Serif for MDX prose
+body (`/writing` AND `/projects`), the article title, and the article
+heading hierarchy; Mono for dates, code blocks, and structured CV metadata.
 
 ### Color (Light mode anchors)
 

@@ -16,24 +16,24 @@ const renderMdx = async (source: string): Promise<string> => {
 };
 
 describe('mdxComponents — block elements', () => {
-  it('p → Prose.P with text-prose', async () => {
+  it('p → Prose.P with text-[17px]', async () => {
     const html = await renderMdx('Hello world.');
-    expect(html).toMatch(/<p[^>]*class="[^"]*text-prose[^"]*"[^>]*>Hello world\.<\/p>/);
+    expect(html).toMatch(/<p[^>]*class="[^"]*text-\[17px\][^"]*"[^>]*>Hello world\.<\/p>/);
   });
 
-  it('h2 → Prose.H2 with text-prose-h2', async () => {
+  it('h2 → Prose.H2 with text-[22px]', async () => {
     const html = await renderMdx('## A heading');
-    expect(html).toMatch(/<h2[^>]*class="[^"]*text-prose-h2[^"]*"/);
+    expect(html).toMatch(/<h2[^>]*class="[^"]*text-\[22px\][^"]*"/);
   });
 
-  it('h3 → Prose.H3 with text-prose-h3', async () => {
+  it('h3 → Prose.H3 with text-[18px]', async () => {
     const html = await renderMdx('### A subheading');
-    expect(html).toMatch(/<h3[^>]*class="[^"]*text-prose-h3[^"]*"/);
+    expect(html).toMatch(/<h3[^>]*class="[^"]*text-\[18px\][^"]*"/);
   });
 
-  it('h4 → Prose.H4 with text-prose-h4', async () => {
+  it('h4 → Prose.H4 with text-[16px]', async () => {
     const html = await renderMdx('#### A smaller heading');
-    expect(html).toMatch(/<h4[^>]*class="[^"]*text-prose-h4[^"]*"/);
+    expect(html).toMatch(/<h4[^>]*class="[^"]*text-\[16px\][^"]*"/);
   });
 
   it('blockquote → Prose.Blockquote with left border', async () => {
@@ -49,7 +49,7 @@ describe('mdxComponents — block elements', () => {
   it('ul → Prose.Ul with list-disc; li → Prose.Li', async () => {
     const html = await renderMdx('- First\n- Second');
     expect(html).toMatch(/<ul[^>]*class="[^"]*list-disc[^"]*"/);
-    expect(html).toMatch(/<li[^>]*class="[^"]*text-prose[^"]*"/);
+    expect(html).toMatch(/<li[^>]*class="[^"]*text-\[17px\][^"]*"/);
   });
 
   it('ol → Prose.Ol with list-decimal', async () => {
@@ -73,7 +73,7 @@ describe('mdxComponents — block elements', () => {
     expect(html).toMatch(/<thead[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<tr[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<th[^>]*class="[^"]*font-semibold[^"]*"/);
-    expect(html).toMatch(/<td[^>]*class="[^"]*text-prose[^"]*"/);
+    expect(html).toMatch(/<td[^>]*class="[^"]*text-\[17px\][^"]*"/);
   });
 });
 

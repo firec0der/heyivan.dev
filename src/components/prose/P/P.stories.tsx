@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { P } from './P';
 
 const meta = {
-  title: 'Atoms/Prose/P',
+  title: 'Prose/P',
   component: P
 } satisfies Meta<typeof P>;
 

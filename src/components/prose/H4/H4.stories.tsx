@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { H4 } from './H4';
 
 const meta = {
-  title: 'Atoms/Prose/H4',
+  title: 'Prose/H4',
   component: H4
 } satisfies Meta<typeof H4>;
 

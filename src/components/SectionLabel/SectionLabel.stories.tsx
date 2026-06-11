@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { SectionLabel } from './SectionLabel';
 
 const meta = {
-  title: 'Atoms/Typography/SectionLabel',
+  title: 'SectionLabel',
   component: SectionLabel
 } satisfies Meta<typeof SectionLabel>;
 

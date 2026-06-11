@@ -4,7 +4,7 @@ import { P } from '../P';
 import { Blockquote } from './Blockquote';
 
 const meta = {
-  title: 'Atoms/Prose/Blockquote'
+  title: 'Prose/Blockquote'
 } satisfies Meta;
 
 export default meta;

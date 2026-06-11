@@ -9,7 +9,7 @@ import { Kbd } from './Kbd';
 import { Strong } from './Strong';
 
 const meta = {
-  title: 'Atoms/Prose/Inline'
+  title: 'Prose/Inline'
 } satisfies Meta;
 
 export default meta;
