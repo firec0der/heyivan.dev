@@ -24,10 +24,10 @@ const ArticlePage = async ({ params }: Props) => {
   return (
     <article>
       <header>
-        <h1 className="text-fg text-display-article leading-display-article font-serif font-semibold">
+        <h1 className="text-fg font-serif text-[34px] leading-[1.25] font-semibold">
           {article.title}
         </h1>
-        <p className="text-muted text-mono-date leading-mono-date mt-sm font-mono">
+        <p className="text-muted mt-sm font-mono text-[13px] leading-[1.5]">
           <time dateTime={article.date}>{article.date}</time>
           {' · '}
           {article.readingTimeMinutes} min read
