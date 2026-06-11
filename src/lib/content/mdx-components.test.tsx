@@ -73,7 +73,7 @@ describe('mdxComponents — block elements', () => {
     expect(html).toMatch(/<thead[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<tr[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<th[^>]*class="[^"]*font-semibold[^"]*"/);
-    expect(html).toMatch(/<td[^>]*class="[^"]*text-prose[^"]*"/);
+    expect(html).toMatch(/<td[^>]*class="[^"]*text-\[17px\][^"]*"/);
   });
 });
 

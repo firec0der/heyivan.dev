@@ -8,7 +8,7 @@ export const Th = ({ children, className, ...rest }: Props) => (
   <th
     {...rest}
     className={cn(
-      'text-fg text-prose leading-prose p-sm text-left font-serif font-semibold',
+      'text-fg p-sm text-left font-serif text-[17px] leading-[1.75] font-semibold',
       className
     )}
   >
