@@ -5,24 +5,22 @@ on:
     branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
-  check:
+  checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-
-      - run: bun install --frozen-lockfile
+      - uses: ./.github/actions/setup
 
       - name: Typecheck
-        if: hashFiles('src/**/*.ts', 'src/**/*.tsx', 'vitest.config.ts') != ''
         run: bun run typecheck
 
       - name: Lint
@@ -31,14 +29,42 @@ jobs:
       - name: Format check
         run: bun run format:check
 
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
       - name: Test
-        if: hashFiles('vitest.config.ts') != ''
         run: bun run test
 
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Restore Next.js compiler cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ hashFiles('src/**', 'content/**') }}
+          restore-keys: next-${{ runner.os }}-${{ hashFiles('bun.lock') }}-
+
       - name: Build
-        if: hashFiles('src/app/page.tsx', 'src/app/page.ts') != ''
         run: bun run build
 
+  storybook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
       - name: Build Storybook
-        if: hashFiles('.storybook/main.ts') != ''
         run: bun run build-storybook --quiet
