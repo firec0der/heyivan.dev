@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { MDXRemote } from 'next-mdx-remote-client/rsc';
 
+import { BackLink } from '@/components/BackLink';
 import { Container } from '@/components/Container';
+import { DetailTitle } from '@/components/DetailTitle';
 import { LinkArrow } from '@/components/LinkArrow';
+import { MonoText } from '@/components/MonoText';
 import { SectionLabel } from '@/components/SectionLabel';
 import { StatusPill } from '@/components/StatusPill';
-import { mdxComponents } from '@/lib/content/mdx-components';
-import { mdxOptions } from '@/lib/content/mdx-options';
+import { MdxBody } from '@/lib/content/mdx-body';
 import { getProjectBySlug, getProjectSlugs } from '@/lib/content/projects';
+import { formatArticleDate } from '@/lib/format';
 
 type Params = { slug: string };
 type Props = { params: Promise<Params> };
@@ -38,22 +40,16 @@ const ProjectDetailPage = async ({ params }: Props) => {
 
   return (
     <Container width="article">
-      <div className="pt-lg pb-lg">
-        <LinkArrow href="/projects" direction="back">
-          All projects
-        </LinkArrow>
-      </div>
+      <BackLink href="/projects">All projects</BackLink>
 
       <header className="pb-xl">
-        <h1 className="text-fg font-serif text-[34px] leading-[1.25] font-semibold">
-          {project.title}
-        </h1>
+        <DetailTitle>{project.title}</DetailTitle>
         <p className="text-muted mt-xs text-[18px] leading-[1.6]">{project.tagline}</p>
         <div className="gap-xs mt-sm flex items-center">
           <StatusPill status={project.status} />
-          <span className="text-faint font-mono text-[13px] leading-[1.5]">
-            <time dateTime={project.date}>{project.date}</time>
-          </span>
+          <MonoText>
+            <time dateTime={project.date}>{formatArticleDate(project.date)}</time>
+          </MonoText>
         </div>
       </header>
 
@@ -62,11 +58,7 @@ const ProjectDetailPage = async ({ params }: Props) => {
         <img src={project.coverImage} alt="" className="mb-2xl w-full rounded-md" />
       )}
 
-      <MDXRemote
-        source={project.body}
-        components={mdxComponents}
-        options={{ mdxOptions, parseFrontmatter: false }}
-      />
+      <MdxBody source={project.body} />
 
       {project.stack.length > 0 && (
         <section className="mt-3xl">
