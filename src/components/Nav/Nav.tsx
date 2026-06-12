@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+import { IconButton } from '@/components/IconButton';
 import { MobileMenuOverlay } from '@/components/MobileMenuOverlay';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { type ClassName, cn } from '@/lib/cn';
@@ -45,15 +46,13 @@ export const Nav = ({ wordmark, className }: Props) => {
 
         <div className="gap-2xs flex items-center md:hidden">
           <ThemeToggle />
-          <button
-            type="button"
+          <IconButton
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
             aria-expanded={menuOpen}
-            className="text-muted inline-flex size-[36px] items-center justify-center text-[22px]"
           >
             ☰
-          </button>
+          </IconButton>
         </div>
       </div>
 

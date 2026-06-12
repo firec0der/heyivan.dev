@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { IconButton } from '@/components/IconButton';
 import { isActiveRoute, NAV_LINKS } from '@/components/Nav/links';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/cn';
@@ -45,14 +46,9 @@ export const MobileMenuOverlay = ({ open, onClose, wordmark }: Props) => {
     >
       <div className="flex items-center justify-between">
         <span className="text-fg text-[16px] font-medium">{wordmark}</span>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close menu"
-          className="text-muted inline-flex size-[36px] items-center justify-center text-[22px]"
-        >
+        <IconButton onClick={onClose} aria-label="Close menu">
           ×
-        </button>
+        </IconButton>
       </div>
 
       <nav aria-label="Primary" className="mt-3xl gap-lg flex flex-col">
