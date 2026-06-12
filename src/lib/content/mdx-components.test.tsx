@@ -16,9 +16,11 @@ const renderMdx = async (source: string): Promise<string> => {
 };
 
 describe('mdxComponents — block elements', () => {
-  it('p → Prose.P with text-[17px]', async () => {
+  it('p → Prose.P with text-[16px] md:text-[17px]', async () => {
     const html = await renderMdx('Hello world.');
-    expect(html).toMatch(/<p[^>]*class="[^"]*text-\[17px\][^"]*"[^>]*>Hello world\.<\/p>/);
+    expect(html).toMatch(
+      /<p[^>]*class="[^"]*text-\[16px\][^"]*md:text-\[17px\][^"]*"[^>]*>Hello world\.<\/p>/
+    );
   });
 
   it('h2 → Prose.H2 with text-[22px]', async () => {
@@ -49,7 +51,7 @@ describe('mdxComponents — block elements', () => {
   it('ul → Prose.Ul with list-disc; li → Prose.Li', async () => {
     const html = await renderMdx('- First\n- Second');
     expect(html).toMatch(/<ul[^>]*class="[^"]*list-disc[^"]*"/);
-    expect(html).toMatch(/<li[^>]*class="[^"]*text-\[17px\][^"]*"/);
+    expect(html).toMatch(/<li[^>]*class="[^"]*text-\[16px\][^"]*md:text-\[17px\][^"]*"/);
   });
 
   it('ol → Prose.Ol with list-decimal', async () => {
@@ -73,7 +75,7 @@ describe('mdxComponents — block elements', () => {
     expect(html).toMatch(/<thead[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<tr[^>]*class="[^"]*border-b[^"]*"/);
     expect(html).toMatch(/<th[^>]*class="[^"]*font-semibold[^"]*"/);
-    expect(html).toMatch(/<td[^>]*class="[^"]*text-\[17px\][^"]*"/);
+    expect(html).toMatch(/<td[^>]*class="[^"]*text-\[16px\][^"]*md:text-\[17px\][^"]*"/);
   });
 });
 

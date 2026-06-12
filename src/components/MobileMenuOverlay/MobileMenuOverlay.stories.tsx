@@ -6,6 +6,7 @@ const meta = {
   title: 'MobileMenuOverlay',
   component: MobileMenuOverlay,
   parameters: { layout: 'fullscreen' },
+  globals: { viewport: { value: 'mobile', isRotated: false } },
   args: { wordmark: 'ivan.', onClose: () => {} }
 } satisfies Meta<typeof MobileMenuOverlay>;
 

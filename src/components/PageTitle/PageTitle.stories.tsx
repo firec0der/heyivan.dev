@@ -14,3 +14,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: { children: 'The quick brown fox jumps over the lazy dog' }
 };
+
+export const Mobile: Story = {
+  args: { children: 'The quick brown fox jumps over the lazy dog' },
+  globals: { viewport: { value: 'mobile', isRotated: false } }
+};

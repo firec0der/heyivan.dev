@@ -35,6 +35,12 @@ const withTheme: Decorator = (Story, context) => (
 
 const preview: Preview = {
   parameters: {
+    viewport: {
+      options: {
+        mobile: { name: 'Mobile (390px)', styles: { width: '390px', height: '844px' } },
+        desktop: { name: 'Desktop (1280px)', styles: { width: '1280px', height: '800px' } }
+      }
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
