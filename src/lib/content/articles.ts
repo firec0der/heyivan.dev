@@ -49,10 +49,16 @@ export function makeArticleLoaders(dir: string = ARTICLES_DIR) {
     return articles.map((a) => a.slug);
   }
 
-  return { getAllArticles, getArticleBySlug, getArticleSlugs };
+  async function getRecentArticles(limit: number): Promise<Article[]> {
+    const articles = await getAllArticles();
+    return articles.slice(0, limit);
+  }
+
+  return { getAllArticles, getArticleBySlug, getArticleSlugs, getRecentArticles };
 }
 
 const production = makeArticleLoaders();
 export const getAllArticles = production.getAllArticles;
 export const getArticleBySlug = production.getArticleBySlug;
 export const getArticleSlugs = production.getArticleSlugs;
+export const getRecentArticles = production.getRecentArticles;
