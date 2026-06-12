@@ -1,15 +1,16 @@
 import Link from 'next/link';
 
 import { CardTitle } from '@/components/CardTitle';
+import { ListItem } from '@/components/ListItem';
 import { StatusPill } from '@/components/StatusPill';
 import { Text } from '@/components/Text';
-import { type ClassName, cn } from '@/lib/cn';
+import type { ClassName } from '@/lib/cn';
 import type { Project } from '@/lib/content/types';
 
 type Props = { project: Project } & ClassName;
 
 export const ProjectCard = ({ project, className }: Props) => (
-  <li className={cn('border-border border-b last:border-b-0', className)}>
+  <ListItem className={className}>
     <Link
       href={`/projects/${project.slug}`}
       className="py-lg md:gap-lg hover:bg-surface gap-sm flex flex-col items-start transition-colors md:flex-row"
@@ -39,5 +40,5 @@ export const ProjectCard = ({ project, className }: Props) => (
         </Text>
       </div>
     </Link>
-  </li>
+  </ListItem>
 );
