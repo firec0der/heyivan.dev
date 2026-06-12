@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { MDXRemote } from 'next-mdx-remote-client/rsc';
 
+import { BackLink } from '@/components/BackLink';
 import { Container } from '@/components/Container';
-import { LinkArrow } from '@/components/LinkArrow';
+import { DetailTitle } from '@/components/DetailTitle';
+import { MonoText } from '@/components/MonoText';
 import { getArticleBySlug, getArticleSlugs } from '@/lib/content/articles';
-import { mdxComponents } from '@/lib/content/mdx-components';
-import { mdxOptions } from '@/lib/content/mdx-options';
+import { MdxBody } from '@/lib/content/mdx-body';
+import { formatArticleDate } from '@/lib/format';
 
 type Params = { slug: string };
 type Props = { params: Promise<Params> };
@@ -41,28 +42,18 @@ const ArticlePage = async ({ params }: Props) => {
 
   return (
     <Container width="article">
-      <div className="pt-lg pb-lg">
-        <LinkArrow href="/writing" direction="back">
-          All writing
-        </LinkArrow>
-      </div>
+      <BackLink href="/writing">All writing</BackLink>
 
       <header className="pb-xl">
-        <h1 className="text-fg font-serif text-[34px] leading-[1.25] font-semibold">
-          {article.title}
-        </h1>
-        <p className="text-muted mt-xs font-mono text-[13px] leading-[1.5]">
-          <time dateTime={article.date}>{article.date}</time>
+        <DetailTitle>{article.title}</DetailTitle>
+        <MonoText className="text-muted mt-xs block">
+          <time dateTime={article.date}>{formatArticleDate(article.date)}</time>
           {' · '}
           {article.readingTimeMinutes} min read
-        </p>
+        </MonoText>
       </header>
 
-      <MDXRemote
-        source={article.body}
-        components={mdxComponents}
-        options={{ mdxOptions, parseFrontmatter: false }}
-      />
+      <MdxBody source={article.body} />
     </Container>
   );
 };
