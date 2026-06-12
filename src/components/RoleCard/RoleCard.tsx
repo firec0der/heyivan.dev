@@ -2,6 +2,8 @@
 
 import { useId, useState } from 'react';
 
+import { MonoText } from '@/components/MonoText';
+import { SectionLabel } from '@/components/SectionLabel';
 import { type ClassName, cn } from '@/lib/cn';
 import type { Role } from '@/lib/content/types';
 import { formatYearRange } from '@/lib/format';
@@ -25,9 +27,7 @@ export const RoleCard = ({ role, defaultOpen = false, className }: Props) => {
         className="py-sm gap-sm flex w-full flex-col text-left"
       >
         <div className="flex items-baseline justify-between">
-          <span className="text-faint font-mono text-[13px] leading-[1.5]">
-            {formatYearRange(role.start, role.end)}
-          </span>
+          <MonoText>{formatYearRange(role.start, role.end)}</MonoText>
           <span
             aria-hidden="true"
             className={cn(
@@ -62,16 +62,12 @@ export const RoleCard = ({ role, defaultOpen = false, className }: Props) => {
                 </p>
               ))}
             </div>
-            {role.skills.length > 0 ? (
+            {role.skills.length > 0 && (
               <div>
-                <span className="text-faint block text-[11px] font-medium tracking-[1.2px]">
-                  SKILLS
-                </span>
-                <span className="text-muted mt-3xs block font-mono text-[13px] leading-[1.5]">
-                  {role.skills.join(' · ')}
-                </span>
+                <SectionLabel className="text-faint text-[11px]">Skills</SectionLabel>
+                <MonoText className="text-muted mt-3xs block">{role.skills.join(' · ')}</MonoText>
               </div>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

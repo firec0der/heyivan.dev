@@ -58,12 +58,12 @@ describe('RoleCard', () => {
 
   it('renders the SKILLS row when skills are present', () => {
     render(<RoleCard role={ROLE} defaultOpen />);
-    expect(screen.getByText('SKILLS')).toBeDefined();
+    expect(screen.getByText('Skills')).toBeDefined();
     expect(screen.getByText(/Go · Postgres/)).toBeDefined();
   });
 
   it('hides the SKILLS row when skills array is empty', () => {
     render(<RoleCard role={{ ...ROLE, skills: [] }} defaultOpen />);
-    expect(screen.queryByText('SKILLS')).toBeNull();
+    expect(screen.queryByText('Skills')).toBeNull();
   });
 });
