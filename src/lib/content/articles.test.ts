@@ -106,6 +106,16 @@ Should never appear before 2099.
     expect((await loaders.getArticleBySlug('draft'))?.draft).toBe(true);
     expect((await loaders.getArticleBySlug('future'))?.date).toBe('2099-01-01');
   });
+
+  it('getRecentArticles respects the limit and sorts by date desc', async () => {
+    const recent = await loaders.getRecentArticles(1);
+    expect(recent.map((a) => a.slug)).toEqual(['hello']);
+  });
+
+  it('getRecentArticles excludes drafts and future-dated posts', async () => {
+    const recent = await loaders.getRecentArticles(10);
+    expect(recent.map((a) => a.slug)).toEqual(['hello', 'older']);
+  });
 });
 
 describe('isPublishable', () => {
