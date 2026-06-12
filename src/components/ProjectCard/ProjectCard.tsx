@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
+import { CardTitle } from '@/components/CardTitle';
 import { StatusPill } from '@/components/StatusPill';
+import { Text } from '@/components/Text';
 import { type ClassName, cn } from '@/lib/cn';
 import type { Project } from '@/lib/content/types';
 
@@ -29,10 +31,12 @@ export const ProjectCard = ({ project, className }: Props) => (
       )}
       <div className="min-w-0 flex-1">
         <div className="gap-xs flex flex-wrap items-center">
-          <h3 className="text-fg text-[18px] leading-[1.3] font-semibold">{project.title}</h3>
+          <CardTitle className="text-fg leading-[1.3]">{project.title}</CardTitle>
           <StatusPill status={project.status} />
         </div>
-        <p className="text-muted mt-3xs text-[16px] leading-[1.6]">{project.tagline}</p>
+        <Text tone="muted" className="mt-3xs">
+          {project.tagline}
+        </Text>
       </div>
     </Link>
   </li>
