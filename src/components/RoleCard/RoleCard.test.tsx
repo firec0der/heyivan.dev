@@ -50,6 +50,13 @@ describe('RoleCard', () => {
     expect(screen.getByText('The blurb.')).toBeDefined();
   });
 
+  it('gives the trigger a concise accessible name via aria-label', () => {
+    render(<RoleCard role={ROLE} />);
+    expect(
+      screen.getByRole('button', { name: 'Engineer at Acme, Jan 2024 — Present' })
+    ).toBeDefined();
+  });
+
   it('renders the description as separate <p> per blank-line break', () => {
     render(<RoleCard role={ROLE} defaultOpen />);
     expect(screen.getByText('First paragraph.')).toBeDefined();
