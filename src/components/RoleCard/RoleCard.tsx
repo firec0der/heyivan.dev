@@ -6,7 +6,7 @@ import { MonoText } from '@/components/MonoText';
 import { SectionLabel } from '@/components/SectionLabel';
 import { type ClassName, cn } from '@/lib/cn';
 import type { Role } from '@/lib/content/types';
-import { formatYearRange } from '@/lib/format';
+import { formatMonthRange } from '@/lib/format';
 
 type Props = {
   role: Role;
@@ -27,7 +27,7 @@ export const RoleCard = ({ role, defaultOpen = false, className }: Props) => {
         className="py-sm gap-sm flex w-full flex-col text-left"
       >
         <div className="flex items-baseline justify-between">
-          <MonoText>{formatYearRange(role.start, role.end)}</MonoText>
+          <MonoText>{formatMonthRange(role.start, role.end)}</MonoText>
           <span
             aria-hidden="true"
             className={cn(

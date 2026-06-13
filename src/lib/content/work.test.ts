@@ -13,7 +13,7 @@ describe('work (hermetic)', () => {
       'work.yaml': `roles:
   - company: Test Co.
     role: Engineer
-    start: 2020
+    start: 2020-03
     end: present
     blurb: Built things.
     description: |
