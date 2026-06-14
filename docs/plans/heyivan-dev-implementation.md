@@ -19,23 +19,23 @@ Static personal site at `heyivan.dev`, deployed to Cloudflare Pages, built from 
 
 ## 3. Tech stack
 
-| Layer           | Choice                          | Notes                                                                                        |
-| --------------- | ------------------------------- | -------------------------------------------------------------------------------------------- |
-| Framework       | Next.js 15, App Router          | `output: 'export'`, `trailingSlash: false`                                                   |
-| Runtime         | Node 24 (LTS)                   | Pinned via `.nvmrc`; `engines.node >= 24`                                                    |
-| Package manager | bun                             | `bun.lock` checked in; CI uses `oven-sh/setup-bun@v2`                                        |
-| Styling         | Tailwind CSS 4 (PostCSS)        | Tokens live in CSS variables, exposed via `@theme`                                           |
-| Fonts           | `next/font/google`              | IBM Plex Sans/Serif/Mono, self-hosted at build                                               |
-| Markdown        | unified + remark + rehype       | gfm, smartypants, slug, autolink-headings, pretty-code (Shiki)                               |
-| Data            | `gray-matter`, `js-yaml`, `zod` | Schemas validate every frontmatter and YAML file                                             |
-| Reading time    | `reading-time`                  | Computed at build (`words / 220`)                                                            |
-| Lint            | ESLint 9 (flat config)          | `next/core-web-vitals` + `next/typescript` + `simple-import-sort` + `eslint-config-prettier` |
-| Format          | Prettier 3                      | `prettier-plugin-tailwindcss` for class sorting; `content/` is ignored                       |
-| Tests           | Vitest 4                        | `passWithNoTests: true`; `@` alias resolves to `src/`                                        |
-| Git hooks       | Lefthook                        | Pre-commit: eslint + prettier on staged files (`stage_fixed: true`); pre-push: typecheck     |
-| CI              | GitHub Actions                  | typecheck (gated), lint, format:check, test (gated), build (gated)                           |
-| Hosting         | Cloudflare Pages                | Build: `bun install --frozen-lockfile && bun run build`; output dir: `out`                   |
-| Domain          | `heyivan.dev` on Cloudflare DNS | HTTPS auto-provisioned                                                                       |
+| Layer           | Choice                          | Notes                                                                                                                                                                                                                  |
+| --------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework       | Next.js 15, App Router          | `output: 'export'`, `trailingSlash: false`                                                                                                                                                                             |
+| Runtime         | Node 24 (LTS)                   | Pinned via `.nvmrc`; `engines.node >= 24`                                                                                                                                                                              |
+| Package manager | bun                             | `bun.lock` checked in; CI uses `oven-sh/setup-bun@v2`                                                                                                                                                                  |
+| Styling         | Tailwind CSS 4 (PostCSS)        | Tokens live in CSS variables, exposed via `@theme`                                                                                                                                                                     |
+| Fonts           | `next/font/google`              | IBM Plex Sans/Serif/Mono, self-hosted at build                                                                                                                                                                         |
+| Markdown        | unified + remark + rehype       | gfm, smartypants, slug, autolink-headings, pretty-code (Shiki)                                                                                                                                                         |
+| Data            | `gray-matter`, `js-yaml`, `zod` | Schemas validate every frontmatter and YAML file                                                                                                                                                                       |
+| Reading time    | `reading-time`                  | Computed at build (`words / 220`)                                                                                                                                                                                      |
+| Lint            | ESLint 9 (flat config)          | `next/core-web-vitals` + `next/typescript` + `simple-import-sort` + `eslint-config-prettier`                                                                                                                           |
+| Format          | Prettier 3                      | `prettier-plugin-tailwindcss` for class sorting; `content/` is ignored                                                                                                                                                 |
+| Tests           | Vitest 4                        | `passWithNoTests: true`; `@` alias resolves to `src/`                                                                                                                                                                  |
+| Git hooks       | Lefthook                        | Pre-commit: eslint + prettier on staged files (`stage_fixed: true`); pre-push: typecheck                                                                                                                               |
+| CI              | GitHub Actions                  | typecheck (gated), lint, format:check, test (gated), build (gated)                                                                                                                                                     |
+| Hosting         | Cloudflare Pages                | Framework preset **None** (not Next.js — that forces the Pages Functions adapter); build: `bun install --frozen-lockfile && bun run build`; output dir: `out`; Node/bun auto-detected from `.nvmrc` + `packageManager` |
+| Domain          | `heyivan.dev` on Cloudflare DNS | HTTPS auto-provisioned                                                                                                                                                                                                 |
 
 ## 4. File structure
 
