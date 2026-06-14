@@ -8,7 +8,7 @@ export const IconButton = ({ children, className, ...rest }: Props) => (
   <button
     type="button"
     className={cn(
-      'text-muted inline-flex size-[36px] items-center justify-center text-[22px]',
+      'text-muted inline-flex size-[36px] cursor-pointer items-center justify-center text-[22px]',
       className
     )}
     {...rest}
