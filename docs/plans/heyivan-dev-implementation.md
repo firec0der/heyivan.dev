@@ -11,31 +11,32 @@
 
 ## 1. Goal
 
-Static personal site at `heyivan.dev`, deployed to Cloudflare Pages, built from Next.js App Router with `output: 'export'`. Blog-first IA, light + dark theme, IBM Plex typography, three small client islands, the rest zero-JS server-rendered.
+Static personal site at `heyivan.dev`, deployed to Cloudflare Pages, built from Next.js App Router with `output: 'export'`. Blog-first IA, light + dark theme, IBM Plex typography, four small client islands, the rest zero-JS server-rendered.
 
 ## 2. Architecture in one paragraph
 
-`next build` produces `out/` — a directory of HTML/CSS/JS/static assets that Cloudflare Pages serves. Content lives under `content/` (markdown + YAML), is loaded by server components at build time, and rendered through a remark/rehype pipeline (gfm, smartypants, slug, autolink-headings, pretty-code with Shiki). Tokens flow through CSS custom properties: a single `:root` set for light, an `html[data-theme="dark"]` override for dark. Tailwind 4's `@theme` block exposes those CSS variables as utility classes so components can mix Tailwind utilities (`text-[color:var(--color-text)]`, `gap-(--spacing-md)`) with raw CSS variables interchangeably. Three components ship to the client: `ThemeToggle`, `MobileMenuOverlay`, `RoleCard` (disclosure with `grid-template-rows` animation + `inert`).
+`next build` produces `out/` — a directory of HTML/CSS/JS/static assets that Cloudflare Pages serves. Content lives under `content/` (MDX + YAML), is loaded by server components at build time, and rendered with `next-mdx-remote-client/rsc` (`<MDXRemote>`): the loader returns the raw MDX `body`, and routes render it through a shared remark/rehype config (gfm, smartypants, slug, autolink-headings, pretty-code with Shiki) plus a component registry that maps every HTML element to a `prose/` component. Tokens flow through CSS custom properties: a single `:root` set for light, an `html[data-theme="dark"]` override for dark. Tailwind 4's `@theme` block exposes those CSS variables as utility classes so components can mix Tailwind utilities (`text-[color:var(--color-text)]`, `gap-(--spacing-md)`) with raw CSS variables interchangeably. Four components ship to the client: `Nav`, `ThemeToggle`, `MobileMenuOverlay`, and `RoleCard` (disclosure with `grid-template-rows` animation + `inert`).
 
 ## 3. Tech stack
 
-| Layer           | Choice                          | Notes                                                                                                                                                                                                                  |
-| --------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Framework       | Next.js 15, App Router          | `output: 'export'`, `trailingSlash: false`                                                                                                                                                                             |
-| Runtime         | Node 24 (LTS)                   | Pinned via `.nvmrc`; `engines.node >= 24`                                                                                                                                                                              |
-| Package manager | bun                             | `bun.lock` checked in; CI uses `oven-sh/setup-bun@v2`                                                                                                                                                                  |
-| Styling         | Tailwind CSS 4 (PostCSS)        | Tokens live in CSS variables, exposed via `@theme`                                                                                                                                                                     |
-| Fonts           | `next/font/google`              | IBM Plex Sans/Serif/Mono, self-hosted at build                                                                                                                                                                         |
-| Markdown        | unified + remark + rehype       | gfm, smartypants, slug, autolink-headings, pretty-code (Shiki)                                                                                                                                                         |
-| Data            | `gray-matter`, `js-yaml`, `zod` | Schemas validate every frontmatter and YAML file                                                                                                                                                                       |
-| Reading time    | `reading-time`                  | Computed at build (`words / 220`)                                                                                                                                                                                      |
-| Lint            | ESLint 9 (flat config)          | `next/core-web-vitals` + `next/typescript` + `simple-import-sort` + `eslint-config-prettier`                                                                                                                           |
-| Format          | Prettier 3                      | `prettier-plugin-tailwindcss` for class sorting; `content/` is ignored                                                                                                                                                 |
-| Tests           | Vitest 4                        | `passWithNoTests: true`; `@` alias resolves to `src/`                                                                                                                                                                  |
-| Git hooks       | Lefthook                        | Pre-commit: eslint + prettier on staged files (`stage_fixed: true`); pre-push: typecheck                                                                                                                               |
-| CI              | GitHub Actions                  | typecheck (gated), lint, format:check, test (gated), build (gated)                                                                                                                                                     |
-| Hosting         | Cloudflare Pages                | Framework preset **None** (not Next.js — that forces the Pages Functions adapter); build: `bun install --frozen-lockfile && bun run build`; output dir: `out`; Node/bun auto-detected from `.nvmrc` + `packageManager` |
-| Domain          | `heyivan.dev` on Cloudflare DNS | HTTPS auto-provisioned                                                                                                                                                                                                 |
+| Layer           | Choice                               | Notes                                                                                                                                                                                                                  |
+| --------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework       | Next.js 15, App Router               | `output: 'export'`, `trailingSlash: false`                                                                                                                                                                             |
+| Runtime         | Node 24 (LTS)                        | Pinned via `.nvmrc`; `engines.node >= 24`                                                                                                                                                                              |
+| Package manager | bun                                  | `bun.lock` checked in; CI uses `oven-sh/setup-bun@v2`                                                                                                                                                                  |
+| Styling         | Tailwind CSS 4 (PostCSS)             | Tokens live in CSS variables, exposed via `@theme`                                                                                                                                                                     |
+| Fonts           | `next/font/google`                   | IBM Plex Sans/Serif/Mono, self-hosted at build                                                                                                                                                                         |
+| Content         | MDX via `next-mdx-remote-client/rsc` | `.mdx` files; loader returns raw `body`, routes render `<MDXRemote>` with shared `mdxOptions` (remark/rehype: gfm, smartypants, slug, autolink-headings, pretty-code/Shiki) + a `mdxComponents` element registry       |
+| Data            | `gray-matter`, `js-yaml`, `zod`      | Schemas validate every frontmatter and YAML file                                                                                                                                                                       |
+| Reading time    | `reading-time`                       | Computed at build (package default ~200 wpm, rounded up, min 1)                                                                                                                                                        |
+| Lint            | ESLint 9 (flat config)               | `next/core-web-vitals` + `next/typescript` + `simple-import-sort` + `eslint-config-prettier`                                                                                                                           |
+| Format          | Prettier 3                           | `prettier-plugin-tailwindcss` for class sorting; `content/` is ignored                                                                                                                                                 |
+| Tests           | Vitest 4                             | `passWithNoTests: true`; `@` alias resolves to `src/`; loaders + helpers + components (jsdom) all covered                                                                                                              |
+| Stories         | Storybook 9                          | `@storybook/nextjs-vite`; one `*.stories.tsx` per component; a11y + docs addons                                                                                                                                        |
+| Git hooks       | Lefthook                             | Pre-commit: eslint + prettier on staged files (`stage_fixed: true`); pre-push: typecheck                                                                                                                               |
+| CI              | GitHub Actions                       | Staged graph (`checks → test → build ∥ storybook`) via a composite setup action; bun + `.next` caching (see §11)                                                                                                       |
+| Hosting         | Cloudflare Pages                     | Framework preset **None** (not Next.js — that forces the Pages Functions adapter); build: `bun install --frozen-lockfile && bun run build`; output dir: `out`; Node/bun auto-detected from `.nvmrc` + `packageManager` |
+| Domain          | `heyivan.dev` on Cloudflare DNS      | HTTPS auto-provisioned                                                                                                                                                                                                 |
 
 ## 4. File structure
 
@@ -43,18 +44,17 @@ Static personal site at `heyivan.dev`, deployed to Cloudflare Pages, built from 
 content/
   data/
     site.yaml             # name, socials, wordmark, greeting copy (no copyright_year — computed)
-    work.yaml             # roles, skills, education, cv_pdf
+    work.yaml             # roles (month-level start/end), skills, education, cv_pdf
   pages/
-    about.md              # /about body
+    about.md              # legacy copy — the /about page is hardcoded JSX, not rendered from this
   projects/
-    <slug>.md             # one per project
+    <slug>.mdx            # one per project
   writing/
-    <slug>.md             # one per article (date-free URL; future-dated posts excluded)
+    <slug>.mdx            # one per article (date-free URL; future-dated posts excluded)
 public/
   images/
-    avatar.jpg
-    og-default.png
-    projects/<slug>/*
+    avatar.png
+    projects/<slug>/*     # og-default.png is not yet present (OG fallback tracked in #45)
     writing/<slug>/*
 src/
   app/
@@ -73,8 +73,8 @@ src/
     robots.ts
   components/             # atoms + content + chrome (see §5)
   lib/
-    content/              # loaders + schemas + types (see §6)
-    format.ts             # date and year-range helpers, group-by-year
+    content/              # loaders + schemas + types + MDX render helpers (mdx-body, mdx-components, mdx-options) (see §6)
+    format.ts             # date, month/year-range helpers, group-by-year
     theme/                # init-script (string) + use-theme hook
 .github/workflows/ci.yml
 .nvmrc                    # 24
@@ -90,20 +90,26 @@ vitest.config.ts
 
 ## 5. Component inventory
 
-15 components map 1:1 to the Figma file. Each component binds fills/strokes/spacing/radius to CSS variables — no hardcoded values inside components.
+Components track the Figma design system, with fine-grained primitives extracted during adoption so pages compose from small, single-purpose pieces. Each binds color/spacing/radius to CSS variables — no hardcoded design values inside components. Every component has a `*.stories.tsx`; logic-bearing ones also have a `*.test.tsx`.
 
-**Atoms** — `StatusPill`, `SectionLabel`, `LinkArrow`, `Avatar`, `PageHeader`, `SkipLink`, `Container`
+**Typography** — `PageTitle`, `DetailTitle`, `CardTitle`, `SectionLabel`, `Subtitle`, `Text`, `MonoText`
 
-**Chrome** — `Nav` (desktop + mobile both in one component, switched via `md:` prefix), `MobileMenuOverlay`, `Footer`, `ThemeToggle`
+**Layout & list primitives** — `Container`, `ListItem`, `MetaRow`
 
-**Content** — `WritingListItem`, `EducationRow`, `ProjectCard`, `RoleCard`
+**Controls & indicators** — `LinkArrow`, `BackLink`, `IconButton`, `Chevron`, `StatusPill`, `Avatar`, `SkipLink`
 
-Only `Nav`/`MobileMenuOverlay`, `ThemeToggle`, and `RoleCard` need `'use client'`. Everything else is server-rendered.
+**Chrome** — `Nav` (desktop + mobile in one component, switched via `md:` prefix), `MobileMenuOverlay`, `Footer`, `ThemeToggle`
+
+**Content blocks** — `WritingListItem`, `EducationRow`, `ProjectCard`, `RoleCard`
+
+**Prose** — the `prose/` family is the MDX element registry (`mdxComponents`): `P`, `H2`/`H3`/`H4`, `Lists` (`Ul`/`Ol`/`Li`), `Table`, `Blockquote`, `Pre`, `Hr`, `Media` (`Img`/`Figure`/`Figcaption`), `Inline` (`A`/`Strong`/`Em`/`Del`/`Kbd`/`Code`), `Footnote` (`FootnoteRef`/`FootnoteSection`). Plus `MdxBody`, the server wrapper that renders an MDX `body` through this registry.
+
+Only `Nav`, `MobileMenuOverlay`, `ThemeToggle`, and `RoleCard` need `'use client'`. Everything else is server-rendered.
 
 ## 6. Content pipeline
 
 ```
-content/<kind>/<slug>.md
+content/<kind>/<slug>.mdx
         │
         ▼
 gray-matter splits frontmatter ↔ body
@@ -112,16 +118,20 @@ gray-matter splits frontmatter ↔ body
 zod schema validates frontmatter ───── (throws at build if bad)
         │
         ▼
-unified pipeline renders body to HTML
-  remark-parse → remark-gfm → remark-smartypants
-  → remark-rehype → rehype-slug → rehype-autolink-headings
-  → rehype-pretty-code (Shiki, github-light + github-dark) → rehype-stringify
+Loader returns a typed object (Article | Project | …) carrying the raw MDX `body`
         │
         ▼
-Loader returns typed object (Article | Project | …) consumed by a server component
+Server component renders the body with next-mdx-remote-client/rsc:
+  <MDXRemote source={body}
+             components={mdxComponents}
+             options={{ mdxOptions, parseFrontmatter: false }} />
+  • mdxOptions    = remark-gfm + remark-smartypants → rehype-slug
+                    + rehype-autolink-headings + rehype-pretty-code (Shiki,
+                    github-light + github-dark)   [single source of truth]
+  • mdxComponents = HTML-element → prose/ component registry
 ```
 
-Articles are filtered through `isPublishable(article, now)` which drops `draft: true` and any post whose `date` is in the future.
+The loader no longer renders HTML itself — it hands back the raw `body`, and the route renders it. Shared config lives in `src/lib/content/mdx-options.ts` (plugins) and `src/lib/content/mdx-components.tsx` (registry); interactive demos go in the registry. Articles are filtered through `isPublishable(article, now)`, which drops `draft: true` and any post whose `date` is in the future.
 
 ## 7. Theme system
 
@@ -139,11 +149,11 @@ Native `<details>` can't animate height smoothly because the spec hides closed c
 
 ## 9. Conventions
 
-**Branching:** one branch per task — `task/<N>-<short-kebab-title>`. Branch off `master`. Open PR, link the issue (`Closes #N`). CI must pass before merge. Squash-merge into master.
+**Branching:** one branch per logical change — `task/<short-slug>`. Branch off `master`. Open PR, link the issue (`Closes #N`) when there is one. CI must pass before merge. The author reviews and merges every PR via the GitHub UI.
 
-**Commits:** Conventional-ish prefixes (`feat:`, `chore:`, `docs:`, `ci:`, `refactor:`). Never include a Claude signature or co-authored-by. Lefthook auto-fixes formatting and re-stages — that's expected.
+**Commits:** Conventional-commits prefixes (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`, `refactor:`, …). Never include a Claude signature or co-authored-by. Lefthook auto-fixes formatting and re-stages — that's expected.
 
-**Tests:** TDD for the markdown pipeline, loaders, and date helpers (anything with logic). UI components are not unit-tested; they're verified by reading the rendered page in dev.
+**Tests:** TDD for anything with logic — the MDX pipeline/registry, loaders, and date helpers. Components also carry Storybook stories, and logic-bearing components have jsdom tests (`Footer`, `RoleCard`, `MobileMenuOverlay`, `ProjectCard`, `WritingListItem`, `Chevron`, …). Pure presentational primitives may ship with a story only.
 
 **Loader tests:** behavior tests use temp directories with inline fixtures (see `src/lib/content/test-utils.ts` — `setupFixtureDir` / `cleanupFixtureDir`). Each loader exposes a `makeXLoaders(dir)` factory bound to that temp dir; the production no-arg exports stay untouched. One smoke describe per loader runs against real `content/` so frontmatter drift in production fixtures still trips CI. Don't `vi.mock` the file system — write real markdown to a real temp dir.
 
@@ -166,24 +176,29 @@ The 49 implementation issues are grouped into phases. The board view at https://
 
 Each issue contains the original task body (file paths, code, commit message). Treat the issue as the spec for that PR.
 
-## 11. CI gates
+## 11. CI
 
-The workflow at `.github/workflows/ci.yml` runs on push to master and on every PR:
+The workflow at `.github/workflows/ci.yml` runs on push to `master` and on every PR, as a staged job graph:
 
-1. `bun install --frozen-lockfile`
-2. `bun run typecheck` — gated by `hashFiles('src/**/*.ts', 'src/**/*.tsx', 'vitest.config.ts')`
-3. `bun run lint`
-4. `bun run format:check`
-5. `bun run test` — gated by `hashFiles('vitest.config.ts')`
-6. `bun run build` — gated by `hashFiles('src/app/page.tsx', 'src/app/page.ts')`
+```
+checks ──► test ──► build
+                └──► storybook
+```
 
-The gates let earlier PRs land green before the gated files exist. Once `src/app/page.tsx` lands the build gate fires automatically.
+- **checks** — `typecheck`, `lint`, `format:check`
+- **test** (`needs: checks`) — `bun run test`
+- **build** (`needs: test`) — `bun run build`, restoring `.next/cache` via `actions/cache`
+- **storybook** (`needs: test`) — `bun run build-storybook --quiet`
+
+Every job checks out and runs the composite action at `.github/actions/setup` (`oven-sh/setup-bun` with `bun-version-file: package.json`, `actions/setup-node` with `node-version-file: .nvmrc`, then a cached `bun install --frozen-lockfile`). The workflow sets `permissions: contents: read`, `timeout-minutes: 10` per job, and concurrency that cancels in-progress runs on non-`master` refs. The "Protect master" ruleset requires the `checks` / `test` / `build` / `storybook` status checks before merge.
+
+Deployment is not a CI job — Cloudflare Pages builds and deploys from its own GitHub integration on every push to `master` (see the Hosting row in §3).
 
 ## 12. Performance budget
 
 - HTML < 20 KB gzipped per page
 - CSS < 15 KB gzipped (Tailwind purged)
-- JS < 2 KB total across the site (three client islands only)
+- JS < 2 KB total across the site (four client islands only)
 - LCP < 1s on slow 3G
 - Lighthouse target: 100/100/100/100
 
