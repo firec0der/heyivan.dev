@@ -24,6 +24,16 @@ export const yearOrPresent = z.preprocess(
   z.union([z.number().int().min(YEAR_MIN).max(YEAR_MAX), z.literal('present')])
 );
 
+// 'YYYY-MM' month string (month 01–12). YAML parses unquoted YYYY-MM as a
+// string, so no numeric coercion is needed.
+export const monthYear = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'expected YYYY-MM');
+
+// Accepts a 'YYYY-MM' month or the literal 'present' (case-insensitive); normalizes to lowercase.
+export const monthYearOrPresent = z.preprocess(
+  (val) => (typeof val === 'string' && val.toLowerCase() === 'present' ? 'present' : val),
+  z.union([z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/), z.literal('present')])
+);
+
 export const articleFrontmatter = z.object({
   title: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -59,8 +69,8 @@ export const workSchema = z.object({
     z.object({
       company: z.string(),
       role: z.string(),
-      start: year,
-      end: yearOrPresent,
+      start: monthYear,
+      end: monthYearOrPresent,
       blurb: z.string(),
       description: z.string(),
       skills: z.array(z.string())

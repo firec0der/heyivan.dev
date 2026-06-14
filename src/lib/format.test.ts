@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatArticleDate, formatYearRange, groupByYear } from './format';
+import { formatArticleDate, formatMonthRange, formatYearRange, groupByYear } from './format';
 
 describe('formatArticleDate', () => {
   it('returns an ISO YYYY-MM-DD string as-is', () => {
@@ -48,6 +48,36 @@ describe('formatYearRange', () => {
     expect(() => formatYearRange(2020, 'tomorrow' as unknown as 'present')).toThrow(TypeError);
     expect(() => formatYearRange(2020, 'Present' as unknown as 'present')).toThrow(TypeError);
     expect(() => formatYearRange(2020, null as unknown as 'present')).toThrow(TypeError);
+  });
+});
+
+describe('formatMonthRange', () => {
+  it('renders an abbreviated-month range', () => {
+    expect(formatMonthRange('2022-09', '2024-01')).toBe('Sep 2022 — Jan 2024');
+  });
+
+  it('renders open-ended range with "present"', () => {
+    expect(formatMonthRange('2025-01', 'present')).toBe('Jan 2025 — Present');
+  });
+
+  it('renders January and December at the array boundaries', () => {
+    expect(formatMonthRange('2020-01', '2020-12')).toBe('Jan 2020 — Dec 2020');
+  });
+
+  // Runtime guard — catches callers that bypass the type system or feed
+  // unvalidated data. Schema validates at the data boundary; this is
+  // belt-and-suspenders for in-process drift.
+
+  it('throws when start is not a YYYY-MM string', () => {
+    expect(() => formatMonthRange('2020', '2024-01')).toThrow(TypeError);
+    expect(() => formatMonthRange('2020-13', '2024-01')).toThrow(TypeError);
+    expect(() => formatMonthRange('2020-00', '2024-01')).toThrow(TypeError);
+  });
+
+  it('throws when end is neither YYYY-MM nor "present"', () => {
+    expect(() => formatMonthRange('2020-01', 'Present')).toThrow(TypeError);
+    expect(() => formatMonthRange('2020-01', '2024')).toThrow(TypeError);
+    expect(() => formatMonthRange('2020-01', null as unknown as string)).toThrow(TypeError);
   });
 });
 

@@ -41,6 +41,39 @@ export function formatYearRange(start: number, end: YearOrPresent): string {
   return `${start} — ${end === 'present' ? 'Present' : end}`;
 }
 
+// 'YYYY-MM' month string, or the literal 'present' for an open-ended end.
+export type MonthYearOrPresent = string;
+
+const MONTH_YEAR = /^(\d{4})-(0[1-9]|1[0-2])$/;
+const MONTH_ABBR = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
+function formatMonthYear(value: string, fnName: string): string {
+  const match = typeof value === 'string' ? MONTH_YEAR.exec(value) : null;
+  if (!match) {
+    throw new TypeError(`${fnName}: invalid month "${String(value)}", expected YYYY-MM`);
+  }
+  return `${MONTH_ABBR[Number(match[2]) - 1]} ${match[1]}`;
+}
+
+export function formatMonthRange(start: MonthYearOrPresent, end: MonthYearOrPresent): string {
+  const startLabel = formatMonthYear(start, 'formatMonthRange');
+  const endLabel = end === 'present' ? 'Present' : formatMonthYear(end, 'formatMonthRange');
+  return `${startLabel} — ${endLabel}`;
+}
+
 export function groupByYear<T extends { date: DateInput }>(items: T[]): Map<string, T[]> {
   const map = new Map<string, T[]>();
   for (const item of items) {

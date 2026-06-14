@@ -1,33 +1,266 @@
 roles:
-  - company: Example Co.
-    role: Senior Software Engineer
-    start: 2024
+  - company: The Playa
+    role: Lead Full-Stack Engineer
+    start: 2025-01
     end: present
-    blurb: Building scaled web platform infrastructure.
+    blurb: Leading end-to-end design and delivery of a multi-tenant SaaS platform.
     description: |
-      Lead engineer on the core platform team. Design and ship the services that
-      back the product surface area used by every other team in the company.
-    skills: [Go, Python, Postgres, Kubernetes, AWS, gRPC]
-  - company: Previous Co.
-    role: Software Engineer
-    start: 2020
-    end: 2024
-    blurb: Full-stack feature work across the product surface.
+      Led end-to-end design and delivery of backend and frontend systems, owning
+      architecture from early design through production rollout.
+
+      Managed and mentored a small team of full-stack engineers, setting technical
+      direction and driving system and solution design.
+
+      Designed and implemented a multi-tenant architecture with strong data
+      isolation, working closely with product, data, ML, DevOps, and security
+      teams. Acted as a technical bridge between engineering and non-engineering
+      stakeholders.
+
+      Collaborated with an external design agency to finalize the UI design and
+      design system, later transforming it into a shared React UI kit.
+    skills:
+      [
+        React,
+        TypeScript,
+        TanStack,
+        React Query,
+        Storybook,
+        D3,
+        Plotly.js,
+        Node.js,
+        Fastify,
+        Inversify,
+        NestJS,
+        Jest,
+        PostgreSQL,
+        Python,
+        Liquibase,
+        Auth0,
+        Docker,
+        AWS
+      ]
+  - company: Riverside.fm
+    role: Senior Backend Engineer
+    start: 2024-01
+    end: 2025-01
+    blurb: Sole backend engineer driving major features in a full-stack product team.
     description: |
-      Worked across the stack on the core product. Owned several user-facing
-      features end-to-end from design to release.
-    skills: [TypeScript, React, Node, Postgres, AWS]
+      Served as the sole backend engineer within a full-stack product team, driving
+      the implementation of major features and backend initiatives in close
+      collaboration with data, analytics, and the Architectural Review Board.
+
+      Led an iterative migration of the entire userbase to a new relational data
+      model, introducing a Projects entity that grouped recordings and clips under
+      a unified hierarchy.
+
+      Designed and implemented company-wide Kafka tooling, establishing standards
+      for message design, event production, and best practices across engineering
+      teams.
+
+      Heavily involved in MongoDB aggregation pipeline design, query profiling, and
+      performance optimization.
+    skills: [Node.js, TypeScript, Express, NestJS, MongoDB, Kafka, AWS, Docker]
+  - company: Loxo
+    role: Senior Full-Stack (Front-end heavy) Engineer
+    start: 2022-09
+    end: 2024-01
+    blurb: Built the React Native iOS app from scratch and ported the web UI kit to mobile.
+    description: |
+      Designed and developed the React Native iOS application from scratch, owning
+      the architecture, technology choices, and full implementation through to
+      production.
+
+      Designed the architecture and ported the company's massive React UI kit to
+      React Native, enabling a consistent design system across web and mobile.
+
+      Contributed as a solo frontend engineer, modernizing legacy parts of the web
+      application — migrating to GraphQL/Relay and establishing shared component
+      architecture.
+
+      Developed backend features and APIs using Ruby on Rails, GraphQL, and
+      Elasticsearch, working across the full stack.
+    skills:
+      [
+        React,
+        React Native,
+        TypeScript,
+        CoffeeScript,
+        GraphQL,
+        Relay,
+        Redux,
+        Styled Components,
+        Storybook,
+        Jest,
+        Ruby on Rails,
+        Elasticsearch,
+        PostgreSQL,
+        Sidekiq,
+        iOS
+      ]
+  - company: Restream.io
+    role: Senior Full-Stack (Front-end heavy) Engineer
+    start: 2020-11
+    end: 2022-09
+    blurb: Owned the frontend of multiple streaming products and shared org-wide packages.
+    description: |
+      Rejoined the company after a prior consulting engagement to take on senior and
+      leadership responsibilities across multiple projects.
+
+      Initiated and built a company-wide frontend JavaScript package encapsulating
+      streaming destination management — including connection/reconnection flows,
+      metadata, destination alerts, upsell logic, and Stripe payment integration.
+
+      Developed and maintained a shared UI kit package used across the organization.
+
+      Owned the frontend of the Upload & Stream and Events products, driving feature
+      development and technical direction end-to-end.
+
+      Technically led the Pairs product — a cross-product feature spanning
+      restreaming, Studio, Events, and Chat that enabled Studio guests to stream
+      directly to their own channels. Each iteration was informed by A/B testing and
+      Amplitude analytics.
+
+      Led the development of an embeddable player, enabling users to embed their
+      streams into external websites, with extensive analytics covering player
+      behavior and performance.
+    skills:
+      [
+        TypeScript,
+        React,
+        React Query,
+        Redux,
+        MobX,
+        Inversify,
+        Node.js,
+        Express,
+        NestJS,
+        PostgreSQL,
+        AWS,
+        Media streaming
+      ]
+  - company: Protetiko AB
+    role: Lead Software (Front-end heavy) Engineer
+    start: 2018-04
+    end: 2020-10
+    blurb: Built and scaled the product as Lead Engineer; the prototype passed an investment round.
+    description: |
+      Built and scaled the product as a Lead Engineer, setting up and managing a
+      local team, contributing to architecture, hiring, and delivery. The prototype
+      successfully passed a new investment round.
+    skills:
+      [
+        JavaScript,
+        TypeScript,
+        React,
+        Redux,
+        MobX,
+        Node.js,
+        Ruby,
+        Ruby on Rails,
+        Sinatra,
+        MongoDB,
+        PostgreSQL,
+        RabbitMQ,
+        Microservices,
+        AWS,
+        Auth0,
+        Heroku
+      ]
+  - company: FiduciaSoft
+    role: Senior Full-Stack Engineer, Front-end Tech Lead
+    start: 2017-07
+    end: 2018-04
+    blurb: Outstaff engineer on the Protetiko AB product, leading frontend architecture.
+    description: |
+      Worked as an outstaff engineer on the Protetiko AB product, contributing to
+      frontend architecture and development. Played a key role in building a
+      prototype that successfully closed an investment round.
+    skills: [JavaScript, React, Redux, Ruby, MongoDB, RabbitMQ, AWS]
+  - company: Okra Tech
+    role: Senior Full-Stack Engineer, Consultant
+    start: 2017-06
+    end: 2018-06
+    blurb: Delivered an ML-driven MVP in under a month that later raised £3M.
+    description: |
+      Contributed as part of a small cross-functional team to rapidly build an MVP
+      for a machine-learning–driven product. The MVP was delivered in under a month
+      and later raised £3M in funding.
+    skills: [JavaScript, React, Node.js]
+  - company: Restream.io
+    role: Senior Full-Stack Engineer
+    start: 2017-02
+    end: 2017-06
+    blurb: Scaled and reviewed microservices on a high-load media streaming platform.
+    description: |
+      Worked on development, scaling, and architectural review of microservices in a
+      high-load media streaming platform, and supported the product both as an
+      engineer and team lead.
+    skills: [PHP, Node.js, AWS, WebSockets, APIs]
+  - company: Ezetech
+    role: Front-End Engineer
+    start: 2016-10
+    end: 2017-02
+    blurb: Short-term contract reviewing, refactoring, and extending an existing codebase.
+    description: |
+      Joined on a short-term contract to review and refactor an existing codebase
+      and implement new features in close collaboration with the founding team.
+    skills: [JavaScript, Node.js, LoopBack, React, Redux]
+  - company: Rails Reactor
+    role: Front-end Engineer, Release Manager
+    start: 2015-12
+    end: 2016-10
+    blurb: Frontend architecture and release management for a large single-page corporate app.
+    description: |
+      Worked on a massive single-page corporate application, contributing to
+      frontend architecture, feature development, and release management.
+    skills: [JavaScript, React, Redux, Flux]
+  - company: Schrödinger's Cat Laboratory
+    role: Ruby on Rails Developer
+    start: 2015-10
+    end: 2016-01
+    blurb: Short-term contract building core features for an e-commerce platform.
+    description: |
+      Joined on a short-term contract to develop core features for an e-commerce
+      platform, working across backend services and data storage.
+    skills: [Ruby on Rails, PostgreSQL, MongoDB, jQuery]
+  - company: Educom
+    role: PHP Developer
+    start: 2014-10
+    end: 2015-08
+    blurb: Built and maintained web applications with a focus on backend and performance.
+    description: |
+      Developed and maintained web applications, focusing on backend logic,
+      integrations, and performance improvements.
+    skills: [PHP, Phalcon, Node.js, MongoDB, MySQL, Redis]
+  - company: Itirra
+    role: PHP Developer
+    start: 2013-09
+    end: 2014-09
+    blurb: Backend development and data-intensive features, including custom email broadcasting.
+    description: |
+      Worked on backend development and data-intensive features, including custom
+      email broadcasting and internal frameworks.
+    skills: [PHP, MySQL, MongoDB, RabbitMQ, Redis]
+  - company: National Technical University of Ukraine «KPI»
+    role: Junior Software Engineer, Researcher
+    start: 2011-09
+    end: 2013-06
+    blurb: Research and development of a high-performance web server in a university lab.
+    description: |
+      Participated in research and development of a high-performance web server as
+      part of a university laboratory.
+    skills: [C, C++, PHP, Python]
 skills:
-  Backend: Go, Python, Postgres
-  Frontend: TypeScript, React
-  Infra: Docker, Kubernetes, AWS
+  Frontend: TypeScript, React, React Native, react-query, TanStack, Redux, MobX, GraphQL, Relay
+  Backend: Node.js, NestJS, Fastify, Express, PostgreSQL, MongoDB, Kafka, Python, Ruby on Rails
+  Infra: Docker, AWS, Auth0, Liquibase
 education:
-  - degree: MSc Computer Science
-    institution: University Name
-    start: 2018
-    end: 2020
-  - degree: BSc Computer Science
-    institution: University Name
+  - degree: Computer Science, BSc
+    institution: National Technical University of Ukraine «Kyiv Polytechnic Institute»
     start: 2014
     end: 2018
+  - degree: Heat-and-Power Engineering
+    institution: National Technical University of Ukraine «Kyiv Polytechnic Institute»
+    start: 2009
+    end: 2011
 cv_pdf: /cv.pdf

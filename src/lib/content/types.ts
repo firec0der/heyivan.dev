@@ -28,8 +28,9 @@ export type Project = {
 export type Role = {
   company: string;
   role: string;
-  start: number;
-  end: number | 'present';
+  // 'YYYY-MM' month strings; end may be the literal 'present'.
+  start: string;
+  end: string;
   blurb: string;
   description: string;
   skills: string[];

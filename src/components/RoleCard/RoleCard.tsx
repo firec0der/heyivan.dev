@@ -2,11 +2,12 @@
 
 import { useId, useState } from 'react';
 
+import { Chevron } from '@/components/Chevron';
 import { MonoText } from '@/components/MonoText';
 import { SectionLabel } from '@/components/SectionLabel';
 import { type ClassName, cn } from '@/lib/cn';
 import type { Role } from '@/lib/content/types';
-import { formatYearRange } from '@/lib/format';
+import { formatMonthRange } from '@/lib/format';
 
 type Props = {
   role: Role;
@@ -23,20 +24,13 @@ export const RoleCard = ({ role, defaultOpen = false, className }: Props) => {
         type="button"
         aria-expanded={open}
         aria-controls={regionId}
+        aria-label={`${role.role} at ${role.company}, ${formatMonthRange(role.start, role.end)}`}
         onClick={() => setOpen((v) => !v)}
-        className="py-sm gap-sm flex w-full flex-col text-left"
+        className="py-sm gap-sm flex w-full cursor-pointer flex-col text-left"
       >
         <div className="flex items-baseline justify-between">
-          <MonoText>{formatYearRange(role.start, role.end)}</MonoText>
-          <span
-            aria-hidden="true"
-            className={cn(
-              'text-muted inline-block text-[14px] leading-[1.6] transition-transform duration-[var(--motion-duration-base)] ease-[var(--motion-easing-standard)]',
-              open && 'rotate-180'
-            )}
-          >
-            ▾
-          </span>
+          <MonoText>{formatMonthRange(role.start, role.end)}</MonoText>
+          <Chevron open={open} className="text-muted self-center" />
         </div>
         <span className="text-fg text-[16px] leading-[1.6]">
           {role.role} · {role.company}

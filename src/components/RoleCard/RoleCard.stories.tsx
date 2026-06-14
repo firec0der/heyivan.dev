@@ -7,7 +7,7 @@ import { RoleCard } from './RoleCard';
 const SAMPLE_ROLE: Role = {
   company: 'Company Name',
   role: 'Senior Engineer',
-  start: 2024,
+  start: '2022-09',
   end: 'present',
   blurb: 'One-line summary of what this role is about.',
   description: `Led a backend team building distributed data pipelines. Owned the on-call rotation, the post-incident process, and the move to a deploy-by-default workflow that took median MTTR from twenty minutes to under three.

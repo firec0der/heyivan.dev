@@ -9,7 +9,7 @@ import { RoleCard } from './RoleCard';
 const ROLE: Role = {
   company: 'Acme',
   role: 'Engineer',
-  start: 2024,
+  start: '2024-01',
   end: 'present',
   blurb: 'The blurb.',
   description: 'First paragraph.\n\nSecond paragraph.',
@@ -43,11 +43,18 @@ describe('RoleCard', () => {
     expect(button.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('renders the formatted year range, role · company, and blurb in the trigger', () => {
+  it('renders the formatted month range, role · company, and blurb in the trigger', () => {
     render(<RoleCard role={ROLE} />);
-    expect(screen.getByText('2024 — Present')).toBeDefined();
+    expect(screen.getByText('Jan 2024 — Present')).toBeDefined();
     expect(screen.getByText('Engineer · Acme')).toBeDefined();
     expect(screen.getByText('The blurb.')).toBeDefined();
+  });
+
+  it('gives the trigger a concise accessible name via aria-label', () => {
+    render(<RoleCard role={ROLE} />);
+    expect(
+      screen.getByRole('button', { name: 'Engineer at Acme, Jan 2024 — Present' })
+    ).toBeDefined();
   });
 
   it('renders the description as separate <p> per blank-line break', () => {
