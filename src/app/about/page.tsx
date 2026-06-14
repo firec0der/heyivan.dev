@@ -36,9 +36,19 @@ const AboutPage = () => (
 
       <Prose.H2>Elsewhere</Prose.H2>
       <Prose.P>
-        You can find me on <Prose.A href="https://github.com/firec0der">GitHub</Prose.A>,{' '}
-        <Prose.A href="https://www.linkedin.com/in/ivan-stetsenko/">LinkedIn</Prose.A>, or by{' '}
-        <Prose.A href="mailto:i.stetsenko1@gmail.com">email</Prose.A>.
+        You can find me on{' '}
+        <Prose.A href="https://github.com/firec0der" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </Prose.A>
+        ,{' '}
+        <Prose.A
+          href="https://www.linkedin.com/in/firecoder/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </Prose.A>
+        , or by <Prose.A href="mailto:i.stetsenko1@gmail.com">email</Prose.A>.
       </Prose.P>
     </div>
   </Container>
