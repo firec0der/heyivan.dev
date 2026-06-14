@@ -18,4 +18,4 @@ years.
 
 ## Elsewhere
 
-You can find me on [GitHub](https://github.com/firec0der), [LinkedIn](https://www.linkedin.com/in/ivan-stetsenko/), or by [email](mailto:i.stetsenko1@gmail.com).
+You can find me on [GitHub](https://github.com/firec0der), [LinkedIn](https://www.linkedin.com/in/firecoder/), or by [email](mailto:i.stetsenko1@gmail.com).

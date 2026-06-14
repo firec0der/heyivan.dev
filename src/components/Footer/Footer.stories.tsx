@@ -9,7 +9,7 @@ const meta = {
   args: {
     socialLinks: {
       github: 'https://github.com/firec0der',
-      linkedin: 'https://www.linkedin.com/in/ivan-stetsenko/',
+      linkedin: 'https://www.linkedin.com/in/firecoder/',
       email: 'i.stetsenko1@gmail.com'
     }
   }

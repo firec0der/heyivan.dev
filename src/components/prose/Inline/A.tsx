@@ -1,8 +1,8 @@
-import type { PropsWithChildren } from 'react';
+import type { ComponentProps } from 'react';
 
-import { type ClassName, cn, type HTMLPassThrough } from '@/lib/cn';
+import { type ClassName, cn } from '@/lib/cn';
 
-type Props = PropsWithChildren & ClassName & HTMLPassThrough<HTMLAnchorElement> & { href?: string };
+type Props = Omit<ComponentProps<'a'>, 'className'> & ClassName;
 
 export const A = ({ children, className, href, ...rest }: Props) => (
   <a
