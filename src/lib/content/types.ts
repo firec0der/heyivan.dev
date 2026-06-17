@@ -6,6 +6,7 @@ export type Article = {
   draft: boolean;
   body: string;
   readingTimeMinutes: number;
+  fallback: boolean;
 };
 
 export type Project = {
@@ -23,6 +24,7 @@ export type Project = {
     source?: string;
   };
   body: string;
+  fallback: boolean;
 };
 
 export type Role = {

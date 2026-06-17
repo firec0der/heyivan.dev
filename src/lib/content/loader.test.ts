@@ -1,7 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { listContentFiles, loadContentFile, sortByDateDesc } from './loader';
+import {
+  listContentFiles,
+  loadContentFile,
+  loadLocalizedYaml,
+  resolveLocalizedFile,
+  sortByDateDesc
+} from './loader';
 import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 
 const baseSchema = z.object({
@@ -73,5 +79,93 @@ Sample body. Has a paragraph.
       const sorted = sortByDateDesc(input);
       expect(sorted.map((i) => i.id)).toEqual(['a', 'b']);
     });
+  });
+});
+
+describe('locale-aware resolution', () => {
+  let dir: string;
+
+  beforeAll(async () => {
+    dir = await setupFixtureDir({
+      'sample.mdx': `---
+title: Sample
+date: 2026-02-14
+---
+
+Sample body.
+`,
+      'sample.uk.mdx': `---
+title: Зразок
+date: 2026-02-14
+---
+
+Тіло зразка.
+`,
+      'only-en.mdx': `---
+title: Only EN
+date: 2026-01-01
+---
+
+Body.
+`,
+      'README.txt': 'Should be ignored by listContentFiles.\n'
+    });
+  });
+
+  afterAll(() => cleanupFixtureDir(dir));
+
+  describe('resolveLocalizedFile', () => {
+    it('returns the base file for en with no fallback', async () => {
+      expect(await resolveLocalizedFile(dir, 'sample', 'en')).toEqual({
+        filename: 'sample.mdx',
+        fallback: false
+      });
+    });
+
+    it('returns the localized file when it exists', async () => {
+      expect(await resolveLocalizedFile(dir, 'sample', 'uk')).toEqual({
+        filename: 'sample.uk.mdx',
+        fallback: false
+      });
+    });
+
+    it('falls back to the base file when the localized file is missing', async () => {
+      expect(await resolveLocalizedFile(dir, 'only-en', 'uk')).toEqual({
+        filename: 'only-en.mdx',
+        fallback: true
+      });
+    });
+  });
+
+  describe('listContentFiles', () => {
+    it('excludes locale-suffixed files', async () => {
+      const files = await listContentFiles(dir);
+      expect(files).toContain('sample.mdx');
+      expect(files).toContain('only-en.mdx');
+      expect(files).not.toContain('sample.uk.mdx');
+    });
+  });
+});
+
+describe('loadLocalizedYaml', () => {
+  const schema = z.object({ a: z.string(), b: z.object({ c: z.string(), d: z.string() }) });
+  let ydir: string;
+
+  beforeAll(async () => {
+    ydir = await setupFixtureDir({
+      'thing.yaml': 'a: base-a\nb:\n  c: base-c\n  d: base-d\n',
+      'thing.uk.yaml': 'a: uk-a\nb:\n  c: uk-c\n'
+    });
+  });
+  afterAll(() => cleanupFixtureDir(ydir));
+
+  it('returns the base file for en', async () => {
+    const data = await loadLocalizedYaml(`${ydir}/thing.yaml`, 'en', schema);
+    expect(data).toEqual({ a: 'base-a', b: { c: 'base-c', d: 'base-d' } });
+  });
+
+  it('deep-merges the uk file over the base, keeping unspecified keys', async () => {
+    const data = await loadLocalizedYaml(`${ydir}/thing.yaml`, 'uk', schema);
+    expect(data).toEqual({ a: 'uk-a', b: { c: 'uk-c', d: 'base-d' } });
   });
 });

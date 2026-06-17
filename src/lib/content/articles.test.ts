@@ -13,6 +13,7 @@ function fakeArticle(overrides: Partial<Article> = {}): Article {
     draft: false,
     body: '',
     readingTimeMinutes: 1,
+    fallback: false,
     ...overrides
   };
 }
@@ -31,6 +32,15 @@ draft: false
 ---
 
 Welcome to the site. This is the first post.
+`,
+      'hello.uk.mdx': `---
+title: Привіт, світе.
+date: 2026-01-04
+description: Перший допис.
+draft: false
+---
+
+Ласкаво просимо на сайт.
 `,
       'older.mdx': `---
 title: Older post
@@ -105,6 +115,24 @@ Should never appear before 2099.
   it('still loads draft and future posts when requested by exact slug', async () => {
     expect((await loaders.getArticleBySlug('draft'))?.draft).toBe(true);
     expect((await loaders.getArticleBySlug('future'))?.date).toBe('2099-01-01');
+  });
+
+  it('loads the uk translation when present (fallback false)', async () => {
+    const a = await loaders.getArticleBySlug('hello', 'uk');
+    expect(a?.fallback).toBe(false);
+    expect(a?.title).toBe('Привіт, світе.');
+  });
+
+  it('falls back to en when the uk translation is missing (fallback true)', async () => {
+    const a = await loaders.getArticleBySlug('older', 'uk');
+    expect(a?.fallback).toBe(true);
+    expect(a?.title).toBe('Older post');
+  });
+
+  it('defaults to en with fallback false', async () => {
+    const a = await loaders.getArticleBySlug('hello');
+    expect(a?.fallback).toBe(false);
+    expect(a?.title).toBe('Hello, world.');
   });
 
   it('getRecentArticles respects the limit and sorts by date desc', async () => {

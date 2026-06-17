@@ -16,7 +16,8 @@ const baseProject: Project = {
   coverImage: SAMPLE_COVER,
   stack: ['React Native', 'TypeScript', 'Postgres'],
   links: { live: 'https://example-app.com' },
-  body: ''
+  body: '',
+  fallback: false
 };
 
 const meta = {
