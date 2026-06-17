@@ -73,6 +73,31 @@ export async function loadYamlFile<T>(filePath: string, schema: ZodType<T>): Pro
   return schema.parse(parsed);
 }
 
+const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/** Recursively merge `override` onto `base`. Arrays and scalars in `override` replace wholesale. */
+function deepMerge(base: unknown, override: unknown): unknown {
+  if (!isPlainObject(base) || !isPlainObject(override)) return override ?? base;
+  const out: Record<string, unknown> = { ...base };
+  for (const [k, v] of Object.entries(override)) out[k] = deepMerge(base[k], v);
+  return out;
+}
+
+/** Load `<base>.yaml`, deep-merging `<base>.<locale>.yaml` over it when present, then validate. */
+export async function loadLocalizedYaml<T>(
+  basePath: string,
+  locale: Locale,
+  schema: ZodType<T>
+): Promise<T> {
+  const baseRaw = yaml.load(await fs.readFile(basePath, 'utf-8'));
+  if (locale === 'en') return schema.parse(baseRaw);
+  const localizedPath = basePath.replace(/\.yaml$/, `.${locale}.yaml`);
+  if (!(await fileExists(localizedPath))) return schema.parse(baseRaw);
+  const overrideRaw = yaml.load(await fs.readFile(localizedPath, 'utf-8'));
+  return schema.parse(deepMerge(baseRaw, overrideRaw));
+}
+
 export async function listContentFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir);
   return entries.filter((f) => f.endsWith('.mdx') && !LOCALE_SUFFIX.test(f));

@@ -1,7 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { listContentFiles, loadContentFile, resolveLocalizedFile, sortByDateDesc } from './loader';
+import {
+  listContentFiles,
+  loadContentFile,
+  loadLocalizedYaml,
+  resolveLocalizedFile,
+  sortByDateDesc
+} from './loader';
 import { cleanupFixtureDir, setupFixtureDir } from './test-utils';
 
 const baseSchema = z.object({
@@ -138,5 +144,28 @@ Body.
       expect(files).toContain('only-en.mdx');
       expect(files).not.toContain('sample.uk.mdx');
     });
+  });
+});
+
+describe('loadLocalizedYaml', () => {
+  const schema = z.object({ a: z.string(), b: z.object({ c: z.string(), d: z.string() }) });
+  let ydir: string;
+
+  beforeAll(async () => {
+    ydir = await setupFixtureDir({
+      'thing.yaml': 'a: base-a\nb:\n  c: base-c\n  d: base-d\n',
+      'thing.uk.yaml': 'a: uk-a\nb:\n  c: uk-c\n'
+    });
+  });
+  afterAll(() => cleanupFixtureDir(ydir));
+
+  it('returns the base file for en', async () => {
+    const data = await loadLocalizedYaml(`${ydir}/thing.yaml`, 'en', schema);
+    expect(data).toEqual({ a: 'base-a', b: { c: 'base-c', d: 'base-d' } });
+  });
+
+  it('deep-merges the uk file over the base, keeping unspecified keys', async () => {
+    const data = await loadLocalizedYaml(`${ydir}/thing.yaml`, 'uk', schema);
+    expect(data).toEqual({ a: 'uk-a', b: { c: 'uk-c', d: 'base-d' } });
   });
 });
