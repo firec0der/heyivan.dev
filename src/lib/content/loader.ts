@@ -5,11 +5,38 @@ import matter from 'gray-matter';
 import yaml from 'js-yaml';
 import type { ZodType } from 'zod';
 
+import type { Locale } from '@/lib/i18n/config';
+
+const LOCALE_SUFFIX = /\.[a-z]{2}\.mdx$/; // matches `<slug>.<locale>.mdx`
+
 export type LoadedFile<T> = {
   slug: string;
   frontmatter: T;
   body: string;
 };
+
+export type LocalizedFile = { filename: string; fallback: boolean };
+
+async function fileExists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Resolve which file to load for `slug` in `locale`, falling back to the English source. */
+export async function resolveLocalizedFile(
+  dir: string,
+  slug: string,
+  locale: Locale
+): Promise<LocalizedFile> {
+  if (locale === 'en') return { filename: `${slug}.mdx`, fallback: false };
+  const localized = `${slug}.${locale}.mdx`;
+  if (await fileExists(path.join(dir, localized))) return { filename: localized, fallback: false };
+  return { filename: `${slug}.mdx`, fallback: true };
+}
 
 export type LoadedPage<T> = {
   frontmatter: T;
@@ -48,7 +75,7 @@ export async function loadYamlFile<T>(filePath: string, schema: ZodType<T>): Pro
 
 export async function listContentFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir);
-  return entries.filter((f) => f.endsWith('.mdx'));
+  return entries.filter((f) => f.endsWith('.mdx') && !LOCALE_SUFFIX.test(f));
 }
 
 export function sortByDateDesc<T extends { date: string }>(items: T[]): T[] {
