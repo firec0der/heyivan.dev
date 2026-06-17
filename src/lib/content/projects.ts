@@ -1,14 +1,20 @@
 import path from 'node:path';
 
-import { listContentFiles, loadContentFile, sortByDateDesc } from './loader';
+import type { Locale } from '@/lib/i18n/config';
+
+import { listContentFiles, loadContentPage, resolveLocalizedFile, sortByDateDesc } from './loader';
 import { projectFrontmatter } from './schemas';
 import type { Project } from './types';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'content', 'projects');
 
 export function makeProjectLoaders(dir: string = PROJECTS_DIR) {
-  async function loadProject(filename: string): Promise<Project> {
-    const { slug, frontmatter, body } = await loadContentFile(dir, filename, projectFrontmatter);
+  async function loadProject(slug: string, locale: Locale): Promise<Project> {
+    const { filename, fallback } = await resolveLocalizedFile(dir, slug, locale);
+    const { frontmatter, body } = await loadContentPage(
+      path.join(dir, filename),
+      projectFrontmatter
+    );
     return {
       slug,
       title: frontmatter.title,
@@ -18,19 +24,21 @@ export function makeProjectLoaders(dir: string = PROJECTS_DIR) {
       coverImage: frontmatter.coverImage,
       stack: frontmatter.stack,
       links: frontmatter.links,
-      body
+      body,
+      fallback
     };
   }
 
-  async function getAllProjects(): Promise<Project[]> {
+  async function getAllProjects(locale: Locale = 'en'): Promise<Project[]> {
     const files = await listContentFiles(dir);
-    const all = await Promise.all(files.map(loadProject));
+    const slugs = files.map((f) => f.replace(/\.mdx$/, ''));
+    const all = await Promise.all(slugs.map((s) => loadProject(s, locale)));
     return sortByDateDesc(all);
   }
 
-  async function getProjectBySlug(slug: string): Promise<Project | null> {
+  async function getProjectBySlug(slug: string, locale: Locale = 'en'): Promise<Project | null> {
     try {
-      return await loadProject(`${slug}.mdx`);
+      return await loadProject(slug, locale);
     } catch {
       return null;
     }

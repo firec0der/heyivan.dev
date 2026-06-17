@@ -28,6 +28,25 @@ education:
     start: 2014
     end: 2018
 cv_pdf: /cv.pdf
+`,
+      'work.uk.yaml': `roles:
+  - company: Test Co.
+    role: Інженер
+    start: 2020-03
+    end: present
+    blurb: Будував речі.
+    description: |
+      Виконував інженерну роботу.
+    skills: [TypeScript, Go]
+skills:
+  Backend: Go
+  Frontend: TypeScript
+education:
+  - degree: Бакалавр КН
+    institution: Університет
+    start: 2014
+    end: 2018
+cv_pdf: /cv.pdf
 `
     });
   });
@@ -35,12 +54,20 @@ cv_pdf: /cv.pdf
   afterAll(() => cleanupFixtureDir(dir));
 
   it('parses roles, skills, education, cv_pdf', async () => {
-    const work = await getWorkData(path.join(dir, 'work.yaml'));
+    const work = await getWorkData('en', path.join(dir, 'work.yaml'));
     expect(work.roles).toHaveLength(1);
     expect(work.roles[0]!.company).toBe('Test Co.');
     expect(work.roles[0]!.end).toBe('present');
     expect(work.skills.Backend).toBe('Go');
     expect(work.education).toHaveLength(1);
+    expect(work.cv_pdf).toBe('/cv.pdf');
+  });
+
+  it('deep-merges the uk override, keeping base-only fields', async () => {
+    const work = await getWorkData('uk', path.join(dir, 'work.yaml'));
+    expect(work.roles[0]!.role).toBe('Інженер');
+    expect(work.roles[0]!.company).toBe('Test Co.');
+    expect(work.education[0]!.degree).toBe('Бакалавр КН');
     expect(work.cv_pdf).toBe('/cv.pdf');
   });
 });

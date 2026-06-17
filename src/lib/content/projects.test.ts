@@ -23,6 +23,20 @@ links:
 
 Alpha project body.
 `,
+      'alpha.uk.mdx': `---
+title: Альфа
+tagline: Перший проєкт.
+date: 2025-09-01
+status: live
+coverImage: /images/projects/alpha/cover.png
+stack: [TypeScript, React]
+links:
+  live: https://alpha.example.com
+  source: https://github.com/example/alpha
+---
+
+Тіло проєкту Альфа.
+`,
       'beta.mdx': `---
 title: Beta
 tagline: Second project.
@@ -67,6 +81,24 @@ Beta project body.
     const projects = await loaders.getAllProjects();
     const slugs = await loaders.getProjectSlugs();
     expect(slugs).toEqual(projects.map((p) => p.slug));
+  });
+
+  it('loads the uk translation when present (fallback false)', async () => {
+    const p = await loaders.getProjectBySlug('alpha', 'uk');
+    expect(p?.fallback).toBe(false);
+    expect(p?.title).toBe('Альфа');
+  });
+
+  it('falls back to en when the uk translation is missing (fallback true)', async () => {
+    const p = await loaders.getProjectBySlug('beta', 'uk');
+    expect(p?.fallback).toBe(true);
+    expect(p?.title).toBe('Beta');
+  });
+
+  it('defaults to en with fallback false', async () => {
+    const p = await loaders.getProjectBySlug('alpha');
+    expect(p?.fallback).toBe(false);
+    expect(p?.title).toBe('Alpha');
   });
 });
 
