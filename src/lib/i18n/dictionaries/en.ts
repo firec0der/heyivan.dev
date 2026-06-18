@@ -8,6 +8,18 @@ export const en = {
     downloadCv: 'Download CV (PDF)',
     education: 'Education'
   },
+  writing: { title: 'Writing', subtitle: 'Essays, notes, and post-mortems.' },
+  projects: {
+    title: 'Projects',
+    subtitle: 'Side projects and the occasional product.',
+    allProjects: 'All projects',
+    stack: 'Stack',
+    links: 'Links',
+    live: 'Live',
+    appstore: 'App Store',
+    playstore: 'Play Store',
+    source: 'Source'
+  },
   theme: { toLight: 'Switch to light mode', toDark: 'Switch to dark mode', label: 'Theme' },
   language: { label: 'Language' },
   footer: { github: 'github', linkedin: 'linkedin', email: 'email' },

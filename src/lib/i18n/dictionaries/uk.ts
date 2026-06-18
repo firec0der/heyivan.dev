@@ -10,6 +10,18 @@ export const uk: Dictionary = {
     downloadCv: 'Завантажити CV (PDF)',
     education: 'Освіта'
   },
+  writing: { title: 'Нотатки', subtitle: 'Есеї, нотатки та розбори.' },
+  projects: {
+    title: 'Проєкти',
+    subtitle: 'Пет-проєкти та інколи продукт.',
+    allProjects: 'Усі проєкти',
+    stack: 'Стек',
+    links: 'Посилання',
+    live: 'Live',
+    appstore: 'App Store',
+    playstore: 'Play Store',
+    source: 'Джерело'
+  },
   theme: { toLight: 'Світла тема', toDark: 'Темна тема', label: 'Тема' },
   language: { label: 'Мова' },
   footer: { github: 'github', linkedin: 'linkedin', email: 'пошта' },
