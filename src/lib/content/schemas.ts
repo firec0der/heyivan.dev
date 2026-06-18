@@ -34,6 +34,10 @@ export const monthYearOrPresent = z.preprocess(
   z.union([z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/), z.literal('present')])
 );
 
+export const aboutFrontmatter = z.object({
+  title: z.string().min(1)
+});
+
 export const articleFrontmatter = z.object({
   title: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
