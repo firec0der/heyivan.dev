@@ -28,6 +28,6 @@ export const en = {
     body: 'That page does not exist. Here is some recent writing instead.',
     home: 'Back home'
   },
-  content: { notTranslated: 'This page has not been translated yet.' },
+  content: { notTranslated: 'This page has not been translated yet.', minRead: 'min read' },
   menu: { open: 'Open menu', close: 'Close menu', nav: 'Site navigation' }
 };

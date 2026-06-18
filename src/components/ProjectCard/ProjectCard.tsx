@@ -7,12 +7,12 @@ import { Text } from '@/components/Text';
 import type { ClassName } from '@/lib/cn';
 import type { Project } from '@/lib/content/types';
 
-type Props = { project: Project } & ClassName;
+type Props = { project: Project; href?: string } & ClassName;
 
-export const ProjectCard = ({ project, className }: Props) => (
+export const ProjectCard = ({ project, href, className }: Props) => (
   <ListItem className={className}>
     <Link
-      href={`/projects/${project.slug}`}
+      href={href ?? `/projects/${project.slug}`}
       className="py-lg md:gap-lg hover:bg-surface gap-sm flex flex-col items-start transition-colors md:flex-row"
     >
       {project.coverImage ? (
