@@ -11,7 +11,7 @@ export const ProjectsIndexView = async ({ lang }: { lang: Locale }) => {
   const projects = await getAllProjects(lang);
 
   return (
-    <Container>
+    <Container lang={lang}>
       <header className="pt-lg pb-3xl">
         <PageTitle>{t.projects.title}</PageTitle>
         <Subtitle className="mt-3xs">{t.projects.subtitle}</Subtitle>

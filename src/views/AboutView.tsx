@@ -13,7 +13,7 @@ export const AboutView = async ({ lang }: { lang: Locale }) => {
   const [page, site] = await Promise.all([getAboutContent(lang), getSiteData(lang)]);
 
   return (
-    <Container>
+    <Container lang={lang}>
       <header className="pt-lg">
         <PageTitle>{page.title}</PageTitle>
         <div className="mt-lg">

@@ -14,7 +14,7 @@ export const WorkView = async ({ lang }: { lang: Locale }) => {
   const work = await getWorkData(lang);
 
   return (
-    <Container>
+    <Container lang={lang}>
       <header className="pt-lg pb-xl">
         <PageTitle>{t.work.title}</PageTitle>
         <Subtitle className="mt-3xs">{t.work.subtitle}</Subtitle>
