@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { getArticleBySlug, getArticleSlugs } from '@/lib/content/articles';
+import { alternatesFor } from '@/lib/i18n/metadata';
 import { ArticleView } from '@/views/ArticleView';
 
 type Params = { slug: string };
@@ -20,6 +21,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   return {
     title: article.title,
     description: article.description ?? undefined,
+    alternates: alternatesFor(`/writing/${slug}`),
     openGraph: {
       title: article.title,
       description: article.description ?? undefined,

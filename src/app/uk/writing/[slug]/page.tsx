@@ -1,4 +1,7 @@
+import type { Metadata } from 'next';
+
 import { getArticleSlugs } from '@/lib/content/articles';
+import { alternatesFor } from '@/lib/i18n/metadata';
 import { ArticleView } from '@/views/ArticleView';
 
 type Params = { slug: string };
@@ -9,6 +12,11 @@ export const dynamicParams = false;
 export const generateStaticParams = async (): Promise<Params[]> => {
   const slugs = await getArticleSlugs();
   return slugs.map((slug) => ({ slug }));
+};
+
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+  const { slug } = await params;
+  return { alternates: alternatesFor(`/writing/${slug}`) };
 };
 
 const UkArticlePage = async ({ params }: Props) => {
