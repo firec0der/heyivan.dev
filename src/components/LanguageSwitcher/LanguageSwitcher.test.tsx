@@ -21,7 +21,7 @@ describe('LanguageSwitcher', () => {
     usePathname.mockReturnValue('/writing');
     render(<LanguageSwitcher />);
     fireEvent.click(screen.getByRole('button'));
-    expect(screen.getByRole('link', { name: 'en' }).getAttribute('aria-current')).toBe('true');
+    expect(screen.getByRole('link', { name: 'en' }).getAttribute('aria-current')).toBe('page');
     expect(screen.getByRole('link', { name: 'укр' }).getAttribute('aria-current')).toBeNull();
   });
 

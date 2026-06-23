@@ -31,7 +31,6 @@ export const LanguageSwitcher = ({ className }: ClassName) => {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-haspopup="true"
         className="text-fg gap-2xs flex cursor-pointer items-center text-[14px]"
       >
         {LABELS[active]}
@@ -44,7 +43,7 @@ export const LanguageSwitcher = ({ className }: ClassName) => {
             <li key={locale}>
               <Link
                 href={localizePath(pathname, locale)}
-                aria-current={locale === active ? 'true' : undefined}
+                aria-current={locale === active ? 'page' : undefined}
                 onClick={() => setOpen(false)}
                 className={cn(
                   'px-2xs block text-[14px]',
