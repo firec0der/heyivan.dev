@@ -44,6 +44,24 @@ bun run build-storybook
 
 Lefthook runs `typecheck` on pre-push. Don't bypass with `--no-verify`.
 
+## Docker dev environment
+
+Copy `.env.example` to `.env` once (gitignored). Then:
+
+```bash
+docker compose up -d        # start next dev + storybook in background
+docker compose logs -f      # tail logs from both services
+docker compose down         # stop (named volumes persist)
+docker compose down -v      # stop + wipe volumes (full reinstall on next up)
+```
+
+- Next.js dev server: http://localhost:3344 (override with `WEB_PORT` in `.env`)
+- Storybook: http://localhost:3345 (override with `STORYBOOK_PORT` in `.env`)
+
+`bun add` on the host triggers an automatic `bun install` inside the running containers via `inotifywait` — no restart needed.
+
+On macOS, set `WATCHPACK_POLLING=true` and `CHOKIDAR_USEPOLLING=true` in `.env` if HMR is sluggish.
+
 ## Git workflow
 
 - One PR per logical change. Issues track work; PRs close issues.
