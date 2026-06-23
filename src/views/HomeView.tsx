@@ -15,7 +15,7 @@ export const HomeView = async ({ lang }: { lang: Locale }) => {
   const [site, latest] = await Promise.all([getSiteData(lang), getRecentArticles(5, lang)]);
 
   return (
-    <Container>
+    <Container lang={lang}>
       <section className="gap-sm pt-lg pb-3xl flex flex-col items-start">
         <Avatar src="/images/avatar.png" alt="" size={96} />
         <div>

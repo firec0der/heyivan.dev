@@ -15,7 +15,7 @@ export const WritingIndexView = async ({ lang }: { lang: Locale }) => {
   const years = [...byYear.keys()].sort((a, b) => (a < b ? 1 : -1));
 
   return (
-    <Container>
+    <Container lang={lang}>
       <header className="pt-lg pb-3xl">
         <PageTitle>{t.writing.title}</PageTitle>
         <Subtitle className="mt-3xs">{t.writing.subtitle}</Subtitle>

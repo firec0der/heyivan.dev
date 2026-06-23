@@ -16,7 +16,7 @@ export const ArticleView = async ({ lang, slug }: { lang: Locale; slug: string }
   if (!article) notFound();
 
   return (
-    <Container width="article">
+    <Container width="article" lang={lang}>
       <BackLink href={localizePath('/writing', lang)}>{t.home.allWriting}</BackLink>
 
       <header className="pb-xl">

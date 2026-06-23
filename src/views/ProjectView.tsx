@@ -19,7 +19,7 @@ export const ProjectView = async ({ lang, slug }: { lang: Locale; slug: string }
   if (!project) notFound();
 
   return (
-    <Container width="article">
+    <Container width="article" lang={lang}>
       <BackLink href={localizePath('/projects', lang)}>{t.projects.allProjects}</BackLink>
 
       <header className="pb-xl">
