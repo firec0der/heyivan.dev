@@ -18,6 +18,9 @@ RUN apt-get update \
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+RUN useradd -u 1000 -m app
+USER app
+
 WORKDIR /app
 
 # Cache deps in their own layer. At runtime, a named volume shadows /app/node_modules

@@ -6,6 +6,7 @@ services:
       context: .
     image: heyivan-dev:latest
     command: bun run dev
+    restart: unless-stopped
     ports:
       - '${WEB_PORT:-3344}:3000'
     environment:
@@ -17,12 +18,11 @@ services:
       - node_modules_web:/app/node_modules
 
   storybook:
-    depends_on:
-      - web
     build:
       context: .
     image: heyivan-dev:latest
-    command: bun run storybook --ci --no-open
+    command: bun run storybook --ci --no-open --host 0.0.0.0
+    restart: unless-stopped
     ports:
       - '${STORYBOOK_PORT:-3345}:6006'
     environment:
