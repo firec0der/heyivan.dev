@@ -5,6 +5,7 @@ import { Container } from '@/components/Container';
 import { DetailTitle } from '@/components/DetailTitle';
 import { LinkArrow } from '@/components/LinkArrow';
 import { MonoText } from '@/components/MonoText';
+import { Notice } from '@/components/Notice';
 import { SectionLabel } from '@/components/SectionLabel';
 import { StatusPill } from '@/components/StatusPill';
 import { MdxBody } from '@/lib/content/mdx-body';
@@ -33,11 +34,7 @@ export const ProjectView = async ({ lang, slug }: { lang: Locale; slug: string }
         </div>
       </header>
 
-      {project.fallback && (
-        <p className="text-muted border-border mb-lg px-md py-sm rounded-md border text-[14px]">
-          {t.content.notTranslated}
-        </p>
-      )}
+      {project.fallback && <Notice className="mb-lg">{t.content.notTranslated}</Notice>}
 
       {project.coverImage && (
         // eslint-disable-next-line @next/next/no-img-element
