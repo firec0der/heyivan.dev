@@ -1,0 +1,35 @@
+name: heyivan-dev
+
+services:
+  web:
+    build:
+      context: .
+    image: heyivan-dev:latest
+    command: bun run dev
+    ports:
+      - '${WEB_PORT:-3344}:3000'
+    environment:
+      NEXT_TELEMETRY_DISABLED: '1'
+      WATCHPACK_POLLING: '${WATCHPACK_POLLING:-false}'
+      CHOKIDAR_USEPOLLING: '${CHOKIDAR_USEPOLLING:-false}'
+    volumes:
+      - ./:/app
+      - node_modules_web:/app/node_modules
+
+  storybook:
+    build:
+      context: .
+    image: heyivan-dev:latest
+    command: bun run storybook --ci --no-open
+    ports:
+      - '${STORYBOOK_PORT:-3345}:6006'
+    environment:
+      STORYBOOK_DISABLE_TELEMETRY: '1'
+      CHOKIDAR_USEPOLLING: '${CHOKIDAR_USEPOLLING:-false}'
+    volumes:
+      - ./:/app
+      - node_modules_sb:/app/node_modules
+
+volumes:
+  node_modules_web:
+  node_modules_sb:
