@@ -17,6 +17,8 @@ services:
       - node_modules_web:/app/node_modules
 
   storybook:
+    depends_on:
+      - web
     build:
       context: .
     image: heyivan-dev:latest

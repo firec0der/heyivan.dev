@@ -17,7 +17,7 @@ inotifywait -m -q -e close_write,moved_to /app --format '%f' 2>/dev/null \
   | grep --line-buffered '^bun\.lock$' \
   | while IFS= read -r _; do
       echo "[entrypoint] bun.lock changed — reinstalling..."
-      bun install
+      bun install || echo "[entrypoint] bun install failed — check logs"
     done &
 
 wait "$SVC_PID"
