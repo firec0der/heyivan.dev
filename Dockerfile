@@ -18,8 +18,7 @@ RUN apt-get update \
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-RUN useradd -u 1000 -m app
-USER app
+USER node
 
 WORKDIR /app
 

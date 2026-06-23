@@ -5,7 +5,7 @@ services:
     build:
       context: .
     image: heyivan-dev:latest
-    command: bun run dev
+    command: bun run dev --hostname 0.0.0.0
     restart: unless-stopped
     ports:
       - '${WEB_PORT:-3344}:3000'
