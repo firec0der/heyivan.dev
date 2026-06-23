@@ -8,8 +8,8 @@ export const THEME_INIT_SCRIPT = `
     var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     var dark = stored ? stored === 'dark' : systemDark;
     if (dark) document.documentElement.setAttribute('data-theme', 'dark');
-    var path = location.pathname;
-    document.documentElement.lang = (path === '/uk' || path.indexOf('/uk/') === 0) ? 'uk' : 'en';
   } catch (e) {}
+  var path = location.pathname;
+  document.documentElement.lang = (path === '/uk' || path.indexOf('/uk/') === 0) ? 'uk' : 'en';
 })();
 `.trim();
