@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { IconButton } from '@/components/IconButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -21,7 +21,6 @@ export const Nav = ({ wordmark, className }: Props) => {
   const locale = localeFromPath(pathname);
   const t = getDictionary(locale);
   const [menuOpen, setMenuOpen] = useState(false);
-  const handleMenuClose = useCallback(() => setMenuOpen(false), []);
 
   return (
     <header className={cn('border-border border-b', className)}>
@@ -64,7 +63,7 @@ export const Nav = ({ wordmark, className }: Props) => {
         </div>
       </div>
 
-      <MobileMenuOverlay open={menuOpen} onClose={handleMenuClose} wordmark={wordmark} />
+      <MobileMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} wordmark={wordmark} />
     </header>
   );
 };
