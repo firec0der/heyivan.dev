@@ -1,5 +1,6 @@
 import { Avatar } from '@/components/Avatar';
 import { Container } from '@/components/Container';
+import { Notice } from '@/components/Notice';
 import { PageTitle } from '@/components/PageTitle';
 import { Prose } from '@/components/prose';
 import { getAboutContent } from '@/lib/content/about';
@@ -22,11 +23,7 @@ export const AboutView = async ({ lang }: { lang: Locale }) => {
       </header>
 
       <div className="mt-xl">
-        {page.fallback && (
-          <p className="text-muted border-border mb-lg px-md py-sm rounded-md border text-[14px]">
-            {t.content.notTranslated}
-          </p>
-        )}
+        {page.fallback && <Notice className="mb-lg">{t.content.notTranslated}</Notice>}
 
         <MdxBody source={page.body} />
 

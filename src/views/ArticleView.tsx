@@ -4,6 +4,7 @@ import { BackLink } from '@/components/BackLink';
 import { Container } from '@/components/Container';
 import { DetailTitle } from '@/components/DetailTitle';
 import { MonoText } from '@/components/MonoText';
+import { Notice } from '@/components/Notice';
 import { getArticleBySlug } from '@/lib/content/articles';
 import { MdxBody } from '@/lib/content/mdx-body';
 import { formatArticleDate } from '@/lib/format';
@@ -28,11 +29,7 @@ export const ArticleView = async ({ lang, slug }: { lang: Locale; slug: string }
         </MonoText>
       </header>
 
-      {article.fallback && (
-        <p className="text-muted border-border mb-lg px-md py-sm rounded-md border text-[14px]">
-          {t.content.notTranslated}
-        </p>
-      )}
+      {article.fallback && <Notice className="mb-lg">{t.content.notTranslated}</Notice>}
 
       <MdxBody source={article.body} />
     </Container>
