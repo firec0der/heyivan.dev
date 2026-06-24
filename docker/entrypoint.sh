@@ -14,7 +14,7 @@ SVC_PID=$!
 # Watch /app for bun.lock changes via atomic rename (moved_to).
 # --frozen-lockfile prevents the watcher's install from rewriting bun.lock
 # and triggering a feedback loop.
-inotifywait -m -q -e moved_to /app --format '%f' \
+inotifywait -m -q -e moved_to,create /app --format '%f' \
   | grep --line-buffered '^bun\.lock$' \
   | while IFS= read -r _; do
       echo "[entrypoint] bun.lock changed — reinstalling..."
