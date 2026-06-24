@@ -60,7 +60,7 @@ docker compose down -v      # stop + wipe volumes (full reinstall on next up)
 
 `bun add` on the host triggers an automatic `bun install` inside the running containers via `inotifywait` — no restart needed.
 
-On macOS, set `WATCHPACK_POLLING=true` and `CHOKIDAR_USEPOLLING=true` in `.env` if HMR is sluggish.
+`CHOKIDAR_USEPOLLING=true` is required on Linux for Storybook HMR (Vite's watcher does not receive inotify events across the bind-mount namespace boundary without it). `.env.example` ships with this enabled. On macOS, also set `WATCHPACK_POLLING=true` if Next.js HMR feels sluggish.
 
 ## Git workflow
 

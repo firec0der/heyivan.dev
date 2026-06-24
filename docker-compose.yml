@@ -28,6 +28,7 @@ services:
     environment:
       STORYBOOK_DISABLE_TELEMETRY: '1'
       CHOKIDAR_USEPOLLING: '${CHOKIDAR_USEPOLLING:-false}'
+      STORYBOOK_HMR_CLIENT_PORT: '${STORYBOOK_PORT:-3345}'
     volumes:
       - ./:/app
       - node_modules_sb:/app/node_modules

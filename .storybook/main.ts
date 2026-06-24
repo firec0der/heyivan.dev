@@ -11,6 +11,17 @@ const config: StorybookConfig = {
   typescript: {
     check: false,
     reactDocgen: 'react-docgen-typescript'
+  },
+  viteFinal: async (config) => {
+    const clientPort = process.env.STORYBOOK_HMR_CLIENT_PORT;
+    if (clientPort) {
+      config.server ??= {};
+      config.server.hmr =
+        typeof config.server.hmr === 'object' && config.server.hmr !== null
+          ? { ...config.server.hmr, clientPort: Number(clientPort) }
+          : { clientPort: Number(clientPort) };
+    }
+    return config;
   }
 };
 
