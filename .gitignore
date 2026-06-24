@@ -5,6 +5,7 @@ dist/
 .DS_Store
 *.log
 .env*.local
+.env
 .vercel
 .cache/
 .idea/
@@ -13,4 +14,5 @@ coverage/
 .vitest-cache/
 storybook-static/
 .claude/
+.playwright-mcp/
 *.tsbuildinfo
