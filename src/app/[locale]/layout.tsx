@@ -1,16 +1,17 @@
 import '../globals.css';
 
 import type { Metadata } from 'next';
-import type { PropsWithChildren } from 'react';
+import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
+import type { PropsWithChildren } from 'react';
 
 import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
 import { SkipLink } from '@/components/SkipLink';
+import { type Locale, routing } from '@/i18n/routing';
 import { cn } from '@/lib/cn';
 import { getSiteData } from '@/lib/content/site';
 import { THEME_INIT_SCRIPT } from '@/lib/theme/init-script';
-import { type Locale, routing } from '@/i18n/routing';
 
 import { mono, sans, serif } from '../fonts';
 
@@ -50,12 +51,14 @@ const LocaleLayout = async ({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="flex min-h-dvh flex-col">
-        <SkipLink />
-        <Nav wordmark={site.wordmark} />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer socialLinks={site.social} />
+        <NextIntlClientProvider>
+          <SkipLink />
+          <Nav wordmark={site.wordmark} />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer socialLinks={site.social} />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
