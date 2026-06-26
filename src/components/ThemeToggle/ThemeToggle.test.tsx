@@ -2,7 +2,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('next/navigation', () => ({ usePathname: () => '/' }));
+vi.mock('next-intl', () => ({ useLocale: () => 'en' }));
 
 import { ThemeToggle } from './ThemeToggle';
 

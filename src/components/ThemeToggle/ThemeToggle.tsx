@@ -3,12 +3,13 @@
 import { IconButton } from '@/components/IconButton';
 import { type ClassName, cn } from '@/lib/cn';
 import { getDictionary } from '@/lib/i18n/dictionaries';
-import { useLocale } from '@/lib/i18n/use-locale';
+import { type Locale } from '@/i18n/routing';
+import { useLocale } from 'next-intl';
 import { useTheme } from '@/lib/theme/use-theme';
 
 export const ThemeToggle = ({ className }: ClassName) => {
   const { theme, toggle } = useTheme();
-  const t = getDictionary(useLocale());
+  const t = getDictionary(useLocale() as Locale);
   const isDark = theme === 'dark';
   return (
     <IconButton
