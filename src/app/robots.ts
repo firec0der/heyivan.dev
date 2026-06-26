@@ -3,8 +3,7 @@ import type { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 const robots = (): MetadataRoute.Robots => ({
-  rules: [{ userAgent: '*', allow: '/' }],
-  sitemap: 'https://heyivan.dev/sitemap.xml'
+  rules: [{ userAgent: '*', disallow: '/' }]
 });
 
 export default robots;
