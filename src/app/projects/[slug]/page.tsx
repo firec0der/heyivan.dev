@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getProjectBySlug, getProjectSlugs } from '@/lib/content/projects';
 import { alternatesFor } from '@/lib/i18n/metadata';
@@ -11,6 +12,9 @@ export const dynamicParams = false;
 
 export const generateStaticParams = async (): Promise<Params[]> => {
   const slugs = await getProjectSlugs();
+  // Next.js static export requires at least one entry; use a placeholder that
+  // resolves to notFound() below when the projects directory is empty.
+  if (slugs.length === 0) return [{ slug: '_empty' }];
   return slugs.map((slug) => ({ slug }));
 };
 
@@ -28,6 +32,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 const ProjectDetailPage = async ({ params }: Props) => {
   const { slug } = await params;
+  if (slug === '_empty') notFound();
   return <ProjectView lang="en" slug={slug} />;
 };
 
