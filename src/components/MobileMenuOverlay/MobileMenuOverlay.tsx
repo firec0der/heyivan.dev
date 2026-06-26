@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { useEffect } from 'react';
 
 import { IconButton } from '@/components/IconButton';
@@ -9,8 +8,9 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { isActiveRoute, NAV_LINKS } from '@/components/Nav/links';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/cn';
-import { localeFromPath, localizePath } from '@/lib/i18n/config';
 import { getDictionary } from '@/lib/i18n/dictionaries';
+import { type Locale } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/navigation';
 
 type Props = {
   open: boolean;
@@ -19,8 +19,8 @@ type Props = {
 };
 
 export const MobileMenuOverlay = ({ open, onClose, wordmark }: Props) => {
-  const pathname = usePathname() ?? '/';
-  const locale = localeFromPath(pathname);
+  const pathname = usePathname();
+  const locale = useLocale() as Locale;
   const t = getDictionary(locale);
 
   useEffect(() => {
@@ -58,12 +58,11 @@ export const MobileMenuOverlay = ({ open, onClose, wordmark }: Props) => {
 
       <nav aria-label="Primary" className="mt-3xl gap-lg flex flex-col">
         {NAV_LINKS.map(({ href, key }) => {
-          const localizedHref = localizePath(href, locale);
-          const active = isActiveRoute(pathname, localizedHref);
+          const active = isActiveRoute(pathname, href);
           return (
             <Link
               key={href}
-              href={localizedHref}
+              href={href}
               onClick={onClose}
               aria-current={active ? 'page' : undefined}
               className={cn('text-[28px] font-medium', active ? 'text-fg' : 'text-muted')}

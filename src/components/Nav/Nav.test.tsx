@@ -1,12 +1,30 @@
 // @vitest-environment jsdom
+import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { isActiveRoute } from './links';
 import { Nav } from './Nav';
 
-vi.mock('next/navigation', () => ({
-  usePathname: () => '/writing/hello-world'
+vi.mock('@/i18n/navigation', () => ({
+  usePathname: () => '/writing/hello-world',
+  Link: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string;
+    children: React.ReactNode;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  )
+}));
+
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en'
 }));
 
 describe('isActiveRoute', () => {

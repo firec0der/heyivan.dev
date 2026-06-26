@@ -1,18 +1,18 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
 
 import { Chevron } from '@/components/Chevron';
 import { type ClassName, cn } from '@/lib/cn';
-import { type Locale, localeFromPath, LOCALES, localizePath } from '@/lib/i18n/config';
+import { routing, type Locale } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/navigation';
 
 const LABELS: Record<Locale, string> = { en: 'en', uk: 'укр' };
 
 export const LanguageSwitcher = ({ className }: ClassName) => {
-  const pathname = usePathname() ?? '/';
-  const active = localeFromPath(pathname);
+  const pathname = usePathname();
+  const active = useLocale() as Locale;
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,10 +39,11 @@ export const LanguageSwitcher = ({ className }: ClassName) => {
 
       {open && (
         <ul className="border-border bg-canvas gap-3xs p-2xs mt-2xs absolute top-full right-0 z-50 flex list-none flex-col rounded-md border">
-          {LOCALES.map((locale) => (
+          {routing.locales.map((locale) => (
             <li key={locale}>
               <Link
-                href={localizePath(pathname, locale)}
+                href={pathname}
+                locale={locale}
                 aria-current={locale === active ? 'page' : undefined}
                 onClick={() => setOpen(false)}
                 className={cn(
