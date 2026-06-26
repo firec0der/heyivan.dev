@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
+import { type Locale } from '@/i18n/routing';
 import { getArticleBySlug, getArticleSlugs } from '@/lib/content/articles';
 import { alternatesFor } from '@/lib/i18n/metadata';
 import { ArticleView } from '@/views/ArticleView';
-import { type Locale } from '@/i18n/routing';
 
 type Params = { locale: Locale; slug: string };
 type Props = { params: Promise<Params> };

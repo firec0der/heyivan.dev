@@ -1,10 +1,11 @@
 'use client';
 
+import { useLocale } from 'next-intl';
+
 import { IconButton } from '@/components/IconButton';
+import { type Locale } from '@/i18n/routing';
 import { type ClassName, cn } from '@/lib/cn';
 import { getDictionary } from '@/lib/i18n/dictionaries';
-import { type Locale } from '@/i18n/routing';
-import { useLocale } from 'next-intl';
 import { useTheme } from '@/lib/theme/use-theme';
 
 export const ThemeToggle = ({ className }: ClassName) => {

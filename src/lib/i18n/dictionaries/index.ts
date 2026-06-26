@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/routing';
+
 import { en } from './en';
 import { uk } from './uk';
 

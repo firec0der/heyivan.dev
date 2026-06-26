@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { useEffect, useRef, useState } from 'react';
 
 import { Chevron } from '@/components/Chevron';
-import { type ClassName, cn } from '@/lib/cn';
-import { routing, type Locale } from '@/i18n/routing';
 import { Link, usePathname } from '@/i18n/navigation';
+import { type Locale, routing } from '@/i18n/routing';
+import { type ClassName, cn } from '@/lib/cn';
 
 const LABELS: Record<Locale, string> = { en: 'en', uk: 'укр' };
 

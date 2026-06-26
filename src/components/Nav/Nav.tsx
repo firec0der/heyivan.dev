@@ -7,10 +7,10 @@ import { IconButton } from '@/components/IconButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { MobileMenuOverlay } from '@/components/MobileMenuOverlay';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Link, usePathname } from '@/i18n/navigation';
+import { type Locale } from '@/i18n/routing';
 import { type ClassName, cn } from '@/lib/cn';
 import { getDictionary } from '@/lib/i18n/dictionaries';
-import { type Locale } from '@/i18n/routing';
-import { Link, usePathname } from '@/i18n/navigation';
 
 import { isActiveRoute, NAV_LINKS } from './links';
 

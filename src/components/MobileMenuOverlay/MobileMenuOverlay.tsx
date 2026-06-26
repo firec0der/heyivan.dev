@@ -7,10 +7,10 @@ import { IconButton } from '@/components/IconButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { isActiveRoute, NAV_LINKS } from '@/components/Nav/links';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Link, usePathname } from '@/i18n/navigation';
+import { type Locale } from '@/i18n/routing';
 import { cn } from '@/lib/cn';
 import { getDictionary } from '@/lib/i18n/dictionaries';
-import { type Locale } from '@/i18n/routing';
-import { Link, usePathname } from '@/i18n/navigation';
 
 type Props = {
   open: boolean;

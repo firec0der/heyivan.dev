@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 
+import { type Locale } from '@/i18n/routing';
 import { alternatesFor } from '@/lib/i18n/metadata';
 import { ProjectsIndexView } from '@/views/ProjectsIndexView';
-import { type Locale } from '@/i18n/routing';
 
 type Props = { params: Promise<{ locale: Locale }> };
 

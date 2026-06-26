@@ -8,9 +8,9 @@ import { PageTitle } from '@/components/PageTitle';
 import { SectionLabel } from '@/components/SectionLabel';
 import { Text } from '@/components/Text';
 import { WritingListItem } from '@/components/WritingListItem';
+import { type Locale } from '@/i18n/routing';
 import { getRecentArticles } from '@/lib/content/articles';
 import { getDictionary } from '@/lib/i18n/dictionaries';
-import { type Locale } from '@/i18n/routing';
 
 export const metadata: Metadata = { title: 'Not found' };
 

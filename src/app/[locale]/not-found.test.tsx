@@ -26,7 +26,9 @@ describe('NotFoundPage', () => {
 
     expect(screen.getByText('404')).toBeDefined();
     expect(screen.getByRole('heading', { level: 1, name: 'Page not found' })).toBeDefined();
-    expect(screen.getByText('That page does not exist. Here is some recent writing instead.')).toBeDefined();
+    expect(
+      screen.getByText('That page does not exist. Here is some recent writing instead.')
+    ).toBeDefined();
     expect(screen.getByText('Latest writing')).toBeDefined();
 
     const articleLinks = screen
