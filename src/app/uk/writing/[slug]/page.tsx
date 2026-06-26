@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getArticleSlugs } from '@/lib/content/articles';
 import { alternatesFor } from '@/lib/i18n/metadata';
@@ -11,6 +12,7 @@ export const dynamicParams = false;
 
 export const generateStaticParams = async (): Promise<Params[]> => {
   const slugs = await getArticleSlugs();
+  if (slugs.length === 0) return [{ slug: '_empty' }];
   return slugs.map((slug) => ({ slug }));
 };
 
@@ -21,6 +23,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 const UkArticlePage = async ({ params }: Props) => {
   const { slug } = await params;
+  if (slug === '_empty') notFound();
   return <ArticleView lang="uk" slug={slug} />;
 };
 

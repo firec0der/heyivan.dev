@@ -99,7 +99,10 @@ export async function loadLocalizedYaml<T>(
 }
 
 export async function listContentFiles(dir: string): Promise<string[]> {
-  const entries = await fs.readdir(dir);
+  const entries = await fs.readdir(dir).catch((e: NodeJS.ErrnoException) => {
+    if (e.code === 'ENOENT') return [] as string[];
+    throw e;
+  });
   return entries.filter((f) => f.endsWith('.mdx') && !LOCALE_SUFFIX.test(f));
 }
 
