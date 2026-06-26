@@ -33,10 +33,10 @@ describe('NotFoundPage', () => {
 
     const articleLinks = screen
       .getAllByRole('link')
-      .filter((l) => l.getAttribute('href')?.startsWith('/writing/'));
+      .filter((l) => l.getAttribute('href')?.startsWith('/en/writing/'));
     expect(articleLinks.length).toBe(5);
 
     const home = screen.getByRole('link', { name: /Back home/ });
-    expect(home.getAttribute('href')).toBe('/');
+    expect(home.getAttribute('href')).toBe('/en');
   });
 });
