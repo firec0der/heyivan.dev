@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
-import { getArticleSlugs } from '@/lib/content/articles';
+import { getArticleBySlug, getArticleSlugs } from '@/lib/content/articles';
 import { alternatesFor } from '@/lib/i18n/metadata';
 import { ArticleView } from '@/views/ArticleView';
 import { type Locale } from '@/i18n/routing';
@@ -20,7 +20,19 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  return { alternates: alternatesFor(`/writing/${slug}`) };
+  const article = await getArticleBySlug(slug);
+  if (!article) return {};
+  return {
+    title: article.title,
+    description: article.description ?? undefined,
+    alternates: alternatesFor(`/writing/${slug}`),
+    openGraph: {
+      title: article.title,
+      description: article.description ?? undefined,
+      type: 'article',
+      publishedTime: article.date
+    }
+  };
 }
 
 const ArticlePage = async ({ params }: Props) => {

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
-import { getProjectSlugs } from '@/lib/content/projects';
+import { getProjectBySlug, getProjectSlugs } from '@/lib/content/projects';
 import { alternatesFor } from '@/lib/i18n/metadata';
 import { ProjectView } from '@/views/ProjectView';
 import { type Locale } from '@/i18n/routing';
@@ -20,7 +20,14 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  return { alternates: alternatesFor(`/projects/${slug}`) };
+  const project = await getProjectBySlug(slug);
+  if (!project) return {};
+  return {
+    title: project.title,
+    description: project.tagline,
+    alternates: alternatesFor(`/projects/${slug}`),
+    openGraph: { title: project.title, description: project.tagline }
+  };
 }
 
 const ProjectDetailPage = async ({ params }: Props) => {
