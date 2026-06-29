@@ -7,3 +7,7 @@ export const routing = defineRouting({
 });
 
 export type Locale = (typeof routing.locales)[number];
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}

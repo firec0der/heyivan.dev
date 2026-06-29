@@ -15,12 +15,15 @@ const nextConfig = {
   outputFileTracingRoot: path.dirname(fileURLToPath(import.meta.url)),
   experimental: {},
   ...(process.env.NODE_ENV === 'development' && {
-    async rewrites() {
-      return {
-        beforeFiles: [],
-        afterFiles: [],
-        fallback: [{ source: '/:path*', destination: '/en/:path*' }]
-      };
+    async redirects() {
+      return [
+        { source: '/', destination: '/en', permanent: false },
+        {
+          source: '/:path((?!en|uk|_next|favicon).*)',
+          destination: '/en/:path',
+          permanent: false
+        }
+      ];
     }
   })
 };

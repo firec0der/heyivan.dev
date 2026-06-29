@@ -5,6 +5,8 @@ import { type Locale } from '@/i18n/routing';
 import { alternatesFor } from '@/lib/i18n/metadata';
 import { ProjectsIndexView } from '@/views/ProjectsIndexView';
 
+export { generateStaticParams } from '@/i18n/routing';
+
 type Props = { params: Promise<{ locale: Locale }> };
 
 export function generateMetadata(): Metadata {
