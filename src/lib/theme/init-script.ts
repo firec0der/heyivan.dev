@@ -9,7 +9,5 @@ export const THEME_INIT_SCRIPT = `
     var dark = stored ? stored === 'dark' : systemDark;
     if (dark) document.documentElement.setAttribute('data-theme', 'dark');
   } catch (e) {}
-  var path = location.pathname;
-  document.documentElement.lang = (path === '/uk' || path.indexOf('/uk/') === 0) ? 'uk' : 'en';
 })();
 `.trim();

@@ -1,11 +1,29 @@
 // @vitest-environment jsdom
 import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MobileMenuOverlay } from './MobileMenuOverlay';
 
-vi.mock('next/navigation', () => ({
-  usePathname: () => '/about'
+vi.mock('@/i18n/navigation', () => ({
+  usePathname: () => '/about',
+  Link: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string;
+    children: React.ReactNode;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  )
+}));
+
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en'
 }));
 
 describe('MobileMenuOverlay', () => {

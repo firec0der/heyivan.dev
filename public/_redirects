@@ -1,0 +1,7 @@
+/              /en        301
+/about         /en/about  301
+/work          /en/work   301
+/writing       /en/writing  301
+/writing/:slug /en/writing/:slug  301
+/projects      /en/projects  301
+/projects/:slug /en/projects/:slug  301
