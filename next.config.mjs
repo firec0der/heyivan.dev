@@ -13,7 +13,16 @@ const nextConfig = {
     unoptimized: true
   },
   outputFileTracingRoot: path.dirname(fileURLToPath(import.meta.url)),
-  experimental: {}
+  experimental: {},
+  ...(process.env.NODE_ENV === 'development' && {
+    async rewrites() {
+      return {
+        beforeFiles: [],
+        afterFiles: [],
+        fallback: [{ source: '/:path*', destination: '/en/:path*' }]
+      };
+    }
+  })
 };
 
 export default withNextIntl(nextConfig);
