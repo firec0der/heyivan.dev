@@ -1,7 +1,7 @@
-/              /en        200
-/about         /en/about  200
-/work          /en/work   200
-/writing       /en/writing  200
-/writing/:slug /en/writing/:slug  200
-/projects      /en/projects  200
-/projects/:slug /en/projects/:slug  200
+/              /en        301
+/about         /en/about  301
+/work          /en/work   301
+/writing       /en/writing  301
+/writing/:slug /en/writing/:slug  301
+/projects      /en/projects  301
+/projects/:slug /en/projects/:slug  301
