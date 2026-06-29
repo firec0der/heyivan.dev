@@ -50,7 +50,7 @@ const LocaleLayout = async ({
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body className="flex min-h-dvh flex-col">
+      <body className="flex min-h-dvh flex-col" suppressHydrationWarning>
         <NextIntlClientProvider>
           <SkipLink />
           <Nav wordmark={site.wordmark} />
