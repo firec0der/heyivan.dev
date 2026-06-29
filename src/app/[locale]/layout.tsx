@@ -1,6 +1,7 @@
 import '../globals.css';
 
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import type { PropsWithChildren } from 'react';
@@ -57,6 +58,13 @@ const LocaleLayout = async ({
           </main>
           <Footer socialLinks={site.social} />
         </NextIntlClientProvider>
+        {process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN && (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN })}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );
